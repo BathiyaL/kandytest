@@ -1,21 +1,19 @@
 package com.ktsapi;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import com.ktsapi.actions.ActonsHandler;
+import com.ktsapi.actions.KTestWebDriverActions;
 
 public class WebActons {
 
 	public static void OpenBrowser() {
-		// todo
+		webActonsWrapper().OpenBrowser();
 	}
-	
-	public static WebDriver driver(){
-		System.setProperty("webdriver.chrome.driver","C:\\selenium\\resources\\chromedriver.exe");
-		WebDriver chromeDriver = new ChromeDriver();
-		return chromeDriver;
+		
+	public static KTestWebDriverActions webActonsWrapper(){
+		return ActonsHandler.webDriverActionsInstance();
 	}
 	
 	public static void GoTo(String url) {
-		driver().get(url);
+		webActonsWrapper().GoTo(url);
 	}
 }

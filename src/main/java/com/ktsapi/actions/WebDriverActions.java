@@ -1,5 +1,8 @@
 package com.ktsapi.actions;
 
-public class WebDriverActions {
+public interface WebDriverActions {
 
+	String GoTo(String url);
+	void OpenBrowser();
+	
 }
