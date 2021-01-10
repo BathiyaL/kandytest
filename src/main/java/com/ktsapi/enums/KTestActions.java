@@ -4,6 +4,11 @@ public enum KTestActions {
 
 	// WebDriverActions
 	GoTo,
-	OpenBrowser
+	OpenBrowser,
+	
+	//Common Action
+	Pause,
+	Print,
+	BaseUrl
 
 }

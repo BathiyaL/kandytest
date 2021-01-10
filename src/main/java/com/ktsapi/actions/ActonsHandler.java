@@ -1,5 +1,6 @@
 package com.ktsapi.actions;
 
+import com.ktsapi.actions.core.CommonDriverActionImpl;
 import com.ktsapi.actions.core.KTestWebDriverActionsWrapper;
 import com.ktsapi.exceptions.ActionsHandlerException;
 
@@ -25,6 +26,13 @@ public class ActonsHandler implements InvocationHandler {
 		return selenideActions;
 	}
 
+	public static CommonDriverAction commanDriverActionsInstance() {
+		CommonDriverAction selenideActions = (CommonDriverAction) Proxy.newProxyInstance(
+				CommonDriverAction.class.getClassLoader(),
+        new Class[] {CommonDriverAction.class}, 
+        new ActonsHandler(new CommonDriverActionImpl()));
+		return selenideActions;
+	}
 
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		try {

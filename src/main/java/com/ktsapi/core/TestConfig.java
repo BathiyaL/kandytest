@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.ktsapi.actions.core.ActionsLogger;
+import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.exceptions.TestConfigException;
 
 public class TestConfig {
@@ -22,7 +23,7 @@ public class TestConfig {
 	
 	public static final String TEST_LOG = "TestConfigKey_test.logger"; //logger for the test life cycle
 	public static final String TEST_ACTION_LIST = "TestConfigKey_test.action.list"; 
-	
+	public static final String TEST_CONFIGURATION = "TestConfigKey_test.configuration";
 	public static final String WEB_DRIVER = "TestConfigKey_web.driver"; 
 	
 	
@@ -88,6 +89,14 @@ public class TestConfig {
     	}
     	
     	throw new TestConfigException("TEST_ACTION_LIST has called before TestConfig init");
+    }
+    
+    public static TestConfigurationContext getTestConfiguration() {
+    	return getFromTestConfigMap(TEST_CONFIGURATION);
+    }
+    
+    public static void setTestConfiguration(TestConfigurationContext testConfigurationContext) {
+    	setToTestConfigMap(TEST_CONFIGURATION, testConfigurationContext);
     }
 
 }

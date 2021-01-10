@@ -38,6 +38,14 @@ public class ActionsLogger {
 
 
 	}
+	
+	protected static void systemLogsInfo(String loggerMessage){
+		try {
+			TestConfig.getTestLogger().info(loggerMessage);
+		} catch(Exception e){
+			System.out.println("[Actions] Log -> Unbale to Fetch loger Message");
+		}	
+	}
 
 //	protected static String getLocator(String element) {
 //		String locator = null;

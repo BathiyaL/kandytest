@@ -5,7 +5,15 @@ import org.testng.annotations.Test;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ktsapi.WebActons;
+import com.ktsapi.annotation.TestConfiguration;
+import com.ktsapi.enums.Browsers;
+import com.ktsapi.enums.TestDriver;
 
+@TestConfiguration(
+		testDriver = TestDriver.WEB,
+		browser=Browsers.CHROME,
+		baseUrl = "http://demoqa.taas.infor.com"
+)
 public class HelloWorld {
   @Test
   public void goToUrl() {
