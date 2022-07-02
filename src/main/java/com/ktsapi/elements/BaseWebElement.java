@@ -16,4 +16,9 @@ public interface BaseWebElement {
 	public String getFieldName();
 	
 	public EnhancedWebElementLocator getEnhancedWebElementLocator();
+
+	//public void click();
+
+	//public ExpectedCondition<WebElement> isReady();
+
 }

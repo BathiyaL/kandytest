@@ -1,9 +1,9 @@
 package com.ktsapi.actions.log;
 
-import com.ktsapi.enums.KTestActions;
+import com.ktsapi.enums.ABotActions;
 
 public class ActionLog {
-	private KTestActions action;
+	private ABotActions action;
 	private String element;
 	private String value;
 	private String errorMssage;
@@ -14,7 +14,7 @@ public class ActionLog {
 	private String warning;
 	// test
 	
-	public ActionLog(KTestActions action,String element,String actionParamValue, Throwable stackTrace) {
+	public ActionLog(ABotActions action,String element,String actionParamValue, Throwable stackTrace) {
 		this.action = action;
 		this.element = element;
 		String logElement = "NA";
@@ -39,7 +39,7 @@ public class ActionLog {
 			this.stackTraceString = "N/A";
 		}
 	}
-	public ActionLog(KTestActions action,boolean isLogMessageOnly ,String logMessage, Throwable stackTrace) {
+	public ActionLog(ABotActions action,boolean isLogMessageOnly ,String logMessage, Throwable stackTrace) {
 		this.action = action;
 		this.element = "NA";
 		this.value = "NA";
@@ -61,48 +61,48 @@ public class ActionLog {
 		
 	}
 	
-	public static ActionLog ActionLogWithoutReturnValue(KTestActions action,String element,String actionParamValue, Throwable stackTrace) {
+	public static ActionLog ActionLogWithoutReturnValue(ABotActions action,String element,String actionParamValue, Throwable stackTrace) {
 		ActionLog actionLog = new ActionLog(action,element,actionParamValue, stackTrace);
 		actionLog.returnValue = "N/A";
 		return actionLog;
 	}
 	
-	public static ActionLog ActionLogWithWarningsAndWithoutReturnValue(KTestActions action,String element,String actionParamValue, Throwable stackTrace,String Warning) {
+	public static ActionLog ActionLogWithWarningsAndWithoutReturnValue(ABotActions action,String element,String actionParamValue, Throwable stackTrace,String Warning) {
 		ActionLog actionLog = new ActionLog(action,element,actionParamValue, stackTrace);
 		actionLog.returnValue = "N/A";
 		actionLog.warning = Warning;
 		return actionLog;
 	}
 	
-	public static ActionLog actionLogWithDirectMesage(KTestActions action, String logMessage,Throwable stackTrace) {
+	public static ActionLog actionLogWithDirectMesage(ABotActions action, String logMessage,Throwable stackTrace) {
 		ActionLog actionLog = new ActionLog(action,true,logMessage, stackTrace);
 		return  actionLog;
 	}
-	public static ActionLog actionLogWithDirectMesage(KTestActions action, String logMessage,Throwable stackTrace,String returnValue) {
+	public static ActionLog actionLogWithDirectMesage(ABotActions action, String logMessage,Throwable stackTrace,String returnValue) {
 		ActionLog actionLog = new ActionLog(action,true,logMessage, stackTrace);
 		actionLog.returnValue = returnValue;
 		return  actionLog;
 	}
-	public static ActionLog actionLogWithDirectMesageOnly(KTestActions action, String logMessage,Throwable stackTrace) {
+	public static ActionLog actionLogWithDirectMesageOnly(ABotActions action, String logMessage,Throwable stackTrace) {
 		ActionLog actionLog = new ActionLog(action,false,logMessage, stackTrace);
 		return  actionLog;
 	}
-	public static ActionLog actionLogWithDirectMesageOnly(KTestActions action, String logMessage,Throwable stackTrace,String returnValue) {
+	public static ActionLog actionLogWithDirectMesageOnly(ABotActions action, String logMessage,Throwable stackTrace,String returnValue) {
 		ActionLog actionLog = new ActionLog(action,false,logMessage, stackTrace);
 		actionLog.returnValue = returnValue;
 		return  actionLog;
 	}
 	
-	public static ActionLog ActionLogWithReturnValue(KTestActions action,String element,String actionParamValue, Throwable stackTrace, String returnValue) {
+	public static ActionLog ActionLogWithReturnValue(ABotActions action,String element,String actionParamValue, Throwable stackTrace, String returnValue) {
 		ActionLog actionLog = new ActionLog(action,element,actionParamValue, stackTrace);
 		actionLog.returnValue = returnValue;
 		return actionLog;
 	}
 	
-	public KTestActions getAction() {
+	public ABotActions getAction() {
 		return action;
 	}
-	public void setAction(KTestActions action) {
+	public void setAction(ABotActions action) {
 		this.action = action;
 	}
 	

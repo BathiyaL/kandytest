@@ -1,21 +1,11 @@
-/**
- * 
- */
 package com.ktsapi;
 
-import com.ktsapi.actions.ActonsHandler;
 import com.ktsapi.actions.CommonDriverAction;
 
-/**
- * [...]  
- *
- * @author  Bathiya L.
- * @version 1.0
- */
 public class CommonActions {
 
 	public static CommonDriverAction newInstance(){
-		return ActonsHandler.commanDriverActionsInstance();
+		return ABotActonsHandler.commanDriverActionsInstance();
 	}
 	
 	/** 
