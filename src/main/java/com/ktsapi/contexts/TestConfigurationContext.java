@@ -1,17 +1,9 @@
-/**
- * 
- */
 package com.ktsapi.contexts;
 
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.ExecutionMode;
 import com.ktsapi.enums.TestDriver;
-/**
- * [...]  
- *
- * @author  Bathiya L.
- * @version 1.0
- */
+
 public class TestConfigurationContext {
 
 	Browsers browser;

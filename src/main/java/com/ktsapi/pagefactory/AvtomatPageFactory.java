@@ -18,7 +18,7 @@ public class AvtomatPageFactory extends PageFactory {
 	}
 	
 	private static void initWebElements(Object page){
-		//initElements(new AvtomatSeleniumDecorator(driver()), page);
+		initElements(new AvtomatSeleniumDecorator(driver()), page);
 	}
 
 	private static <T> T initWebPage(Class<T> pageClassToProxy) {

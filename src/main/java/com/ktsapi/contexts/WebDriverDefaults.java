@@ -5,6 +5,8 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 public class WebDriverDefaults {
+
+	//public static final String[] CHROME_OPTIONS = {"--start-maximized","--ignore-certificate-errors"};
 	public static final String UNDEFINED = "UNDEFINED";
 	public static final List<String> CHROME_OPTIONS = ImmutableList.<String>builder()
 			.add("--start-maximized")

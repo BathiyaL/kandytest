@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.ktsapi.contexts.TestConfigurationContext;
-
+import com.ktsapi.dto.Testplan;
 
 public class TestInitializr {
 	
@@ -92,9 +92,9 @@ public class TestInitializr {
     	set(KANDY_CLIENT_TEST_PLAN_AUTOMATED_RUN_ID,testPlanAutomatedRunId);
     }   
     
-//    public static void setTestPlanObj(Testplan testPlanObj) {
-//    	set(TEST_PLAN_OBJ, testPlanObj);
-//    }
+    public static void setTestPlanObj(Testplan testPlanObj) {
+    	set(TEST_PLAN_OBJ, testPlanObj);
+    }
     // These wait times can set by user within script life cycle
     public static void setImplicitlyWaitTime(long implicitlyWaitTime) {
     	set(IMPLICITLY_WAIT_TIME, implicitlyWaitTime);
@@ -127,9 +127,9 @@ public class TestInitializr {
     public static String getTestPlanUUID() {
     	return get(TEST_PLAN_UUID);
     }    
-//    public static Testplan getTestPlanObj() {
-//    	return (Testplan)get(TEST_PLAN_OBJ);
-//    }
+    public static Testplan getTestPlanObj() {
+    	return (Testplan)get(TEST_PLAN_OBJ);
+    }
     
     public static Long getImplicitlyWaitTime() {
     	return (Long)get(IMPLICITLY_WAIT_TIME);
@@ -172,6 +172,14 @@ public class TestInitializr {
     public static WebDriver getWebDriver() {
 
     	WebDriver webDriver = get(WEB_DRIVER);
+    	if(!TestDriverProvider.isWebDriverLive(webDriver)) {    		
+        	webDriver = TestDriverProvider.getWebDriver(get(WEB_DRIVER));
+        	setParentWindowHandle(webDriver.getWindowHandle());
+        	setWebDriver(webDriver);
+        	setRunningBrowserVersion(webDriver);
+        	setDriverInUse();
+        	return getWebDriver();
+    	}
 
     	return webDriver;
     }
@@ -190,9 +198,9 @@ public class TestInitializr {
 		return (boolean) (get(WEB_DRIVER_IN_USE) != null ? get(WEB_DRIVER_IN_USE) : Boolean.FALSE.booleanValue());
 	}
     
-//    private static void setRunningBrowserVersion(WebDriver webDriver) {
-//    	set(RUNNING_BROWSER_VERSION,TestDriverProvider.getRunningBrowserVersion(webDriver));
-//    }
+    private static void setRunningBrowserVersion(WebDriver webDriver) {
+    	set(RUNNING_BROWSER_VERSION,TestDriverProvider.getRunningBrowserVersion(webDriver));
+    }
     
     public static String getParentWindowHandle() {
     	return get(PARENT_WINDOW_HANDLE);

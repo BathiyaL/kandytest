@@ -2,7 +2,8 @@ package com.ktsapi.enums;
 
 public enum TestDriver {
 	WEB,
-	Desktop,
-	MOBILE,
+	DESKTOP,
+	IMAGE,
+	AVTOMAT,
 	UNDEFINED
 }

@@ -4,20 +4,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import com.ktsapi.actions.core.DriverTimeOuts;
 import com.ktsapi.contexts.TestConfigurationDefaults;
 import com.ktsapi.contexts.WebDriverDefaults;
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.ExecutionMode;
 import com.ktsapi.enums.TestDriver;
-
-/**
- * TestConfiguration is an annotation used in every Kandy Test Scripts
- * to define test level configuration of the script.  
- *
- * @author  Bathiya L.
- * @version 1.0
- */
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = ElementType.TYPE)
