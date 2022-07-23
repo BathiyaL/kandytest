@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 13, 2019 9:53:41 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.avtomat.db.persistence.pojo.Testplans" table="testplans" catalog="kandy">
+        <id name="idtestPlan" type="int">
+            <column name="idtestPlan" />
+            <generator class="assigned"></generator>
+        </id>
+        <property name="intiatedDate" type="date">
+            <column name="intiatedDate" length="10" />
+        </property>
+        <property name="completedDate" type="date">
+            <column name="completedDate" length="10" />
+        </property>
+        <property name="executor" type="string">
+            <column name="executor" />
+        </property>
+        <property name="passedCount" type="java.lang.Integer">
+            <column name="passedCount" />
+        </property>
+        <property name="failedCount" type="java.lang.Integer">
+            <column name="failedCount" />
+        </property>
+        <property name="skippedCount" type="java.lang.Integer">
+            <column name="skippedCount" />
+        </property>
+        <set name="testresultses" table="testresults" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="testPlan_idtestPlan" not-null="true" />
+            </key>
+            <one-to-many class="com.avtomat.db.persistence.pojo.Testresults" />
+        </set>
+    </class>
+</hibernate-mapping>

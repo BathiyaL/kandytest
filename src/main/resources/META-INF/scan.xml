@@ -1,0 +1,5 @@
+<scan>
+	<packages>
+		<package>com.ktspi.testautomation.runtime.ejb</package>
+	</packages>
+</scan>

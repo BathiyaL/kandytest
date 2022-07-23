@@ -9,27 +9,16 @@ gradle-app.setting
 !gradle-wrapper.jar
 
 **/target
-**/test-output
 *.project
 *.classpath
 *.settings
 *bin
 *debug.log
 *.idea
+*.test-output
+**/test-output
 
 ### Gradle ###
 .gradle
 build/
 
-# Ignore Gradle GUI config
-gradle-app.setting
-
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
-
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
-# ignore jasper compiled files
-*.jasper
