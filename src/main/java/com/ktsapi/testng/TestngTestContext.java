@@ -1,33 +1,27 @@
 package com.ktsapi.testng;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 //import org.hibernate.dialect.FrontBaseDialect;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ktsapi.actions.core.ActionsLogger;
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.annotation.TestConfiguration;
 import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.contexts.TestSuiteParameters;
-import com.ktsapi.core.TestInitializr;
 import com.ktsapi.core.TestContext;
+import com.ktsapi.core.TestInitializr;
 import com.ktsapi.dto.Testplan;
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.ExecutionMode;
 import com.ktsapi.enums.TestDriver;
-import com.ktsapi.exceptions.ConfigFileNotFoundException;
 import com.ktsapi.exceptions.TestClassNotFoundException;
-
-import static com.ktsapi.actions.core.ActionsLogger.*;
-
-import java.lang.reflect.Field;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Map;
 
 public class TestngTestContext implements TestContext{
 	

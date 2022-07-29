@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -215,7 +217,8 @@ public class TestInitializr {
         	if(get(TEST_LOG)!=null) {
         		return get(TEST_LOG);
         	}
-        	Logger testLogger = Logger.getLogger("ACTIONS");// Create new Logger instance TODO: consider passing script uuid as logger name
+        	//Logger testLogger = Logger.getLogger("ACTIONS");// Create new Logger instance TODO: consider passing script uuid as logger name
+        	Logger testLogger = LogManager.getLogger("ACTIONS");
         	set(TEST_LOG,testLogger);
             return get(TEST_LOG);
     	}

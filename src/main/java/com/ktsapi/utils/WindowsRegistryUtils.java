@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
-import com.ktsapi.webdrivers.KandyWebDriverManager;
+//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class WindowsRegistryUtils {
 	
@@ -16,7 +16,8 @@ public class WindowsRegistryUtils {
     public static final String WIN_FF_REG_QUERY = "reg query \"HKEY_LOCAL_MACHINE\\Software\\Mozilla\\Mozilla Firefox\" /v CurrentVersion";
     public static final String WIN_GC_REG_QUERY = "reg query \"HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon\" /v version";
     
-    private static final Logger WINDOWS_REGISTRY_LOG = Logger.getLogger(WindowsRegistryUtils.class);
+   // private static final Logger WINDOWS_REGISTRY_LOG = Logger.getLogger(WindowsRegistryUtils.class);
+    private static final Logger WINDOWS_REGISTRY_LOG = LogManager.getLogger(WindowsRegistryUtils.class);
 	/*
 	 * this is alternative path to get from uninstalll registry list
 	 */

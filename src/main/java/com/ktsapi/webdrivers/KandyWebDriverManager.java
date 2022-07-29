@@ -14,7 +14,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.ktsapi.core.Const;
@@ -26,7 +28,8 @@ import java.nio.file.*;
 
 public abstract class KandyWebDriverManager implements WebDriverManager{
 	
-	protected static final Logger WEB_DRIVER_PROVIDER_LOG = Logger.getLogger(KandyWebDriverManager.class);
+	//protected static final Logger WEB_DRIVER_PROVIDER_LOG = Logger.getLogger(KandyWebDriverManager.class);
+	protected static final Logger WEB_DRIVER_PROVIDER_LOG = LogManager.getLogger(KandyWebDriverManager.class);
 	
 //	public DesiredCapabilities getCapabilities() {
 //		return DesiredCapabilities.chrome();

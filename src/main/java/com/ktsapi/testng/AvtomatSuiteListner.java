@@ -1,13 +1,17 @@
 package com.ktsapi.testng;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.log4j.PropertyConfigurator;
+//import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.properties.PropertiesConfiguration;
 
 import com.ktsapi.dto.TestPlanRequest;
 import com.ktsapi.dto.Testplan;
@@ -59,7 +63,15 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	     
 	    // TODO : we may set these things to initial starter
 		System.setProperty("test.suite.uuid", testPlanUUID);
-		PropertyConfigurator.configure(AvtomatSuiteListner.class.getResource("/log4j.properties"));
+		//PropertyConfigurator.configure(AvtomatSuiteListner.class.getResource("/log4j.properties"));
+			
+		 try {
+			 LoggerContext context  = (LoggerContext)LogManager.getContext(false);
+			context.setConfigLocation(AvtomatSuiteListner.class.getResource("/log4j2.properties").toURI());
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	     	     
 	     testPlan = new Testplan(testPlanUUID);
 	     testPlan.setExecutionStartTimestamp(AvtomatUtils.getCurretnTimeStamp());
