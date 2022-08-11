@@ -221,8 +221,7 @@ public class TestInitializr {
         	Logger testLogger = LogManager.getLogger("ACTIONS");
         	set(TEST_LOG,testLogger);
             return get(TEST_LOG);
-    	}
-    	System.out.println("TestLogger has called befre TestCache init");
+    	}    	
     	return null; // TODO : handle meaningful exception
     }
 

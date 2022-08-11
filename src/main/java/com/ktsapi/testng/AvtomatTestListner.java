@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.contexts.TestSuiteParameters;
+import com.ktsapi.contexts.WebDriverDefaults;
 import com.ktsapi.core.Runner;
 import com.ktsapi.core.TestContext;
 import com.ktsapi.core.TestInitializr;
@@ -43,7 +44,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
     
     boolean postTestResult(TestResultStatus testResultStatus) {
     	
-    	if(TestInitializr.getKandyClientTestPlanId()==null || TestInitializr.getKandyClientTestPlanId()=="UNDEFINED") {
+    	if(TestInitializr.getKandyClientTestPlanId()==null || TestInitializr.getKandyClientTestPlanId().equals("UNDEFINED")) {
     		return false;
     	}
     	
@@ -228,6 +229,10 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
         
         runner.start(); // set to the the TestCache
         
+        String browserVersionLog = " (driver should exist in the .drivers folder)"; // TODO : add correct path later
+        if(TestInitializr.getTestConfiguration().getBrowserVersion().equals(WebDriverDefaults.BUILT_IN_BROWSER_VERSION)) {
+        	browserVersionLog = " (execution will use the built-in driver)";
+        }
 		String log = "\n#################### Test Startup Configuration #####################\n" + 
 				"Test Suite : " + TestInitializr.getTestPlanName() + "[" + TestInitializr.getTestSuiteFilePath().getFileName().toString() + "]" + "\n" + 
 				"Test Name : " + TestInitializr.getTestName() + "\n" + 
@@ -235,7 +240,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 				"baseUrl : " + TestInitializr.getTestConfiguration().getBaseUrl() + "\n" + 
 				"testDriver : " + TestInitializr.getTestConfiguration().getTestDriver() + "\n" +  
 				"browser : " + TestInitializr.getTestConfiguration().getBrowser() + "\n" +  
-				"browserVersion : " + TestInitializr.getTestConfiguration().getBrowserVersion() + "\n" +  
+				"browserVersion : " + TestInitializr.getTestConfiguration().getBrowserVersion() + browserVersionLog + "\n" +  
 				"implicitlyWaitTime : " + TestInitializr.getImplicitlyWaitTime() + "\n" +  
 				"pageLoadTimeout : " + TestInitializr.getPageLoadTimeout() + "\n" +  
 				"scriptTimeout : " + TestInitializr.getScriptTimeout() + "\n" +  

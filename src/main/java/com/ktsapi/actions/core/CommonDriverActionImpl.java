@@ -13,7 +13,7 @@ public class CommonDriverActionImpl implements CommonDriverAction {
 	public void pause(int timeOutInSeconds){
 		String logMessage = "for " + timeOutInSeconds + " seconds";
     	try {    		
-			Thread.sleep(timeOutInSeconds*1000);// convert seconds to millis
+			Thread.sleep(timeOutInSeconds*1000l);// convert seconds to millis
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.Pause,logMessage,null));	
 		} catch (InterruptedException e) {
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.Pause,logMessage,e));

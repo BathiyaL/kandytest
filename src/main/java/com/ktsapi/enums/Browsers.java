@@ -5,9 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.ktsapi.actions.core.DriverTimeOuts;
 import com.ktsapi.core.TestInitializr;
-import com.ktsapi.core.TestDriverProvider;
 import com.ktsapi.webdrivers.ChromeDriverManager;
 import com.ktsapi.webdrivers.FirefoxDriverProvider;
 import com.ktsapi.webdrivers.KandyWebDriverManager;
@@ -15,6 +13,7 @@ import com.ktsapi.webdrivers.KandyWebDriverManager;
 public enum Browsers {
 	CHROME("chrome",ChromeDriverManager.class),
 	FIREFOX("firefox",FirefoxDriverProvider.class),
+	CHROME_HEADLESS("chrome-headless",ChromeDriverManager.class),
 	UNDEFINED("undefined",ChromeDriverManager.class); // TODO : need to check this better remove this class parameter
 //	IE("internet explorer");
 	
@@ -57,6 +56,9 @@ public enum Browsers {
 			break;
 		case FIREFOX:
 			driver = new FirefoxDriverProvider().get();
+			break;
+		case CHROME_HEADLESS:
+			driver = new ChromeDriverManager().get();
 			break;
 		default:
 			driver = new ChromeDriverManager().get();

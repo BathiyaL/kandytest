@@ -150,7 +150,7 @@ public class Testplan  implements java.io.Serializable {
     }
     
     public void setExecutionCompletedTimestamp(LocalDateTime executionCompletedTimestamp) {
-        this.executionStartTimestamp = executionCompletedTimestamp;
+        this.executionCompletedTimestamp = executionCompletedTimestamp;
     }
 
     public Date getCompletedDate() {

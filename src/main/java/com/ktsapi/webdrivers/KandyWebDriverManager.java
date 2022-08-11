@@ -17,6 +17,7 @@ import java.util.Properties;
 //import org.apache.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.ktsapi.core.Const;
@@ -105,8 +106,23 @@ public abstract class KandyWebDriverManager implements WebDriverManager{
 		return false;
 	}
 	
+	String getOS() {
+		// TODO chekc for other os and return
+		return "win";
+	}
+	int getBitSystem() {
+		// TODO check bit system from the machine
+		return 32;
+	}
+	
 	String getWebDriverPathOf(Browsers browser) throws UnsupportedEncodingException{
-		URL driverPath = KandyWebDriverManager.class.getResource("/drivers/"+browser.getBrowserName());
+		
+		if(browser.equals(Browsers.CHROME_HEADLESS)) {
+			browser = Browsers.CHROME; // both chrome and chrome headless use same driver
+		}
+		
+		URL driverPath = KandyWebDriverManager.class.getResource("/drivers/"+browser.getBrowserName()+ "/"+getOS() +"/_"+getBitSystem()); // TODO use more efficient way to handle path
+
 		String decodedDriverPath = URLDecoder.decode(driverPath.getPath(), "UTF-8");
 		return decodedDriverPath;
 	}

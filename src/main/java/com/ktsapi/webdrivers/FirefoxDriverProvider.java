@@ -204,7 +204,7 @@ public class FirefoxDriverProvider extends KandyWebDriverManager {
 		
 		
 		try {
-			if (firefoxPortableVersion!=null || firefoxPortableVersion!="") {	
+			if (firefoxPortableVersion!=null || !firefoxPortableVersion.equals("")) {	
 				FirefoxOptions ffOptions = new FirefoxOptions();
 				ffOptions.setBinary(getPortableBrowserPath());
 				return new FirefoxDriver(ffOptions);

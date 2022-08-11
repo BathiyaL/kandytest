@@ -6,6 +6,7 @@ import static com.ktsapi.actions.core.ActionsLogger.logAction;
 import static com.ktsapi.actions.core.ActionsLogger.systemLogsWarn;
 import static com.ktsapi.actions.core.ActionsLogger.userLogs;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -174,13 +175,13 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public void SendKeys(BaseWebElement element, CharSequence... keysToSend){	
 		try {			
 			$$(element).sendKeys(keysToSend);
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.SendKeys,getElementLog(element,null),keysToSend.toString(),null));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.SendKeys,getElementLog(element,null),Arrays.toString(keysToSend),null));
 		} catch (Exception e){			
 			String value = "";
 			if(keysToSend==null){
 				value = "null"; 
 			}else {
-				value = keysToSend.toString();
+				value = Arrays.toString(keysToSend);
 			}
 			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.SendKeys,getElementLog(element,e.getMessage()),value,e));
 			throw e;

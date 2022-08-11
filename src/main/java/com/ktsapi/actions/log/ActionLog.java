@@ -156,7 +156,7 @@ public class ActionLog {
 	}
 
 	public void setReturnValue(String returnValue) {
-		this.actionLogString = returnValue;
+		this.returnValue = returnValue;
 	}
 	
 	public String getWarning(){

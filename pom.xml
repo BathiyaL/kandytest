@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
-<!-- 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.0.BUILD-SNAPSHOT</version>
-		<relativePath /> lookup parent from repository
-	</parent> -->
-	
+
 	<groupId>org.kandytest</groupId>
 	<artifactId>kandytest-script-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -29,15 +20,14 @@
 		<log4j2.version>2.17.1</log4j2.version>
 	</properties>
 
-	<dependencies>		
-		
+	<dependencies>
+
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>
-		    <groupId>org.seleniumhq.selenium</groupId>
-		    <artifactId>selenium-java</artifactId>
-		    <version>4.1.2</version>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.1.2</version>
 		</dependency>
-
 
 
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
@@ -52,45 +42,36 @@
 			<artifactId>testng</artifactId>
 			<version>6.10</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<dependency>
-		    <groupId>org.apache.httpcomponents</groupId>
-		    <artifactId>httpclient</artifactId>
-		    <version>[4.5.13,)</version>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>[4.5.13,)</version>
 		</dependency>
 
-		
+
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-	   <dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
-		    <version>3.12.0</version>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-	    <dependency>
+		<dependency>
 			<groupId>org.dizitart</groupId>
 			<artifactId>nitrite</artifactId>
 			<version>3.4.3</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
-<!--
-		<dependency>
-		    <groupId>log4j</groupId>
-		    <artifactId>log4j</artifactId>
-		    <version>1.2.17</version>
-		</dependency>
- -->
- 
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
-		    <version>2.18.0</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.18.0</version>
 		</dependency>
-		
+
 		<!-- To avoid Failed to load class org.slf4j.impl.StaticLoggerBinder -->
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-nop -->
 		<dependency>
@@ -99,29 +80,28 @@
 			<version>1.7.36</version>
 			<scope>test</scope>
 		</dependency>
-		
-		
-		<!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
-<!-- 		<dependency>
-			<groupId>org.sonarsource.scanner.maven</groupId>
-			<artifactId>sonar-maven-plugin</artifactId>
-			<version>3.2</version>
-		</dependency> -->
-	
-	<!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+
+		<!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
 		<dependency>
-		    <groupId>org.assertj</groupId>
-		    <artifactId>assertj-core</artifactId>
-		    <version>3.22.0</version>		    
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.22.0</version>
 		</dependency>
-	
+
+		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.8</version>
+		</dependency>
+
 	</dependencies>
-	
- <profiles>
+
+	<profiles>
 		<profile>
 			<id>sonar</id>
 			<activation>
-			<activeByDefault>true</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
 				<!-- Optional URL to server. Default value is http://localhost:9000 -->
@@ -130,31 +110,31 @@
 				</sonar.host.url>
 			</properties>
 		</profile>
-</profiles>
+	</profiles>
 
 	<build>
-	<plugins>
-					<plugin>
+		<plugins>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin> 
-			
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<version>2.18.1</version>
-			<configuration>
-				<suiteXmlFiles>
-					TestNG suite XML files
-					<suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
-				</suiteXmlFiles>
-			</configuration>
-		</plugin>
-		
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
+				<configuration>
+					<suiteXmlFiles>
+						TestNG suite XML files
+						<suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+
 		</plugins>
-		
-		
+
+
 	</build>
-	
-	
+
+
 </project>

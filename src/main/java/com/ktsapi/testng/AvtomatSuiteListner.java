@@ -181,7 +181,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 //					}else {
 //						suite.setAttribute(TestCache.KANDY_CLIENT_TEST_PLAN_ID, "UNDEFINED");
 //					}
-					if(response.getTestPlanRunId()!=null && response.getTestPlanRunId()!="") {						
+					if(response.getTestPlanRunId()!=null && !response.getTestPlanRunId().equals("")) {						
 						kandyTestPlanID = response.getTestPlanRunId();						
 						kandyTestPlanAutmatedRunID = response.getTestPlanAutomatedRunId();
 						ConfigLogger.logInfo("@TestSuite{ TestAutomatedRunId-"+ kandyTestPlanAutmatedRunID +" initiated under Test Plan "+ kandyTestPlanID + "..........}");

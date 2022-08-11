@@ -15,6 +15,7 @@ import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.annotation.TestConfiguration;
 import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.contexts.TestSuiteParameters;
+import com.ktsapi.contexts.WebDriverDefaults;
 import com.ktsapi.core.TestContext;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.dto.Testplan;
@@ -87,7 +88,12 @@ public class TestngTestContext implements TestContext{
 		chromeOptions = testConfig.chromeOptions();
 		executionMode = testConfig.executionMode();
 		gridHubURL=testConfig.gridHubURL();
-		browserversion = testConfig.browserVersion();
+		if(testConfig.browserVersion().equals("UNDEFINED")) {
+			browserversion = WebDriverDefaults.BUILT_IN_BROWSER_VERSION;
+		}else {
+			browserversion = testConfig.browserVersion();
+		}
+		
 		chromeOptions = testConfig.chromeOptions();
 		
 
@@ -138,7 +144,7 @@ public class TestngTestContext implements TestContext{
 			}
 		}
 		
-		if (suiteLevelParameterValue != null && suiteLevelParameterValue!="UNDEFINED") { // if not defined in suite level it will set as "UNDEFINED"
+		if (suiteLevelParameterValue != null && !suiteLevelParameterValue.equals("UNDEFINED")) { // if not defined in suite level it will set as "UNDEFINED"
 			if (!suiteLevelParameterValue.equals(testLevelParameterValue)) {
 				/*
 				 * different means it gives priority to test level parameter
