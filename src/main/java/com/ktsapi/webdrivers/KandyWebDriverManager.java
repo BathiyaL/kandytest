@@ -13,29 +13,17 @@ import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
-
-//import org.apache.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.remote.Browser;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.ktsapi.core.Const;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
 
-import java.nio.file.*;
-
 public abstract class KandyWebDriverManager implements WebDriverManager{
-	
-	//protected static final Logger WEB_DRIVER_PROVIDER_LOG = Logger.getLogger(KandyWebDriverManager.class);
 	protected static final Logger WEB_DRIVER_PROVIDER_LOG = LogManager.getLogger(KandyWebDriverManager.class);
-	
-//	public DesiredCapabilities getCapabilities() {
-//		return DesiredCapabilities.chrome();
-//	}
-	
+
 	String getBrowserProtableRootPath(String browserPropertyKey) throws FileNotFoundException, IOException {	
 		File configFile = getConfigFile();		
 		Properties properties = new Properties();		
@@ -67,8 +55,6 @@ public abstract class KandyWebDriverManager implements WebDriverManager{
 		}
 		return null;
 
-		
-		
 	}
 	
 	String getGridHubURIFromConfig() throws IOException {
@@ -84,8 +70,6 @@ public abstract class KandyWebDriverManager implements WebDriverManager{
 			// TODO Auto-generated catch block
 			throw e;
 		}	
-		
-		//return null;
 	}
 	
 	public boolean isRequestedBrowserVersinExist(String browserPropertyKey, String requestedVersion) throws FileNotFoundException, IOException{
@@ -135,57 +119,5 @@ public abstract class KandyWebDriverManager implements WebDriverManager{
 		}
 		return configFile;
 	}
-	
-	protected boolean canExecuteMachineInstalledBrowser(String installedBrowserVersion) {
-		
-		String desiredVersionPart1 = null;
-		String desiredVersionPart2 = null;
-		String installedVersionPart1 = null;
-		String installedVersionPart2 = null;
-		//boolean isDesiredBrowserExists = false;
-		String desiredBrowserVersion = TestInitializr.getDesiredCapabilities().getVersion();
-		
-		if(installedBrowserVersion!=null) {
-			if(installedBrowserVersion.contains(".")) {
-				installedVersionPart1 = installedBrowserVersion.split("\\.")[0];
-				installedVersionPart2 = installedBrowserVersion.split("\\.")[1];
-			}else {
-				installedVersionPart1 = installedBrowserVersion;
-			}
-		}
-		
-		/*
-		 * When desired browser is undefined system run on machine installed chrome version as default
-		 */
-		if(desiredBrowserVersion.equals("UNDEFINED")) {
-			desiredVersionPart1 = installedVersionPart1;
-			desiredVersionPart2 = installedVersionPart2;
-		}else {
-			if(desiredBrowserVersion.contains(".")) {
-				desiredVersionPart1 = desiredBrowserVersion.split("\\.")[0];
-				desiredVersionPart2 = desiredBrowserVersion.split("\\.")[1];			
-			}else {
-				desiredVersionPart1 = desiredBrowserVersion;
-			}
-		}
 
-		
-		// check for installed versions
-		if (installedBrowserVersion != null) {
-			if (installedVersionPart1.contains(desiredVersionPart1) && desiredVersionPart2 == null) {
-				//isDesiredBrowserExists = true;
-				// TODO : need log, desired browser is same as installed  browsers
-				//return getMachineInstalledChromeBinary(options);
-				return true;
-			} else if (installedVersionPart1.contains(desiredVersionPart1)
-					&& installedVersionPart2.contains(desiredVersionPart2)) {
-				//isDesiredBrowserExists = true;
-				// TODO : need log, desired browser is same as installed  browsers
-				//return getMachineInstalledChromeBinary(options);
-				return true;
-			}
-		}
-		
-		return false;
-	}
 }

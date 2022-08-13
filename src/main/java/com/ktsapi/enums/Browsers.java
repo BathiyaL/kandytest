@@ -1,6 +1,6 @@
 package com.ktsapi.enums;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -19,8 +19,6 @@ public enum Browsers {
 	
 	final String name;
 	final Class driverClass;
-	//final String defaultDriver;
-
 	
 	Browsers(String name,Class<? extends KandyWebDriverManager> driverClass){
 		this.name = name ;
@@ -63,24 +61,12 @@ public enum Browsers {
 		default:
 			driver = new ChromeDriverManager().get();
 		}
-		
-//		if (capabilities.getBrowserName().equals(Browsers.CHROME.getBrowserName())) {
-//			driver = new ChromeDriverManager().get();
-//		} else if (capabilities.getBrowserName().equals(Browsers.FIREFOX.getBrowserName())) {
-//			driver = new FirefoxDriverProvider().get();
-//		}
-////		else if(capabilities.getBrowserName().equals(Browsers.IE.getBrowserName())) {
-////			// TODO
-////		}
-//		else {
-//			System.out.println(capabilities.getBrowserName() + " Browser not support ");
-//		}
-		
+
 		driver.manage()
 				.timeouts()
-				.pageLoadTimeout(TestInitializr.getPageLoadTimeout(), TimeUnit.SECONDS)
-				.setScriptTimeout(TestInitializr.getScriptTimeout(), TimeUnit.SECONDS)
-				.implicitlyWait(TestInitializr.getImplicitlyWaitTime(), TimeUnit.SECONDS);
+				.pageLoadTimeout(Duration.ofSeconds(TestInitializr.getPageLoadTimeout()))
+				.scriptTimeout(Duration.ofSeconds(TestInitializr.getScriptTimeout()))
+				.implicitlyWait(Duration.ofSeconds(TestInitializr.getImplicitlyWaitTime()));
 		return driver;
 
 	}
