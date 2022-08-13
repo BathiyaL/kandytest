@@ -16,8 +16,7 @@ public class CommonActions {
 		try {
 			newInstance().pause(timeOutInSeconds);
 		} catch (InterruptedException e) {
-			// TODO for now we can ignore exception and proceed the script
-			e.printStackTrace();
+			Thread.currentThread().interrupt(); // if this cause unexpected result remove 			
 		} 
 	}
 	

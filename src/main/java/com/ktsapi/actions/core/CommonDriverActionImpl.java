@@ -17,7 +17,7 @@ public class CommonDriverActionImpl implements CommonDriverAction {
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.Pause,logMessage,null));	
 		} catch (InterruptedException e) {
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.Pause,logMessage,e));
-			e.printStackTrace();
+			Thread.currentThread().interrupt(); // if this cause unexpected result remove 
 		}
 	}
 

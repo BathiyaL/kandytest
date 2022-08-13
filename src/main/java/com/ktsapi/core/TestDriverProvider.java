@@ -41,16 +41,20 @@ public class TestDriverProvider {
     	
     	/*
     	 * if user hit driver.close()/CloseBrowserTab() on last browser window, then then remote deriver will returns the session id instead null
-    	 * but when it comes to action it will throw NoSuchSessionException, to avoid that here we catch it and quit driver again 
+    	 * but if we invoke an action it will throw NoSuchSessionException and here we are using this to verify w is closed or not, we catch it and quit driver again 
     	 */
     	return quitWebDriverIfClosed(driver);
 
     }
 
+    /*
+     * TODO: in latest version getting java.net.SocketException chekc this 
+     */
     private static boolean quitWebDriverIfClosed(WebDriver driver) {
+    	int noOfHandles = 0;
     	try {
-    		driver.getWindowHandles().size();
-    	}catch(NoSuchSessionException ex ) {
+    		noOfHandles = driver.getWindowHandles().size();    		
+    	}catch(NoSuchSessionException ex ) {    		
     		try {
     			driver.quit();
     		}catch(Exception ex2) {
@@ -59,6 +63,12 @@ public class TestDriverProvider {
     		
     		return true;
     	}
+    	// if no of handles are 0 can consider as close
+    	if(noOfHandles==0) {
+    		driver.quit();
+    		return true;
+    	}
+    		
     	return false;
     }
     
