@@ -37,13 +37,13 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	boolean isDryRun = true; // this will override from TEP configurations
 
 	boolean postTestResult(TestResultStatus testResultStatus) {
-
+		
+		String ationLog = printAndGetActionLogger();
+		
 		if (TestInitializr.getKandyClientTestPlanId() == null
 				|| TestInitializr.getKandyClientTestPlanId().equals("UNDEFINED")) {
 			return false;
 		}
-
-		String ationLog = printActionLogger();
 
 		TestResultRequest testResultRequest = new TestResultRequest();
 
@@ -242,10 +242,15 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	/*
 	 * TODO : this may no need to print on the console
 	 */
-	private String printActionLogger() {
-		Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-		String json = gson.toJson(TestInitializr.getTestActionsList());
-		System.out.println(json);
+	private String printAndGetActionLogger() {
+		String json = "{}";
+		try {
+			Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+			json = gson.toJson(TestInitializr.getTestActionsList());
+			ConfigLogger.logInfo(json);
+		} catch (Exception e) {
+			return "{\"ERROR\":\"Error occurred while extracting the action logger\",\"ERROR MESSAGE\":\""+e.getMessage()+"\"}";
+		}
 		return json;
 	}
 

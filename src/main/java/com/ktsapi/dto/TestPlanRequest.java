@@ -15,6 +15,7 @@ public class TestPlanRequest {
     private String browser;
     private String baseURL;
     private String testPlanStatus; ///
+	private String testPlanRunStatus;
     private String sutVersionNumber;
 
 
@@ -177,6 +178,14 @@ public class TestPlanRequest {
 	}
 	public void setTestSuiteFileName(String testSuiteFileName) {
 		this.testSuiteFileName = testSuiteFileName;
+	}
+	
+    public String getTestPlanRunStatus() {
+		return testPlanRunStatus;
+	}
+
+	public void setTestPlanRunStatus(String testPlanRunStatus) {
+		this.testPlanRunStatus = testPlanRunStatus;
 	}
 
     

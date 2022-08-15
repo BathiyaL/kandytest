@@ -22,6 +22,7 @@ import com.ktsapi.utils.AvtomatUtils;
 public class KandyClientApiCaller {
 	
 	static final String KANDY_CLIENT_URL = "http://localhost:8080";
+	static final String testPlanAutomatedRunEndpoint = "/api/testPlanAutomatedRun";
 	
 	public static TestPlanRequest postTestPlan(TestPlanRequest testPlanRequest) throws ClientProtocolException, IOException {		
 		
@@ -31,14 +32,12 @@ public class KandyClientApiCaller {
 			GsonBuilder gsonBuilder = new GsonBuilder();  
 			gsonBuilder.serializeNulls();  
 			Gson gson = gsonBuilder.create();
-			
-			//String       postUrl       = KANDY_CLIENT_URL + "/api/testPlanRun";// put in your url
-			String       postUrl       = KANDY_CLIENT_URL + "/api/testPlanAutomatedRun";// put in your url
+
+			String       postUrl       = KANDY_CLIENT_URL + testPlanAutomatedRunEndpoint;
 			
 			HttpClient   httpClient    = HttpClientBuilder.create().build();
 			HttpPost     post          = new HttpPost(postUrl);
-			StringEntity postingString = new StringEntity(gson.toJson(testPlanRequest));//gson.tojson() converts your pojo to json
-			//System.out.println("=============1 :: " + gson.toJson(testPlanRequest));
+			StringEntity postingString = new StringEntity(gson.toJson(testPlanRequest));
 			
 			post.setEntity(postingString);
 			post.setHeader("Content-type", "application/json");
@@ -49,16 +48,14 @@ public class KandyClientApiCaller {
 	        
 	        Gson gson2 = new Gson();
 	        responseTestPlan = gson2.fromJson(content, TestPlanRequest.class);
-	        //System.out.println("============= :: " + response.getStatusLine().getStatusCode());
-	        
-	        if(responseTestPlan.getTestPlanRunId()==null) {
-	        	//ConfigLogger.logWarn("@TestSuite{ KandyClient TEP creation response code :  "+ response.getStatusLine() +" }");
-	        	ConfigLogger.logWarn("@TestSuite{ KandyClient Test Plan Initiate Error : "+ content +" }");
+	       	        
+	        if(responseTestPlan.getTestPlanRunId()==null) {	        	
+	        	ConfigLogger.logWarn("@TestSuite{ [KandyClient] Test Plan Initiate Error : "+ content +" }");
 	        }
 	        
 	        return responseTestPlan;
 		}catch (Exception ex) {
-			ConfigLogger.logWarn("@TestSuite{ KandyClient Test Plan Initiate Error : "+ ex.getMessage() +" }");
+			ConfigLogger.logWarn("@TestSuite{ [KandyClient] :: Test Plan Initiate Error : "+ ex.getMessage() +" }");
 		}
         
         return null;		
@@ -70,53 +67,64 @@ public class KandyClientApiCaller {
 			GsonBuilder gsonBuilder = new GsonBuilder();  
 			gsonBuilder.serializeNulls();  
 			Gson gson = gsonBuilder.create();
-			
-			//String       postUrl       = KANDY_CLIENT_URL + "/api/testResult";
-			String       postUrl       = KANDY_CLIENT_URL + "/api/testPlanRun/20/testCaseRunResult"; // TODO: need to parameterize the testplan run id
-			
+
+			String       postUrl       = KANDY_CLIENT_URL + "/api/testPlanRun/"+ testResultRequest.getTestPlanId() + "/testCaseRunResult";			
 			HttpClient   httpClient    = HttpClientBuilder.create().build();
 			HttpPost     post          = new HttpPost(postUrl);
-			StringEntity postingString = new StringEntity(gson.toJson(testResultRequest));//gson.tojson() converts your pojo to json
-			System.out.println("=============1 :: " + gson.toJson(testResultRequest));
+			StringEntity postingString = new StringEntity(gson.toJson(testResultRequest));
 			
 			post.setEntity(postingString);
 			post.setHeader("Content-type", "application/json");
 			HttpResponse  response = httpClient.execute(post);		
-			
-			///////////////////////////
-//			HttpEntity entity = response.getEntity();
-//	        String content = EntityUtils.toString(entity);
-//	        
-//	        Gson gson2 = new Gson();
-//	        TestResultRequest responseTestPlan = gson2.fromJson(content, TestResultRequest.class);
-	        System.out.println("============= :: " + response.getStatusLine().getStatusCode());
+
+			HttpEntity entity = response.getEntity();
+	        String content = EntityUtils.toString(entity);
+
+	        if(response.getStatusLine().getStatusCode() == 201) {
+	        	ConfigLogger.logInfo("@TestSuite{ [KandyClient] => Post test resutls of " + testResultRequest.getTestCaseId() +" }");
+	        } else{ 
+	        	ConfigLogger.logError("@TestSuite{ [KandyClient] :: Test result post error for test - > " + testResultRequest.getTestCaseId() + " | Status Code : " +  response.getStatusLine().getStatusCode() + " | Response : " +  content  +" }");
+	        }
+	        
 	        
 		}catch (Exception ex) {
-			ConfigLogger.logWarn("@TestSuite{ KandyClient Test Plan Initiate Error : "+ ex.getMessage() +" }");
+			ConfigLogger.logWarn("@TestSuite{ [KandyClient] :: Test Plan Initiate Error : "+ ex.getMessage() +" }");
 		}		
 	}
 	
 	public static void updateTestPlanAsCompleted(String testPlanID) throws ClientProtocolException, IOException {
 		
 		try {
-//			GsonBuilder gsonBuilder = new GsonBuilder();  
-//			gsonBuilder.serializeNulls();  
-//			Gson gson = gsonBuilder.create();
-//			
-//			String       postUrl       = KANDY_CLIENT_URL + "/api/testPlan/" + testPlanID;
-//			
-//			TestPlanRequest testPlanRequest = new TestPlanRequest();
-//			testPlanRequest.setModifiedTimestamp(AvtomatUtils.localDateTimeStringFormat(AvtomatUtils.getCurretnTimeStamp())); // completion timestamp
-//			testPlanRequest.setTestPlanStatus("Completed");
-//			
-//			HttpClient   httpClient    = HttpClientBuilder.create().build();
-//			HttpPost     post          = new HttpPost(postUrl);
-//			StringEntity postingString = new StringEntity(gson.toJson(testPlanRequest));//gson.tojson() converts your pojo to json
-//			post.setEntity(postingString);
-//			post.setHeader("Content-type", "application/json");
-//			HttpResponse  response = httpClient.execute(post);	
+			GsonBuilder gsonBuilder = new GsonBuilder();  
+			gsonBuilder.serializeNulls();  
+			Gson gson = gsonBuilder.create();
+
+			String postUrl = KANDY_CLIENT_URL + testPlanAutomatedRunEndpoint;		
+			TestPlanRequest testPlanRequest = new TestPlanRequest();
+			testPlanRequest.setTestPlanAutomatedRunId(testPlanID);		
+			testPlanRequest.setTestPlanRunStatus("Completed");
+			testPlanRequest.setExecutionCompletedTimestamp(AvtomatUtils.localDateTimeStringFormat(AvtomatUtils.getCurretnTimeStamp()));
+			
+			HttpClient   httpClient    = HttpClientBuilder.create().build();
+			HttpPost     post          = new HttpPost(postUrl);
+			StringEntity postingString = new StringEntity(gson.toJson(testPlanRequest));
+					
+			post.setEntity(postingString);
+			post.setHeader("Content-type", "application/json");
+			HttpResponse  response = httpClient.execute(post);
+			
+			HttpEntity entity = response.getEntity();
+	        String content = EntityUtils.toString(entity);
+	        
+	        if(response.getStatusLine().getStatusCode() == 201) {
+	        	 ConfigLogger.logInfo("@TestSuite{ [KandyClient] => Updated automated testplan as completed ");
+	        } else {
+	        	 ConfigLogger.logInfo("@TestSuite{ [KandyClient] => Automated testplan update error -> " + content);
+	        }
+	       
+			
 		}catch (Exception ex) {
-			ConfigLogger.logWarn("@TestSuite{ KandyClient Test Plan Initiate Error : "+ ex.getMessage() +" }");
+			ConfigLogger.logWarn("@TestSuite{ [KandyClient] => Test Plan Initiate Error : "+ ex.getMessage() +" }");
 		}	
 	
 		

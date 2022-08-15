@@ -161,30 +161,21 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 				
 				// TODO : handle use case when runid is not provided , to initiate new Run
 				// 	TODO : when run id is provided , no use of template id,
-				// Logic : if both the ids are provided we can give priority to the the run id
-				if(isTestPlanTemplateIdProvided(testPlan.getTestPlanTemplateId())) {
-					if(isTestPlanRunIdIsProvided(testPlan.getTestPlanRunId())) { // there can be another use case that to run without TEPRunID and create a new run from script execution
-						response = KandyClientApiCaller.postTestPlan(testPlanRequest);
-					}else {
-						ConfigLogger.logInfo("@TestSuite{ TestPlanRunId parameter is not provided}");
-					}
-				}else {
-					ConfigLogger.logInfo("@TestSuite{ TestPlanTemplateId parameter is not provided }");
+				// Logic : if both the ids are provided we can give priority to the the run id				
+				if(isTestPlanRunIdIsProvided(testPlan.getTestPlanRunId())) {
+					response = KandyClientApiCaller.postTestPlan(testPlanRequest);
+				} else if(isTestPlanTemplateIdProvided(testPlan.getTestPlanTemplateId())) {
+					// TODO : there can be another use case that to run without TEPRunID and create a new run from script execution
+				} else {
+					ConfigLogger.logInfo("@TestSuite{ TestPlanTemplateId or TestPlanTemplateId parameters are not provided }");
 				}
 				
 				
 				if(response!=null ) {
-//					if(response.getTestPlanRunId()!=null && response.getTestPlanRunId()!="") {
-//						ConfigLogger.logInfo("@TestSuite{"+ response.getTestPlanRunId() +" Initiated .........}");
-//						kandyTestPlanID = response.getTestPlanRunId();
-//						suite.setAttribute(TestCache.KANDY_CLIENT_TEST_PLAN_ID, kandyTestPlanID); 
-//					}else {
-//						suite.setAttribute(TestCache.KANDY_CLIENT_TEST_PLAN_ID, "UNDEFINED");
-//					}
 					if(response.getTestPlanRunId()!=null && !response.getTestPlanRunId().equals("")) {						
 						kandyTestPlanID = response.getTestPlanRunId();						
 						kandyTestPlanAutmatedRunID = response.getTestPlanAutomatedRunId();
-						ConfigLogger.logInfo("@TestSuite{ TestAutomatedRunId-"+ kandyTestPlanAutmatedRunID +" initiated under Test Plan "+ kandyTestPlanID + "..........}");
+						ConfigLogger.logInfo("@TestSuite{ [KandyClient] => TestAutomatedRunId-"+ kandyTestPlanAutmatedRunID +" initiated under Test Plan "+ kandyTestPlanID + "..........}");
 						suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_AUTOMATED_RUN_ID, kandyTestPlanAutmatedRunID); 
 						suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_ID, kandyTestPlanID); 
 						
@@ -320,14 +311,13 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 
 	@Override
 	public void onFinish(ISuite suite) {
-		//System.out.println("TestNG has finished, took around " + (System.currentTimeMillis() - startTime) + "ms");
 		long seconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - startTime);		
 		
 		ConfigLogger.logInfo("@TestSuite{"+suite.getXmlSuite().getFileName()+"} execution has completed, took around " + seconds + " seconds"); 	
-		
-		if(!isDryRun && kandyTestPlanID!=null && !kandyTestPlanID.isEmpty()) {
+
+		if(!isDryRun && kandyTestPlanAutmatedRunID!=null && !kandyTestPlanAutmatedRunID.isEmpty()) {
 			try {
-				KandyClientApiCaller.updateTestPlanAsCompleted(kandyTestPlanID);
+				KandyClientApiCaller.updateTestPlanAsCompleted(kandyTestPlanAutmatedRunID);
 				ConfigLogger.logInfo("@TestSuite{ Completed .........}"); 
 				
 			} catch (ClientProtocolException e) {
@@ -343,18 +333,5 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		}
 		
 	}
-	
-	//implements IExecutionListener
     private long startTime;
-// 
-//    @Override
-//    public void onExecutionStart() {
-//        startTime = System.currentTimeMillis();
-//        System.out.println("TestNG is going to start");     
-//    }
-// 
-//    @Override
-//    public void onExecutionFinish() {
-//        System.out.println("TestNG has finished, took around " + (System.currentTimeMillis() - startTime) + "ms");
-//    }
 }
