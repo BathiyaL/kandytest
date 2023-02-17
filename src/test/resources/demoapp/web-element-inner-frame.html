@@ -1,0 +1,92 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<style>
+.well {
+    background-image: linear-gradient(to bottom,#ecf1a8 0,#f5f5f5 100%);
+}
+</style>
+</head>
+
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="row">
+
+				<div class="col-md-6">
+				<div class="well">
+				  <form>
+					<div class="form-group">
+
+						<label >Button Element: </label></br>
+						<button type="button" name="iframe2_clickMeButton" class="btn btn-default" onclick="alert('inner-frame')" id="submit">Click Me</button></br>
+						<label >Input-Text: </label></br>
+						<input type="text" name="iframe2_enterText" class="form-control" id="email" placeholder="Enter Text"></br>
+						<label for="password">Input-Password:</label>
+					  <input type="password" class="form-control" id="iframe2_password" placeholder="Enter password">
+	
+					<div class="form-group">
+					  <label for="dropdown">Select Language : </label>
+					  <select class="form-control" id="iframe2_dropdown"> 
+						<option value="volvo">JAVA</option>
+						<option value="saab">C#</option>
+						<option value="mercedes">PHP</option>
+						<option value="audi">Assembly Language</option>
+					  </select>
+					</div>
+					<label for="comment">Text Area:</label>
+					  <textarea class="form-control" rows="5" id="iframe2_comment" ondblclick="alert('You have double clicked!')"></textarea></br>
+
+					</div>
+
+				  </form>
+				  </div>
+				</div>
+				<div class="col-md-6">
+					<div class="well">
+				  <form>
+					<label >Input-CheckBox:</label>
+					   <div class="checkbox">
+						  <label><input type="checkbox" value="" id="iframe2_opt1">CheckBox 1</label>
+						</div>
+						<div class="checkbox">
+						  <label><input type="checkbox" value="" id="iframe2_opt2">CheckBox 2</label>
+						</div>
+						<div class="checkbox disabled">
+						  <label><input type="checkbox" value="" disabled id="iframe2_opt3">CheckBox 3 (disabled)</label>
+						</div>
+					<label >Input-Radio: </label>
+					 <div class="radio">
+					  <label><input type="radio" name="iframe2_optradio">Radio  1</label>
+					</div>
+					<div class="radio">
+					  <label><input type="radio" name="iframe2_optradio">Radio  2</label>
+					</div>
+					<div class="radio disabled">
+					  <label><input type="radio" name="iframe2_optradio" disabled>Radio  3</label>
+					</div>
+					<label >Link:</label></br>
+					<a href="#" onclick="alert('Web IFrame Link')">Web</a></br></br>
+					<div id='iframe2_divRightClick2' oncontextmenu="alert('You right-clicked inside the div - 4');">
+					<p style="border:3px; border-style:solid; border-color:#FF0000; padding: 1em;">Right-click on me!</p>
+					</div>
+					</div>
+
+				  </form>
+				  </div>
+				  	<div class="col-md-6">
+						<label id='label_text'>label element</label>
+						<div id='div_text'>div Element</div>
+						<span id='span_text'>span element</span>
+						
+						<label id='label_text_hidden' style="visibility:hidden">hidden label element</label>
+						<div id='div_text_hidden' style="visibility:hidden">hidden div Element</div>
+						<span id='span_text_hidden' style="visibility:hidden">hidden span element</span>						
+					</div>
+				</div>	
+			</div>
+		</div>
+
+</html>

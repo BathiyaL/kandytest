@@ -8,6 +8,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.enums.TestDriver;
 import com.ktsapi.exceptions.FailedToSetupTestDriverException;
+import com.ktsapi.mobiledrivers.AndroidDriverManager;
+
+import io.appium.java_client.android.AndroidDriver;
 
 public class TestDriverProvider {
 	
@@ -78,11 +81,23 @@ public class TestDriverProvider {
      */
     protected static String getRunningBrowserVersion(WebDriver driver) {
 		Capabilities capabilities = ((RemoteWebDriver)driver).getCapabilities();
-		String strBrowserVersion = capabilities.getVersion().toString();
+		String strBrowserVersion = capabilities.getBrowserVersion().toString();
 		if (strBrowserVersion.equals("")){
 			strBrowserVersion = capabilities.getCapability("browserVersion").toString();
 		}
 		return strBrowserVersion;    	
     }
+    
+	protected static AndroidDriver getMobileDriver() {
+		//System.out.println("######################## : TestDriverProvider.getWebDriver()" + TestCache.getTestConfiguration().getBrowser().name());
+		TestDriver configuredTestDriver = TestInitializr.getTestConfiguration().getTestDriver();
+		if(configuredTestDriver.equals(TestDriver.MOBILE_ANDROID)) {
+			return new AndroidDriverManager().get();
+			
+		}else {
+			throw new FailedToSetupTestDriverException("Configured test driver in the test[TestDriver."+configuredTestDriver+ "] cannot launch a web Driver");
+		}
+		
+	}
 
 }

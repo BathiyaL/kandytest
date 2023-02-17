@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>4.1.2</version>
+			<version>4.7.2</version>
 		</dependency>
 
 
@@ -94,6 +94,22 @@
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.8.8</version>
 		</dependency>
+		
+				<!-- https://mvnrepository.com/artifact/io.appium/java-client -->
+		<dependency>
+		    <groupId>io.appium</groupId>
+		    <artifactId>java-client</artifactId>
+		    <version>8.3.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+		<dependency>
+		    <groupId>org.assertj</groupId>
+		    <artifactId>assertj-core</artifactId>
+		    <version>3.24.2</version>
+		    <scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
 
@@ -122,12 +138,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.18.1</version>
+				<version>2.22.1</version>
 				<configuration>
 					<suiteXmlFiles>
-						TestNG suite XML files
-						<suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+						<suiteXmlFile>src/test/java/com/katf/plans/IntegrationTestSuite.xml</suiteXmlFile>
 					</suiteXmlFiles>
+					<systemPropertyVariables>
+						<propertyName>${browser}</propertyName>
+						<propertyName>${baseURL}</propertyName>
+					</systemPropertyVariables>
 				</configuration>
 			</plugin>
 

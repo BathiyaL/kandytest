@@ -1,0 +1,32 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name = "Default suite" parallel="false" thread-count="1" verbose="2">
+    
+<!--     <parameter name="overrideTestParameters" value="true" /> -->
+    <parameter name="baseUrl" value="http://www.softwareautomationengineer.com/" />
+<!-- 	<parameter name="implicitlyWaitTime" value="2" /> -->
+    <parameter name="scriptTimeout" value="20" />
+    <parameter name="browser" value="chRome" />
+
+    
+    
+   <test name = "Sample test-1">
+<!-- 	<parameter name="implicitlyWaitTime" value="3" /> -->
+   <parameter name="baseUrl" value="https://twitter.com/" />
+<!--    <parameter name="browser" value="firefox" /> -->
+      <classes>
+         <class name = "com.avtomat.actons.IFrameTest" />
+      </classes>
+   </test>
+   
+      <test name = "Sample test-2">
+<!-- 	<parameter name="implicitlyWaitTime" value="3" /> -->
+    <parameter name="baseUrl" value="http://play.krypton.infor.com/demopage.html" />
+	<parameter name="browser" value="firefox" />
+	<parameter name="implicitlyWaitTime" value="3" />
+      <classes>
+         <class name = "com.avtomat.actons.IFrameTest" />
+      </classes>
+   </test>
+   
+</suite>	

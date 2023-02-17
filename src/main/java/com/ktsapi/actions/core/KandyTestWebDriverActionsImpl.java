@@ -6,6 +6,7 @@ import static com.ktsapi.actions.core.ActionsLogger.logAction;
 import static com.ktsapi.actions.core.ActionsLogger.systemLogsWarn;
 import static com.ktsapi.actions.core.ActionsLogger.userLogs;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -697,7 +698,8 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		String msg = "WaitUntil("+ timeOutInSeconds + "s) -> ";
 		
 		try {
-			WebDriverWait wait = new WebDriverWait(driver(), timeOutInSeconds);
+			//WebDriverWait wait = new WebDriverWait(driver(), timeOutInSeconds);
+			WebDriverWait wait = new WebDriverWait(driver(), Duration.ofSeconds(timeOutInSeconds));
 			wait.until(condition);	
 			msg = condition.toString();
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.WaitUntil,msg,null));		
@@ -948,7 +950,8 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 					return AllWindowHandles().size() > 1;
 				}
 			};
-			WebDriverWait wait = new WebDriverWait(driver(), timeOutInSeconds);
+			//WebDriverWait wait = new WebDriverWait(driver(), timeOutInSeconds);
+			WebDriverWait wait = new WebDriverWait(driver(), Duration.ofSeconds(timeOutInSeconds));
 			wait.until(mutipleWindowsToPresent);
 		} catch (TimeoutException e) {			
 			String errMsg = "Timed out after "+timeOutInSeconds + " seconds waiting for a child window(popup,tab..) to be present";

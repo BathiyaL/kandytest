@@ -17,6 +17,11 @@ public class TestConfigurationContext {
 	long scriptTimeout;
 	long pageLoadTimeout;
 	
+	// Mobile configurations
+	String mobileApp;
+	String mobileDeviceName;
+	
+	
 	public void setBrowser(Browsers browser)
 	{
 		this.browser = browser;
@@ -102,6 +107,19 @@ public class TestConfigurationContext {
 	}
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
+	}
+	
+	public String getMobileApp() {
+		return mobileApp;
+	}
+	public void setMobileApp(String mobileApp) {
+		this.mobileApp = mobileApp;
+	}
+	public String getMobileDeviceName() {
+		return mobileDeviceName;
+	}
+	public void setMobileDeviceName(String mobileDeviceName) {
+		this.mobileDeviceName = mobileDeviceName;
 	}
 	
 }

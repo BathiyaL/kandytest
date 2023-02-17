@@ -1,0 +1,200 @@
+body {
+    font-family: "Trebuchet MS", Serif;
+}
+
+* {
+    /*border-style: solid;*/
+    border-width: 1px;
+}
+
+input:focus {
+    outline-color: #e37878;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 100;
+}
+
+h1 {
+    margin-left: 10px;
+}
+
+h2 {
+    margin-left: 20px;
+}
+
+h3 {
+    margin-left: 30px;
+    color: #666666;
+}
+
+.align-horizontally-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/******************** Color Buttons ******************/
+.custom-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100px;
+    background: gray;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    user-select: none;
+}
+
+.custom-btn:hover {
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+}
+.custom-btn:active {
+    opacity: 0.9;
+    box-shadow: 0px 0px;
+}
+
+#color-panel {
+    background: white;
+    box-shadow: 0px 0px 10px 0px #9c9c9c;
+    width: 300px;
+    height: 100px;
+}
+
+/******************** Color Selector ******************/
+.custom-select {
+    width: 350px;
+    max-width: 400px;
+    user-select: none;
+    margin-bottom: 70px;
+    color: white;
+}
+
+.select-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: gray;
+    font-size: 18px;
+    user-select: none;
+    height: 50px;
+    cursor: pointer;
+}
+
+.select-title {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.select-option-container {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    width: 350px;
+}
+
+.select-option {
+    display: flex;
+    align-items: center;
+    background: #3a8ace;
+    height: 40px;
+}
+
+.select-option:hover {
+    background: #3670b0;
+}
+
+.select-option > span {
+    margin-left: 20px;
+}
+.custom-input-text {
+}
+
+.simple-row {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 60px;
+}
+
+.simple-row {
+    margin-left: 35px;
+    font-size: 20px;
+}
+.simple-field {
+}
+
+.simple-field > .field-label {
+    margin-left: 20px;
+    margin-right: 20px;
+    min-width: 200px;
+}
+
+.align-column-items-center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#pages-tab-container {
+    margin-left: 35px;
+}
+.tab-menu {
+    display: flex;
+    user-select: none;
+    cursor: pointer;
+}
+
+.tab-menu > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    height: 40px;
+
+    border-style: solid;
+    border-width: 1px;
+
+    margin: 1px;
+}
+
+.tab-body {
+    min-height: 300px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.selected-tab {
+    color: white;
+    background: #b94a48;
+    border-style: solid;
+    border-width: 1px;
+}
+
+#all-custom-element-action-container {
+    display: flex;
+
+}
+
+#all-custom-element-action-container {
+    display: flex;
+    align-items: center;
+}
+
+#all-custom-element-action-select {
+    height: 50px;
+}
+
+.right-and-left-margin {
+    margin-left: 10px;
+    margin-left: 20px;
+}

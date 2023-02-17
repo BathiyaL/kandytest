@@ -1,0 +1,219 @@
+<html>
+
+   <head>
+      <style>
+         table, th, td {
+            border: 1px solid black;
+			width: 500px;
+         }
+		 td{
+    width: 50%;
+    text-align: left;
+    border: 1px solid black;
+}
+#div1 {
+  width: 350px;
+  height: 70px;
+  padding: 10px;
+  border: 1px solid #aaaaaa;
+}
+      </style>
+	  
+	  <script>
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));
+}
+</script>
+	  
+	  <title>Sample Elmments</title>
+   </head>
+<form action="/">
+
+    <h1 style="text-align:center"><legend>Sample Elmments</legend></h1>
+
+	<br>
+    <label for="name">Name: </label>
+    <input type="text" value="Name" name="Name" />
+
+    <label for="email">Email: </label>
+    <input type="email" value="Email" name="Email" />
+
+    <label>Button: </label>
+    <input type="button" value="Button" name="button" onclick="document.getElementById('lbltipAddedComment').innerText = 'you just clicked me!';" />
+	<label id="lbltipAddedComment">Click to change me</label>
+
+<br><br>
+    <fieldset>
+        <legend>Group of Checkboxes: </legend>
+        <label>Checkbox 1: 
+            <input type="checkbox" value="checkbox1" name="checkgroup[]" /></label>
+        <label>Checkbox 2: 
+            <input type="checkbox" value="checkbox2" name="checkgroup[]" /></label>
+        <label>Checkbox 3: 
+            <input type="checkbox" value="checkbox3" name="checkgroup[]" /></label>
+        <label>Checkbox 4: 
+            <input type="checkbox" value="checkbox4" name="checkgroup[]" /></label>
+    </fieldset>
+
+	<br><br>
+    <label>Color: </label>
+    <input type="color" value="color" name="color" />
+
+    <label>Date: </label>
+    <input type="date" value="date" name="date" />
+
+    <label>Date, Time (Local): </label>
+    <input type="datetime-local" value="datetime" name="datetime" />
+
+    <label>File: </label>
+    <input type="file" value="file" name="file" />
+
+    <input type="hidden" value="hidden" name="hidden" />
+
+    <label>Image: </label>
+    <input type="image" value="image" name="image" />
+	&nbsp;
+    <label>Month: </label>
+    <input type="month" value="month" name="month" />
+
+
+    <label>Number: </label>
+    <input type="number" value="number" name="number" />
+
+    <label>Password: </label>
+    <input type="password" value="password" name="password" />
+
+    <label>Single Radio: 
+    <input type="radio" value="radio" name="radio" /></label>
+
+<br><br>
+    <fieldset>
+        <legend>Group of Radios: </legend>
+        <label>Radio 1: 
+            <input type="radio" value="radio1" name="radiogroup" /></label>
+        <label>Radio 2: 
+            <input type="radio" value="radio2" name="radiogroup" /></label>
+        <label>Radio 3: 
+            <input type="radio" value="radio3" name="radiogroup" /></label>
+        <label>Radio 4: 
+            <input type="radio" value="radio4" name="radiogroup" /></label>
+    </fieldset>
+
+<br>
+	<table>
+            <td><label>Range: </label></td>
+            <td> <input type="range" value="range" name="range" /> </td>
+			
+			<td><label>Reset: </label></td>
+            <td> <input type="reset" value="reset" name="reset" /> </td>
+			
+			<td><label>Time: </label></td>
+			<td> <input type="time" value="time" name="time" /> </td>
+         </tr>
+		 
+		 <tr>   
+			<td> <label>Search: </label></td>         
+			<td><input type="search" value="search" name="search" /> </td>
+			
+			<td><label>Tel: </label></td>
+			<td><input type="tel" value="tel" name="tel" /> </td>
+			
+			<td><label>Text: </label></td>
+			<td> <input type="text" value="text" name="text" /> </td>
+         </tr>
+		 
+		 <tr> 
+			<td> <label>URL: </label></td>    		 
+			<td><input type="url" value="url" name="url" /> </td>
+			
+			<td><label>Week: </label></td>
+			<td><input type="week" value="week" name="week" /> </td>
+			
+			<td><label>Select Element: </label></td>
+			<td> 
+				<select name="cars" id="cars">
+				  <option value="volvo">Volvo</option>
+				  <option value="saab">Saab</option>
+				  <option value="mercedes">Mercedes</option>
+				  <option value="audi">Audi</option>
+				</select>
+			</td>
+         </tr>
+		 
+		 <tr>      
+			<td> <label>button </label></td> 		 
+			<td> <button>This is a button!</button> </td>
+			
+			<td> <label>Select 2: </label></td> 
+			<td> <select name="select1" size="3"><option>Test</option><option>Test</option></select> </td>
+			
+			<td> <label>Select Multiple: </label></td> 
+			<td> 
+				<select name="multi-select" size="3" multiple>
+					<option>Java</option>
+					<option>C#</option>
+					<option>Python</option>
+					<option>C++</option>
+				</select>
+			</td>
+         </tr>
+		 
+		 <tr>  
+			<td> <label>Select Groups: </label></td> 		 
+			<td>     
+				<select name="select3" size="1" multiple>
+				<optgroup label="First Group"><option>Test</option><option>Test</option></optgroup>
+				<optgroup label="Second Group"><option>Test</option><option>Test</option></optgroup>
+				<optgroup label="Third Group"><option>Test</option><option>Test</option></optgroup>
+				</select>
+			</td>
+			<td> No data </td>
+			<td> No data </td>
+			<td> No data </td>
+			<td> no data </td>
+         </tr>
+		 
+      </table>
+
+<br>
+
+<p>HTML Drag and Drop Example</p>
+
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<br>
+<img id="drag1" src="images/img_logo.gif" draggable="true" ondragstart="drag(event)" width="336" height="69">
+
+    <fieldset>
+        <legend>Datalist: </legend>
+        <input type="text" name="datalist" list="samplelist">
+        <datalist id="samplelist">
+            <option>Something</option>
+            <option>Something else</option>
+            <option>Another thing</option>
+        </datalist>
+    </fieldset>
+
+<br>
+    <label>A textarea!</label>
+    <textarea name="textarea">A paragraph in here</textarea>
+<br><br>
+    <label>Progress (very unsupported): </label>
+    <progress value="20" max="100"></progress>
+<br><br>
+    <label>Meter (very unsupported): </label>
+    <meter min="0" value="20" max="100" low="10" high="90" optimum="80">20 in the meter</meter>
+<br><br>
+    <input type="submit" value="GO !" />
+
+</form>
+</html>

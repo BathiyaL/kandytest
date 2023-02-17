@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- saved from url=(0076)https://mdn.github.io/dom-examples/drag-and-drop/copy-move-DataTransfer.html -->
+<html lang="en" class="gr__mdn_github_io"><script src="chrome-extension://mnmbpgojijggbedgpcaibiehkljfecng/page/prompt.js"></script><script src="chrome-extension://mnmbpgojijggbedgpcaibiehkljfecng/page/runScript.js"></script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Using Drag and Drop API to copy and move elements</title>
+<!-- 
+   This example demonstrates using various HTML Drag and Drop interfaces including:
+   * Global "draggable" attribute
+   * Event handlers for dragstart, dragover and drop
+   * Global event handlers for ondragstart, ondragover and ondrop
+   * Using the DataTransfer interface to copy and move elements (<div>)
+-->
+<style>
+  div {
+    margin: 0em;
+    padding: 2em;
+  }
+  #src_copy, #src_move  {
+    color: blue;
+    border: 5px solid black;
+    width: 300px;
+    height: 50;
+  }
+  #dest_copy, #dest_move {
+    border: 5px solid blue;
+    width: 300px;
+    height: 50;
+  }
+</style>
+<script>
+function dragstart_handler(ev) {
+ console.log("dragStart");
+ // Change the source element's background color to signify drag has started
+ ev.currentTarget.style.border = "dashed";
+ // Add the id of the drag source element to the drag data payload so
+ // it is available when the drop event is fired
+ ev.dataTransfer.setData("text", ev.target.id);
+ // Tell the browser both copy and move are possible
+ ev.effectAllowed = "copyMove";
+}
+function dragover_handler(ev) {
+ console.log("dragOver");
+ // Change the target element's border to signify a drag over event
+ // has occurred
+ ev.currentTarget.style.background = "lightblue";
+ ev.preventDefault();
+}
+function drop_handler(ev) {
+  console.log("Drop");
+  ev.preventDefault();
+  // Get the id of drag source element (that was added to the drag data
+  // payload by the dragstart event handler)
+  var id = ev.dataTransfer.getData("text");
+  // Only Move the element if the source and destination ids are both "move"
+  if (id == "src_move" && ev.target.id == "dest_move")
+    ev.target.appendChild(document.getElementById(id));
+  // Copy the element if the source and destination ids are both "copy"
+  if (id == "src_copy" && ev.target.id == "dest_copy") {
+   var nodeCopy = document.getElementById(id).cloneNode(true);
+   nodeCopy.id = "newId";
+   ev.target.appendChild(nodeCopy);
+  }
+}
+function dragend_handler(ev) {
+  console.log("dragEnd");
+  // Restore source's border
+  ev.target.style.border = "solid black";
+  // Remove all of the drag data
+  ev.dataTransfer.clearData();
+}
+</script>
+<script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script></head>
+<body data-gr-c-s-loaded="true">
+<h1>Drag and Drop: Copy and Move elements with <code>DataTransfer</code></h1>
+ <div draggable="true" id="src_copy" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);">
+     Select this element and drag to the <strong>Copy Drop Zone</strong>.
+ </div>
+ <div id="dest_copy" ondrop="drop_handler(event);" ondragover="dragover_handler(event);"><strong>Copy Drop Zone</strong></div>
+ <div draggable="true" id="src_move" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);">
+     Select this element and drag to the <strong>Move Drop Zone</strong>.
+ </div>
+ <div id="dest_move" ondrop="drop_handler(event);" ondragover="dragover_handler(event);"><strong>Move Drop Zone</strong></div>
+
+
+<div id="mouseposition-extension-element-full-container" style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; pointer-events: none; z-index: 2147483647; font-weight: 400;"><div id="mouseposition-extension-element-rect-display" style="display: none; position: absolute; background: rgba(255, 255, 255, 0.7); outline: black solid 1px; font-size: 12px; z-index: 2147483647; justify-content: center; align-items: center; user-select: none; cursor: default; color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; width: 0px; height: 0px;"><pre style="flex: 1 1 0%; text-align: center; background-color: rgba(255, 255, 255, 0.7); color: rgb(0, 0, 0); min-width: 42px; min-height: 12px; transition: all 1s ease 0s;"></pre></div><pre id="mouseposition-extension-element-coordinate-display" style="position: absolute; display: none; background: rgb(255, 255, 255); font-size: 12px; line-height: 14px; border-radius: 3px; border-width: 1px; border-color: rgb(34, 34, 34) black rgb(51, 51, 51); border-style: solid; padding: 3px; z-index: 2147483647; color: rgb(34, 34, 34); user-select: none; cursor: default; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;"></pre></div></body></html>

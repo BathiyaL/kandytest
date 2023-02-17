@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.ktsapi.actions.core.DriverTimeOuts;
+import com.ktsapi.contexts.MobileDriverDefaults;
 import com.ktsapi.contexts.TestConfigurationDefaults;
 import com.ktsapi.contexts.WebDriverDefaults;
 import com.ktsapi.enums.Browsers;
@@ -27,4 +28,8 @@ public @interface TestConfiguration {
 	long implicitlyWaitTime() default DriverTimeOuts.DEFAULT_IMPLICITLY_WAIT_TIME;
 	long scriptTimeout() default DriverTimeOuts.DEFAULT_SCRIPT_TIMEOUT;
 	long pageLoadTimeout() default DriverTimeOuts.DEFAULT_PAGELOAD_TIMEOUT;
+	
+	// mobile configruations
+	String mobileApp() default MobileDriverDefaults.UNDEFINED;
+	String mobileDeviceName() default MobileDriverDefaults.UNDEFINED;
 }

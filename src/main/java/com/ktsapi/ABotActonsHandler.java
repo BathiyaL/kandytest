@@ -6,8 +6,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import com.ktsapi.actions.CommonDriverAction;
+import com.ktsapi.actions.KandyTestMobileDriverActions;
 import com.ktsapi.actions.KandyTestWebDriverActions;
 import com.ktsapi.actions.core.CommonDriverActionImpl;
+import com.ktsapi.actions.core.KandyTestMobileDriverActionsImpl;
 import com.ktsapi.actions.core.KandyTestWebDriverActionsImpl;
 import com.ktsapi.exceptions.ActionsHandlerException;
 
@@ -62,6 +64,13 @@ public class ABotActonsHandler implements InvocationHandler {
 	public static CommonDriverAction commanDriverActionsInstance() {
 		return (CommonDriverAction) Proxy.newProxyInstance(CommonDriverAction.class.getClassLoader(),
 				new Class[] { CommonDriverAction.class }, new ABotActonsHandler(new CommonDriverActionImpl()));
+
+	}
+	
+	public static KandyTestMobileDriverActions mobileDriverActionsInstance() {
+		return (KandyTestMobileDriverActions) Proxy.newProxyInstance(KandyTestMobileDriverActions.class.getClassLoader(),
+				new Class[] { KandyTestMobileDriverActions.class },
+				new ABotActonsHandler(new KandyTestMobileDriverActionsImpl()));
 
 	}
 }

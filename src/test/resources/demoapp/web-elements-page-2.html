@@ -1,0 +1,183 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <script src="scripts/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="css/pcg-test-page.css">
+
+    <title>Web Elements Page 2</title>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1>
+                    <img src="images/200px.png"/><br>
+                    <small>Demo Website</small>
+                </h1>
+			<a href="web-elements-examples.html"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></a>&nbsp;			
+			<a href="Home.html"><span class="glyphicon glyphicon glyphicon-home" aria-hidden="true"></span></a>
+            </div>
+            <blockquote>
+				<small><cite>Why do we never have time to do it right, but always have time to DO IT OVER ? </cite></small>
+            </blockquote>
+
+            <!-- custom elements -->
+            <div class="row">
+                <div class="col-md-6">
+                    <hr/>
+                    <h2>Elements Section 1</h2>
+                    <!--------------------------------------------------->
+                    <h3>Color Box: </h3>
+                    <div id="colorbox-container">
+                        .
+                        <!-- Color buttons -->
+                        <div id="color-button-container" class="align-horizontally-container">
+                            <div id="btn-red" class="custom-btn" style="background:#e37878">Red</div>
+                            <div id="btn-green" class="custom-btn" style="background:#61cf67">Green</div>
+                            <div id="btn-blue" class="custom-btn" style="background:#6d93fc">Blue</div>
+                            <div id="btn-yellow" class="custom-btn" style="background:#ebd557">Yellow</div>
+                        </div>
+
+                        <!-- Color Panel -->
+                        <div id="color-panel-container" class="align-horizontally-container">
+                            <div id="color-panel" style=""></div>
+                        </div>
+
+                    </div>
+                    <hr/>
+
+                    <!-- Game Selector -->
+                    <h3>Game Select: </h3>
+                    <div id="select-game-container" class="custom-select" style="margin-left: 20px">
+                        <!--<div class="select-title-container">
+                            <div class="select-title">Select Game</div>
+                        </div>
+                        <div class="select-option-container">
+                            <div class="select-option"><span>CS:GO</span></div>
+                            <div class="select-option"><span>PUBG</span></div>
+                            <div class="select-option"><span>Battle Field</span></div>
+                            <div class="select-option"><span>Call Of Duty</span></div>
+                        </div>-->
+                    </div>
+                    <hr/>
+
+                    <!-- All Custom Element Actions -->
+                    <h3>Element Actions</h3>
+                    <div id="all-custom-element-actions">
+                        <div id="all-custom-element-action-container">
+                            <div class="custom-btn right-and-left-margin" id="all-custom-element-action-click">Click</div>
+                            <div class="custom-btn right-and-left-margin" id="all-custom-element-action-dclick">Double Click</div>
+                            <div class="custom-btn right-and-left-margin" id="all-custom-element-action-rclick">Right Click</div>
+                            <select id="all-custom-element-action-select" class="right-and-left-margin">
+                                <option value="0">Select a value</option>
+                                <option value="1">Value 1</option>
+                                <option value="2">Value 2</option>
+                                <option value="3">Value 3</option>
+                                <option value="4">Value 4</option>
+                            </select>
+                        </div>
+
+                        <div id="all-custom-element-actions-message-box"></div>
+                    </div>
+                    <hr/>
+                </div>
+            </div>
+
+            <!-- dynamic attribute elements -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Elements Section 2</h2>
+                    <h3>Users Management</h3>
+                    <div class="align-column-items-center" id="users-container"></div>
+                    <hr/>
+                </div>
+            </div>
+
+            <!-- title strategy -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Elements Section 3</h2>
+                    <h3>Tabs</h3>
+                    <div id="employee-details-tab">
+                        <div class="tab-menu">
+                            <div class="custom-tab" id="tab1"><span>Tab 1</span></div>
+                            <div class="custom-tab" id="tab2"><span>Tab 2</span></div>
+                            <div class="custom-tab" id="tab3"><span>Tab 3</span></div>
+                        </div>
+                        <div class="tab-body" style="padding: 40px">
+                            <div class="simple-field">
+                                <label class="field-label">Employee Number</label>
+                                <input type="text" class="field-input" id="employee_number">
+                            </div>
+                            <div id="btn-submit-employee" class="custom-btn"
+                                 style="background:#969696; margin: 20px;">Submit
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                </div>
+            </div>
+
+            <!-- naming priority -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Elements Section 4</h2>
+                    <h3>Application Details</h3>
+                    <div id="application-details-container">
+
+                        <div class="align-column-items-center">
+                            <div class="simple-row">
+                                <div class="simple-field">
+                                    <label class="field-label">Application Name</label>
+                                    <input type="text" class="field-input" automation-id="application-name-aid"
+                                           id="application-name-id" name="automation-id-name"
+                                           title="automation-id-title">
+                                </div>
+                            </div>
+                            <div class="simple-row">
+                                <div class="simple-field">
+                                    <label class="field-label">Version</label>
+                                    <input type="text" class="field-input" id="version-id" name="version-name"
+                                           title="version-title">
+                                </div>
+                            </div>
+                            <div class="simple-row">
+                                <div class="simple-field">
+                                    <label class="field-label">Owner</label>
+                                    <input type="text" class="field-input" name="owner-name" title="owner-title">
+                                </div>
+                            </div>
+
+                            <div class="simple-row">
+                                <div class="simple-field">
+                                    <label class="field-label">Company</label>
+                                    <input type="text" class="field-input" title="company-title">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script src="scripts/pcg-test-page.js"></script>
+
+</body>
+</html>

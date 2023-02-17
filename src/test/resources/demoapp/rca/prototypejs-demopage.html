@@ -1,0 +1,106 @@
+<html>
+    <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
+<script src="https://ajax.googleapis.com/ajax/libs/prototype/1.6.1/prototype.js" type="text/javascript"></script>
+<script>
+function popup() {
+newwindow=window.open('popup.html','popup window', 'height=350,width=500,left=380,top=200,titlebar=no,toolbar=no,menubar=no,location=no,directories=no,status=no');
+if (window.focus) {newwindow.focus()}
+return false;
+}
+</script>
+    <title>Prototypejs-demopage</title>
+		
+    </head>
+    <body>
+	<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+			<div class="col-md-12">
+				<h2>Web Elements</h2>
+			</div>
+				<div class="col-md-6">
+				<div class="well">
+				  <form>
+					<div class="form-group">
+
+						<label >Button : </label></br>
+						<button type="button" name="clickMeButton" class="btn btn-default" id="submit" onclick="alert('clickMeButton')" >Click Me</button></br>
+						<label >Text : </label></br>
+						<input type="text" name="enterText" class="form-control" id="email" placeholder="Enter Text"></br>
+						<label for="password">Password:</label>
+					  <input type="password" class="form-control" id="password" placeholder="Enter password">
+					<div class="form-group">
+					  <label for="dropdown">Combo : </label>
+					  <select class="form-control" id="dropdown"> 
+						<option value="volvo">Volvo XC90</option>
+						<option value="saab">Saab 95</option>
+						<option value="mercedes">Mercedes SLK</option>
+						<option value="audi">Audi TT</option>
+					  </select>
+					</div>
+					<label for="comment">Text Area:</label>
+					  <textarea class="form-control" rows="5" id="comment" ondblclick="document.getElementById('comment2').value = 'Hello'"></textarea></br>
+
+					</div>
+
+				  </form>
+				  </div>
+				</div>
+				
+				<div class="col-md-6 well">
+				<div class="col-md-4">				
+				<form>
+					<label >CheckBox:</label>
+					   <div class="checkbox">
+						  <label><input type="checkbox" value="" id="opt1">Option 1</label>
+						</div>
+						<div class="checkbox">
+						  <label><input type="checkbox" value="" id="opt2">Option 2</label>
+						</div>
+						<div class="checkbox disabled">
+						  <label><input type="checkbox" value="" disabled id="opt3">Option 3 (disabled)</label>
+						</div>
+					<label >Radio: </label>
+					 <div class="radio">
+					  <label><input type="radio" name="optradio">Option 1</label>
+					</div>
+					<div class="radio">
+					  <label><input type="radio" name="optradio">Option 2</label>
+					</div>
+					<div class="radio disabled">
+					  <label><input type="radio" name="optradio" disabled>Option 3</label>
+					</div>
+					<label for="double-click-text-1">Text(Double Click):</label>
+					<input type="text" name="enterText" class="form-control" id="double-click-text-1" ondblclick="document.getElementById('double-click-text-1').value = 'Hi Web !'" placeholder="Double Click"></br>
+					<label >Link:</label></br>
+					<a href="#" onclick="alert('Web Link 1')" >Web</a></br></br>
+					<div id='divRightClick1' oncontextmenu="alert('You right-clicked inside the div - 1');">
+					<p style="border:3px; border-style:solid; border-color:#FF0000; padding: 1em;">Right-click on me!</p>
+					</div>
+					</form>
+					</div>
+					<div class="col-md-6">
+						<label id='label_text'>This is a text inside label</label>
+						<div id='div_text'>This is a text inside div</div>
+						<span id='span_text'>This is a text inside span</span>
+						
+						<label id='label_text_hidden' style="visibility:hidden">This is a hidden text inside label</label>
+						<div id='div_text_hidden' style="visibility:hidden">This is a hidden text inside div</div>
+						<span id='span_text_hidden' style="visibility:hidden">This is a hidden text inside span</span>						
+					</div>
+				</div>
+				</div>	
+			</div>
+		</div>
+		
+			<div class="row">
+
+			</div>
+
+
+</body>
+</html>

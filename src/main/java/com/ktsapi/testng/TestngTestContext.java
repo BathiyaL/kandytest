@@ -55,6 +55,9 @@ public class TestngTestContext implements TestContext{
 	long scriptTimeout;
 	long pageLoadTimeout;
 	
+	String mobileApp;
+	String mobileDeviceName;
+	
 	TestConfigurationContext testConfigurationContext ;
 	
 	@Override
@@ -101,6 +104,12 @@ public class TestngTestContext implements TestContext{
 		scriptTimeout=Long.parseLong(getValueOfStandardParameter(TestSuiteParameters.SCRIPT_TIMEOUT, testPlan,testConfig));
 		pageLoadTimeout=Long.parseLong(getValueOfStandardParameter(TestSuiteParameters.PAGE_LOAD_TIMEOUT, testPlan,testConfig));
 		
+		// Mobile parameters
+		// TODO : currently not decided to add mobile configs to suite level parameters
+		mobileApp = testConfig.mobileApp();
+		mobileDeviceName= testConfig.mobileDeviceName();
+		
+				
 		testConfigurationContext = new TestConfigurationContext();
 		testConfigurationContext.setBaseUrl(baseUrl);		
 		testConfigurationContext.setBrowser(browser);
@@ -113,8 +122,12 @@ public class TestngTestContext implements TestContext{
 		testConfigurationContext.setImplicitlyWaitTime(implicitlyWaitTime);
 		testConfigurationContext.setScriptTimeout(scriptTimeout);
 		testConfigurationContext.setPageLoadTimeout(pageLoadTimeout);
+		
+		testConfigurationContext.setMobileApp(mobileApp);
+		testConfigurationContext.setMobileDeviceName(mobileDeviceName);
 	}
 	
+	// if suite levle parameter is undefined get from test config
 	private String getValueOfStandardParameter(String parameter,Testplan testPlan , TestConfiguration testConfig) {
 		
 		String suiteLevelParameterValue=null;

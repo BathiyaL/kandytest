@@ -13,6 +13,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.dto.Testplan;
+import com.ktsapi.mobiledrivers.AndroidDriverManager;
+
+import io.appium.java_client.android.AndroidDriver;
 
 public class TestInitializr {
 	
@@ -27,6 +30,7 @@ public class TestInitializr {
 	public static final String TEST_UUID = "_test.uuid";
 	public static final String TEST_EXECUTED_BY = "_test.executed.by";
 	public static final String WEB_DRIVER = "_web.driver";
+	public static final String MOBILE_DRIVER = "_mobile.driver";
 	public static final String RUNNING_BROWSER_VERSION = "_running.browser.version";
 	public static final String WEB_DRIVER_IN_USE = "_web.driver.in.use"; 
 	public static final String TEST_LOG = "__test.logger"; //logger for the test life cycle
@@ -184,6 +188,19 @@ public class TestInitializr {
     	}
 
     	return webDriver;
+    }
+    
+    public static AndroidDriver getMobileDriver() {
+    	AndroidDriver mobileDriver = get(MOBILE_DRIVER);
+    	if(mobileDriver==null) {
+    		mobileDriver =  TestDriverProvider.getMobileDriver();
+    		setMobileDriver(mobileDriver);
+    		return getMobileDriver();
+    	}
+    	return mobileDriver;
+    }
+    private static void setMobileDriver(AndroidDriver mobileDriver) {
+    	set(MOBILE_DRIVER,mobileDriver);
     }
     
     private static void setParentWindowHandle(String windowHandle) {

@@ -5,5 +5,6 @@ public enum TestDriver {
 	DESKTOP,
 	IMAGE,
 	AVTOMAT,
+	MOBILE_ANDROID,
 	UNDEFINED
 }
