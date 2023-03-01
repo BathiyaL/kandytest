@@ -143,10 +143,7 @@
 					<suiteXmlFiles>
 						<suiteXmlFile>src/test/java/com/katf/plans/IntegrationTestSuite.xml</suiteXmlFile>
 					</suiteXmlFiles>
-					<systemPropertyVariables>
-						<propertyName>${browser}</propertyName>
-						<propertyName>${baseURL}</propertyName>
-					</systemPropertyVariables>
+					<argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine> <!-- this is due top bug https://github.com/appium/java-client/issues/1619-->
 				</configuration>
 			</plugin>
 

@@ -8,7 +8,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.enums.TestDriver;
 import com.ktsapi.exceptions.FailedToSetupTestDriverException;
-import com.ktsapi.mobiledrivers.AndroidDriverManager;
+import com.ktsapi.mobile.AndroidDriverManager;
 
 import io.appium.java_client.android.AndroidDriver;
 

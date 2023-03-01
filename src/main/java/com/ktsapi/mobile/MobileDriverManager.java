@@ -1,4 +1,4 @@
-package com.ktsapi.mobiledrivers;
+package com.ktsapi.mobile;
 
 import org.openqa.selenium.WebDriver;
 

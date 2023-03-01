@@ -1,8 +1,7 @@
 package com.ktsapi;
 
-import org.openqa.selenium.WebDriver;
-
-import com.ktsapi.actions.KandyTestMobileDriverActions;
+import com.ktsapi.mobile.KAndroidPageFactory;
+import com.ktsapi.mobile.actions.KandyTestMobileDriverActions;
 
 import io.appium.java_client.android.AndroidDriver;
 
@@ -20,4 +19,13 @@ public class MobileActions {
 		return ABotActonsHandler.mobileDriverActionsInstance();
 	}
 	
+	public static <C> C getAndroidPage(Class<C> page) {
+		return (C) KAndroidPageFactory.getWebPage(page);
+	}
+
+	// AndroidDriverActions 
+	
+	public static void hideKeyboard() {
+		newInstance().hideKeyboard();
+	}
 }

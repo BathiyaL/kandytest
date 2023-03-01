@@ -1,17 +1,10 @@
-package com.ktsapi.mobiledrivers;
+package com.ktsapi.mobile;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-
-import com.google.common.collect.ImmutableMap;
 import com.ktsapi.core.TestInitializr;
 
 import io.appium.java_client.android.AndroidDriver;

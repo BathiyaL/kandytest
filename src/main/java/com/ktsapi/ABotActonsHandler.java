@@ -6,12 +6,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import com.ktsapi.actions.CommonDriverAction;
-import com.ktsapi.actions.KandyTestMobileDriverActions;
 import com.ktsapi.actions.KandyTestWebDriverActions;
 import com.ktsapi.actions.core.CommonDriverActionImpl;
-import com.ktsapi.actions.core.KandyTestMobileDriverActionsImpl;
 import com.ktsapi.actions.core.KandyTestWebDriverActionsImpl;
 import com.ktsapi.exceptions.ActionsHandlerException;
+import com.ktsapi.mobile.actions.KandyTestMobileDriverActions;
+import com.ktsapi.mobile.actions.KandyTestMobileDriverActionsImpl;
 
 public class ABotActonsHandler implements InvocationHandler {
 	private Object realObject;

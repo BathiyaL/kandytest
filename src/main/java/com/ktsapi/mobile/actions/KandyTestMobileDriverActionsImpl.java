@@ -1,8 +1,5 @@
-package com.ktsapi.actions.core;
+package com.ktsapi.mobile.actions;
 
-import org.openqa.selenium.WebDriver;
-
-import com.ktsapi.actions.KandyTestMobileDriverActions;
 import com.ktsapi.core.TestInitializr;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -15,7 +12,10 @@ public class KandyTestMobileDriverActionsImpl implements KandyTestMobileDriverAc
 	@Override
 	public void OpenMobileApp() {
 		mobileDriver();
-		
+	}
+	@Override
+	public void hideKeyboard() {
+		mobileDriver().hideKeyboard();		
 	}
 
 }

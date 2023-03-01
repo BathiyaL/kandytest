@@ -2,7 +2,8 @@ package com.ktsapi.enums;
 
 public enum ABotElement {
 	
-	EnhancedWebElement("com.ktsapi.elements.impl.EnhancedWebElementImpl");
+	EnhancedWebElement("com.ktsapi.elements.impl.EnhancedWebElementImpl"),
+	EnhancedMobileElement("com.ktsapi.mobile.EnhancedMobileElementImpl");
 	
 	private String elementImpl;
 	

@@ -20,13 +20,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import com.ktsapi.actions.core.KandyTestWebDriverActionsImpl;
 import com.ktsapi.dto.TestPlanRequest;
 import com.ktsapi.dto.TestResultRequest;
 import com.ktsapi.dto.Testplan;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ktsapi.actions.core.KandyTestWebDriverActionsImpl;
 
 public class Test {
 	public static void main(String[] args) throws URISyntaxException {
