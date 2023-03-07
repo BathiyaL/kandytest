@@ -1,16 +1,18 @@
 package com.ktsapi.mobile;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import com.ktsapi.core.TestInitializr;
+import com.ktsapi.exceptions.ConfigFileNotFoundException;
+import com.ktsapi.utils.AvtomatUtils;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 
 public class AndroidDriverManager implements MobileDriverManager{
 
@@ -20,34 +22,58 @@ public class AndroidDriverManager implements MobileDriverManager{
 		AppiumDriverLocalService service;
 		AndroidDriver driver;
 		UiAutomator2Options options;
+		AndriodDriverManagerObject admObj;
+		try {
+			admObj = AvtomatUtils.getAndriodDriverManagerObject();
+		} catch (Exception e1) {
+			throw new ConfigFileNotFoundException(e1.getMessage());
+		}
 		
-		System.out.println("Configurating Appium .......");
+		System.out.println("Configuring Appium .......");
 		
-		// starting appium server as a service from program instead explicitly starting
-		
+		launcEmulatorOnWindows(admObj);
+
+		System.out.println("Starting Appium server.......");
 		service = new AppiumServiceBuilder()
-				.withAppiumJS(new File("C:\\Users\\stz\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
-				.withIPAddress("127.0.0.1")
-				.usingPort(4723)
+				.withAppiumJS(admObj.getAppiumJS()) //"C:\\Users\\stz\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"
+				.usingDriverExecutable (admObj.getNodeJSExecutable())
+				.withIPAddress(admObj.ipAddress)
+				.usingPort(admObj.getPort())
+				.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
 				.build();
 		service.start();
 
 		options = new UiAutomator2Options();
 		options.setDeviceName(TestInitializr.getTestConfiguration().getMobileDeviceName());
-		options.setChromedriverExecutable("D:\\BTS\\devdesk\\workspaces\\appium-automation-demo\\appium-automation-demo\\src\\test\\java\\resources\\chromedriver_241.exe");
-		//options.setApp("D:\\BTS\\devdesk\\workspaces\\appium-automation-demo\\appium-automation-demo\\src\\test\\java\\resources\\ApiDemos-debug.apk");
-		options.setApp("D:\\BTS\\devdesk\\workspaces\\appium-automation-demo\\appium-automation-demo\\src\\test\\java\\resources\\" + TestInitializr.getTestConfiguration().getMobileApp());
+		options.setChromedriverExecutable(admObj.getMobileChromeDriverPath().toString());
+		options.setApp(admObj.getMobileAppsPath().resolve(TestInitializr.getTestConfiguration().getMobileApp()).toString());
 		
+		driver = new AndroidDriver(admObj.getAppiumServerRemoteAddress(), options);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		return driver;
+
+	}
+	
+	private void launcEmulatorOnWindows(AndriodDriverManagerObject admObj) {		
+		String emulatorPath = admObj.getEmulatorEXEPath().toString() + File.separator + "emulator";
+		String nameOfAVD = TestInitializr.getTestConfiguration().getMobileDeviceName(); // "Pixel_2_XL_API_33";
+		System.out.println("Launching emulator '" + nameOfAVD + "' ...");
+		
+		String[] aCommand = new String[] { emulatorPath, "-avd",
+				TestInitializr.getTestConfiguration().getMobileDeviceName() };
 		try {
-			driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
-			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-			return driver;
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Process process = new ProcessBuilder(aCommand).start();
+			boolean status = process.waitFor(admObj.emulatorStartingWaitTimeInSeconds, TimeUnit.SECONDS);
+			if (status) {
+				System.out.println(
+						"Failed to launch emulator " + nameOfAVD + " programmatically. It might already launched");
+			} else {
+				System.out.println("Emulator " + nameOfAVD + " launch successfully.");
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error ouccer while launching the emulator " + nameOfAVD + " -> " + e.getMessage());
 		}
-		return null; 
-		
 	}
 
 }

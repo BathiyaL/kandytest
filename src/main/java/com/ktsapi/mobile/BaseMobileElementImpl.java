@@ -40,6 +40,13 @@ public class BaseMobileElementImpl implements BaseMobileElement{
 	public EnhancedMobileElementLocator getEnhancedMobileElementLocator() {
 		return enhancedMobileElementLocator;
 	}
+	
+	public String getLocatoreString() {
+		return getByLocator().toString().split(":")[1].trim();
+	}
+	public String getLocatoreStrategy() {
+		return getByLocator().toString().split(":")[0].trim();
+	}
 
 	
 

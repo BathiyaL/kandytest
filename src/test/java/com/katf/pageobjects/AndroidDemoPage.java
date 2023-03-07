@@ -50,7 +50,7 @@ public class AndroidDemoPage extends KandyAndroidPageObject<AndroidDemoPage> {
 	public EnhancedMobileElement letsShop;
 	
 	//@AndroidFindBy(uiAutomator = "new UiScrollable(new UiSelector()).scrollIntoView(text(\"%s\"));")
-	@AndroidFindBy(uiAutomator = "new UiScrollable(new UiSelector()).scrollIntoView(text(\"\"));")
+	@AndroidFindBy(uiAutomator = "new UiScrollable(new UiSelector()).scrollIntoView(text(\"%s\"));")
 	public EnhancedMobileElement dynamicProduct;
 	
 	

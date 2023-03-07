@@ -17,4 +17,19 @@ public class Const {
 	
 	// db properties
 	public static final String DB_FILE_NAME = "kandy.db";
+	
+	// config file properties
+	public static final String RESOURCE_FOLDER_LOCATION = "src/java/resources/";
+	public static final String TEST_API_CONFIG_FOLDER_NAME = "config";
+	public static final String TEST_API_CONFIG_PROPERTY_FILE_NAME = "ktestconfig.properties";
+	
+	// ktestconfig.properties keys
+	public static final String ktestconfig_AppiumJSPath = "AppiumJSPath";
+	public static final String ktestconfig_NodeJSPath = "NodeJSPath";
+	public static final String ktestconfig_AppiumServerIPAddress = "AppiumServerIPAddress";
+	public static final String ktestconfig_AppiumServerIPort = "AppiumServerIPort";
+	public static final String ktestconfig_MobileAppsPath = "MobileAppsPath";
+	public static final String ktestconfig_MobileChromeDriverPath = "MobileChromeDriverPath";
+	public static final String ktestconfig_EmulatorEXEPath = "EmulatorEXEPath";
+	public static final String ktestconfig_EmulatorStartingWaitTimeInSeconds = "EmulatorStartingWaitTimeInSeconds";
 }

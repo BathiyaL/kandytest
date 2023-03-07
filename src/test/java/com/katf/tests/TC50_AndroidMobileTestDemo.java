@@ -20,7 +20,7 @@ import io.appium.java_client.AppiumBy;
 @TestConfiguration(
 		testDriver = TestDriver.MOBILE_ANDROID, // Mandatory
 		mobileApp = "General-Store.apk",
-		mobileDeviceName = "pixel_2_xl",
+		mobileDeviceName = "Pixel_2_XL_API_33",//"pixel_2_xl",
 		browser=Browsers.CHROME
 )
 public class TC50_AndroidMobileTestDemo {
@@ -44,7 +44,10 @@ public class TC50_AndroidMobileTestDemo {
 		
 		AndroidDemoPage page = getAndroidPage(AndroidDemoPage.class);
 		print(">>>>>>>>>>>>>>>>>>>>>>>>" + page.name.getByLocator());
-		page.name.type("Don Bat");
+		//page.name.type("Don Bat");
+		//page.name.type("Don Bat", "AAA");
+		page.name.type("A", "B","C");
+		page.name.typeWithLocatorParms("x", "y","z");
 		hideKeyboard();
 		page.genderFemale.click();
 		page.countryDropdown.click();
@@ -53,7 +56,7 @@ public class TC50_AndroidMobileTestDemo {
 		page.argentina.click(); // we have used uiautomator selector with scrollIntoView, hence this will scroll to the element and click
 		
 		page.letsShop.click();
-		page.dynamicProduct.click(PRODUCT_NAME); // parameterized element locator,
+		page.dynamicProduct.click(PRODUCT_NAME);
 		
 		//mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\""+PRODUCT_NAME+"\"));"));
 		
@@ -69,7 +72,7 @@ public class TC50_AndroidMobileTestDemo {
 		//mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\""+PRODUCT_NAME+"\"));"));
 		//print("Test Pass"); 
 //
-//		By by = AppiumBy.id("");
+//		By by = AppiumBy.id(""); 
 //		AndroidFindBy
 		
 		
