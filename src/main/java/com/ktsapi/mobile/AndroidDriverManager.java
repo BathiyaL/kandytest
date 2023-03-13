@@ -4,7 +4,10 @@ import java.io.File;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import org.json.simple.JSONObject;
+
 import com.ktsapi.core.TestInitializr;
+import com.ktsapi.exceptions.AndriodDriverManagerException;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
 import com.ktsapi.utils.AvtomatUtils;
 
@@ -13,6 +16,7 @@ import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
+
 
 public class AndroidDriverManager implements MobileDriverManager{
 
@@ -47,9 +51,23 @@ public class AndroidDriverManager implements MobileDriverManager{
 		options.setDeviceName(TestInitializr.getTestConfiguration().getMobileDeviceName());
 		options.setChromedriverExecutable(admObj.getMobileChromeDriverPath().toString());
 		options.setApp(admObj.getMobileAppsPath().resolve(TestInitializr.getTestConfiguration().getMobileApp()).toString());
+
+		JSONObject jObj2;
+		try {
+			jObj2 = AvtomatUtils.getMobileCapabilitiesFile();
+			for(Object key : jObj2.keySet()) {
+				Object valueObj = jObj2.get(key);
+				options.setCapability(String.valueOf(key).trim(), valueObj);
+			}
+		} catch (AndriodDriverManagerException e) {
+			throw new AndriodDriverManagerException("Error occur whild fetching mobile capabilities json file -> " + e.getMessage());
+		} catch (Exception e) {
+			throw new AndriodDriverManagerException("Error occur whild setting mobile capabilities -> " + e.getMessage());
+		}
 		
 		driver = new AndroidDriver(admObj.getAppiumServerRemoteAddress(), options);
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
 		return driver;
 
 	}

@@ -20,8 +20,15 @@ public class TestConfigurationContext {
 	// Mobile configurations
 	String mobileApp;
 	String mobileDeviceName;
+	String mobileCapabilitiesFileName;
 	
 	
+	public String getMobileCapabilitiesFileName() {
+		return mobileCapabilitiesFileName;
+	}
+	public void setMobileCapabilitiesFileName(String mobileCapabilitiesFileName) {
+		this.mobileCapabilitiesFileName = mobileCapabilitiesFileName;
+	}
 	public void setBrowser(Browsers browser)
 	{
 		this.browser = browser;

@@ -57,6 +57,7 @@ public class TestngTestContext implements TestContext{
 	
 	String mobileApp;
 	String mobileDeviceName;
+	String mobileCapabilitiesFileName;
 	
 	TestConfigurationContext testConfigurationContext ;
 	
@@ -108,6 +109,7 @@ public class TestngTestContext implements TestContext{
 		// TODO : currently not decided to add mobile configs to suite level parameters
 		mobileApp = testConfig.mobileApp();
 		mobileDeviceName= testConfig.mobileDeviceName();
+		mobileCapabilitiesFileName = testConfig.mobileCapabilitiesFileName();
 		
 				
 		testConfigurationContext = new TestConfigurationContext();
@@ -125,6 +127,7 @@ public class TestngTestContext implements TestContext{
 		
 		testConfigurationContext.setMobileApp(mobileApp);
 		testConfigurationContext.setMobileDeviceName(mobileDeviceName);
+		testConfigurationContext.setMobileCapabilitiesFileName(mobileCapabilitiesFileName);
 	}
 	
 	// if suite levle parameter is undefined get from test config

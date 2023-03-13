@@ -32,4 +32,5 @@ public @interface TestConfiguration {
 	// mobile configruations
 	String mobileApp() default MobileDriverDefaults.UNDEFINED;
 	String mobileDeviceName() default MobileDriverDefaults.UNDEFINED;
+	String mobileCapabilitiesFileName() default MobileDriverDefaults.UNDEFINED;
 }

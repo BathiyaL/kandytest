@@ -14,13 +14,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import com.ktsapi.core.Const;
+import com.ktsapi.core.TestInitializr;
 import com.ktsapi.exceptions.AndriodDriverManagerException;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
 import com.ktsapi.mobile.AndriodDriverManagerObject;
-import com.ktsapi.mobile.AndroidDriverManager;
-import com.ktsapi.mobile.AppiumServiceBuilderObject;
-import com.ktsapi.webdrivers.KandyWebDriverManager;
 public class AvtomatUtils {
 	
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
@@ -94,4 +95,15 @@ public class AvtomatUtils {
 		
 		return admObje;
 	}
+	
+	public static JSONObject getMobileCapabilitiesFile() throws Exception {
+		JSONParser parser = new JSONParser();
+        try (FileReader reader = new FileReader(getConfigFolderPath().resolve(Const.TEST_API_CONFIG_MOBILE_FOLDER_NAME).resolve(TestInitializr.getTestConfiguration().getMobileCapabilitiesFileName()).toString())) {
+            Object obj = parser.parse(reader);
+            return (JSONObject) obj;
+        } catch (Exception e) {
+        	throw new AndriodDriverManagerException("Error occur whild fetching mobile capabilities json file -> " + e.getMessage());
+        }
+	}
+
 }

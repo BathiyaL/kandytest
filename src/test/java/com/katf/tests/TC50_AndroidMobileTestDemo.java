@@ -61,12 +61,12 @@ public class TC50_AndroidMobileTestDemo {
 		//mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\""+PRODUCT_NAME+"\"));"));
 		
 		
-		//mobileDriver().findElement(By.id("com.androidsample.generalstore:id/nameField")).sendKeys("Don Bat")
-		//mobileDriver().hideKeyboard();
-		//mobileDriver().findElement(By.xpath("//android.widget.RadioButton[@text='Female']")).click();
-		//mobileDriver().findElement(By.id("android:id/text1")).click();
-		//mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));"));
-		//mobileDriver().findElement(By.xpath("//android.widget.TextView[@text='Argentina']")).click();
+//		mobileDriver().findElement(By.id("com.androidsample.generalstore:id/nameField")).sendKeys("Don Bat");
+//		mobileDriver().hideKeyboard();
+//		mobileDriver().findElement(By.xpath("//android.widget.RadioButton[@text='Female']")).click();
+//		mobileDriver().findElement(By.id("android:id/text1")).click();
+//		mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));"));
+//		mobileDriver().findElement(By.xpath("//android.widget.TextView[@text='Argentina']")).click();
 		
 		//mobileDriver().findElement(By.id("com.androidsample.generalstore:id/btnLetsShop")).click();
 		//mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\""+PRODUCT_NAME+"\"));"));

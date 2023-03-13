@@ -21,6 +21,7 @@ public class Const {
 	// config file properties
 	public static final String RESOURCE_FOLDER_LOCATION = "src/java/resources/";
 	public static final String TEST_API_CONFIG_FOLDER_NAME = "config";
+	public static final String TEST_API_CONFIG_MOBILE_FOLDER_NAME = "mobile";
 	public static final String TEST_API_CONFIG_PROPERTY_FILE_NAME = "ktestconfig.properties";
 	
 	// ktestconfig.properties keys
