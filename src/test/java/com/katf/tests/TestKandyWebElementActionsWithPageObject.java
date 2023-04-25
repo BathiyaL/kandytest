@@ -1,6 +1,6 @@
 package com.katf.tests;
 
-import static com.ktsapi.CommonActions.print;
+import static com.ktsapi.CommonActions.*;
 import static com.ktsapi.WebActons.GetTitle;
 import static com.ktsapi.WebActons.GoTo;
 import static com.ktsapi.WebActons.OpenBrowser;
@@ -29,6 +29,7 @@ public class TestKandyWebElementActionsWithPageObject {
 	@BeforeTest
 	public void goSite() {	 	 
 	      OpenBrowser();	      
+	      //GoTo("https://stackoverflow.com/");
 	      File path =  new File("src/test/resources/demoapp/web-elements-page-4.html");
 	      GoTo("file:///"+path.getAbsolutePath());
 	      print(GetTitle());
@@ -40,9 +41,9 @@ public class TestKandyWebElementActionsWithPageObject {
 		String typeValue = "Test All The Things";
 		WebElementPage4Page page = getWebPage(WebElementPage4Page.class);
 
-//		page.name.type("Test All The Things");
-//		print(page.name.getAttribute("value")); // TOODO : get action getValue()
-//		Assert.assertEquals(page.name.getAttribute("value"), typeValue,"Type action fail");
+		page.name.type("Test All The Things");
+		print(page.name.getAttribute("value")); // TOODO : get action getValue()
+		Assert.assertEquals(page.name.getAttribute("value"), typeValue,"Type action fail");
 //
 //		page.button.click();
 //		Assert.assertEquals(page.lbltipAddedComment.getText(), "you just clicked me!","Button click action Fail");
@@ -90,7 +91,7 @@ public class TestKandyWebElementActionsWithPageObject {
 //		GoTo("C:/Users/stz/Downloads/js-sortable-list/sort-list.html");
 //		pause(5);
 //		page.source.dragAndDropTo(page.destination);
-//		pause(5);
+		pause(5);
 		
 	}
 

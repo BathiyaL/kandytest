@@ -125,6 +125,12 @@
 		    <scope>test</scope>
 		</dependency>
 
+	<!-- mac ox need this with system property -->
+	<dependency>
+	    <groupId>org.seleniumhq.selenium</groupId>
+	    <artifactId>selenium-http-jdk-client</artifactId>
+	    <version>4.5.0</version>
+	</dependency>
 
 	</dependencies>
 

@@ -16,6 +16,7 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.ktsapi.contexts.WebDriverDefaults;
 import com.ktsapi.core.Const;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.enums.Browsers;
@@ -92,11 +93,18 @@ public abstract class KandyWebDriverManager implements WebDriverManager{
 	
 	String getOS() {
 		// TODO chekc for other os and return
+		String runningOS = System.getProperty("os.name");
+		if (runningOS.startsWith("Mac")) { // move this to config file or enum
+			return "mac";
+		}
 		return "win";
 	}
-	int getBitSystem() {
-		// TODO check bit system from the machine
-		return 32;
+	String getBitSystem() {
+		// TODO check bit system from the machine, for now mac 64 not handled
+		if(getOS().equals("mac")) {
+			return "arm64";
+		}
+		return "32";
 	}
 	
 	String getWebDriverPathOf(Browsers browser) throws UnsupportedEncodingException{

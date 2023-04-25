@@ -58,7 +58,16 @@ public class ChromeDriverManager extends KandyWebDriverManager{
 			e.printStackTrace();
 		}
 		
-		File file =  new File(chromeDriverPath,WebDriverDefaults.BUILT_IN_CHROME_DRIVER_FILE_NAME);
+		File file = null;
+		//String runningOS = System.getProperty("os.name");
+		if (getOS().startsWith("mac")) { // move this to config file or enum
+			file =  new File(chromeDriverPath,WebDriverDefaults.BUILT_IN_CHROME_DRIVER_FILE_NAME_MAC);
+			System.setProperty("webdriver.http.factory", "jdk-http-client");
+		} else {  // TODO : if needed handle win and other os types
+			file =  new File(chromeDriverPath,WebDriverDefaults.BUILT_IN_CHROME_DRIVER_FILE_NAME_WIN);
+
+		}
+
 		System.setProperty("webdriver.chrome.driver",file.getPath());
 	}
 	private ChromeOptions getChromeOptions() {	
@@ -82,6 +91,9 @@ public class ChromeDriverManager extends KandyWebDriverManager{
 		options.addArguments("--no-sandbox");
 		options.addArguments("--disable-dev-shm-usage");
 		options.addArguments("--headless");
+		
+		//options.addArguments("--remote-allow-origins=*");
+		
 		return options;
 	}
 	

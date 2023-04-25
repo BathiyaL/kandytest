@@ -17,6 +17,7 @@ gradle-app.setting
 *.idea
 *.test-output
 **/test-output
+*.DS_Store
 
 ### Gradle ###
 .gradle

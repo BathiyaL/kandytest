@@ -9,7 +9,8 @@ public class WebDriverDefaults {
 	//public static final String[] CHROME_OPTIONS = {"--start-maximized","--ignore-certificate-errors"};
 	public static final String UNDEFINED = "UNDEFINED";
 	public static final String BUILT_IN_BROWSER_VERSION = "UNDEFINED";
-	public static final String BUILT_IN_CHROME_DRIVER_FILE_NAME =  "chromedriver.exe";
+	public static final String BUILT_IN_CHROME_DRIVER_FILE_NAME_WIN =  "chromedriver.exe";
+	public static final String BUILT_IN_CHROME_DRIVER_FILE_NAME_MAC =  "chromedriver";
 	public static final String BUILT_IN_FIREFOX_DRIVER_FILE_NAME =  "geckodriver.exe";
 	public static final List<String> CHROME_OPTIONS = ImmutableList.<String>builder()
 			.add("--start-maximized")
