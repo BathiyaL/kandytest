@@ -11,10 +11,6 @@ import org.apache.http.client.ClientProtocolException;
 //import org.apache.log4j.PropertyConfigurator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.config.properties.PropertiesConfiguration;
-
-import com.ktsapi.dto.TestPlanRequest;
-import com.ktsapi.dto.Testplan;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
 import org.testng.ITestNGMethod;
@@ -22,6 +18,8 @@ import org.testng.ITestNGMethod;
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.contexts.TestSuiteParameters;
 import com.ktsapi.core.TestInitializr;
+import com.ktsapi.dto.TestPlanRequest;
+import com.ktsapi.dto.Testplan;
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.ExecutionMode;
 import com.ktsapi.enums.TestDriver;
@@ -38,7 +36,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	private String kandyTestPlanID;
 	private String kandyTestPlanAutmatedRunID;
 	boolean isDryRun = false; // TODO :: This need to fetch from config
-	private String applicationId = "d5b0cef8-396d-11eb-adc1-0242ac120002"; // this need to get from Kandy client
+	private String applicationId = "d5b0cef8-396d-11eb-adc1-0242ac120002"; // this need to get from Kandy client and place in the config file
 	private Long workspaceId = 101L;
 
 	 public void setTestCount(int testCount){
@@ -52,9 +50,6 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	@Override
 	public void onStart(ISuite suite) {
 
-		//startTime = System.currentTimeMillis();
-		 
-		 
 		 testMethods  = suite.getAllMethods();
 	     this.testCount = testMethods.size();
 	     
@@ -80,8 +75,6 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	     testPlan.setExecutedBy(AvtomatUtils.getWindowsLoggedInUser());
 	     testPlan.setTotalTestsInTEPXml(this.testCount);
 	     
-	     //testPlan.setParm_baseUrl(suite.getXmlSuite().getParameter(TestSuiteParameters.BASE_URL));
-	     
 	     testPlan.setParm_sutVersionNumber(validateNumericParameterValueOf(TestSuiteParameters.SUT_VERSION_NUMBER,suite));
 	     testPlan.setParm_implicitlyWaitTime(validateNumericParameterValueOf(TestSuiteParameters.IMPLICITLY_WAIT_TIME,suite));
 	     testPlan.setParm_scriptTimeout(validateNumericParameterValueOf(TestSuiteParameters.SCRIPT_TIMEOUT,suite));
@@ -94,12 +87,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	     
 	     testPlan.setTestPlanRunId(validateNumericParameterValueOf(TestSuiteParameters.TEST_PLAN_RUN_ID,suite));
 	     testPlan.setTestPlanTemplateId(validateNumericParameterValueOf(TestSuiteParameters.TEST_PLAN_TEMPLATE_ID,suite));
-
-//	     
-	     //Long.parseLong(suite.getXmlSuite().getParameter(TestSuiteParameters.SCRIPT_TIMEOUT));
-//	     validateNumericParameterValueOf(TestSuiteParameters.SCRIPT_TIMEOUT,suite);
 	     
-
 	     
 	     String overrideTestParameters = suite.getXmlSuite().getParameter(TestSuiteParameters.OVERRIDE_TEST_PARAMETERS);
 	     
@@ -113,19 +101,8 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	    	 }
 	    	 
 	     }
-	     
-	     //suite.;
-	     //System.out.println(">>>>>>>>>>>>>>>>>>>...  = "+ suite.getXmlSuite().getParameter("test-parm"));
 	    
 	     ConfigLogger.logInfo("@TestSuite{"+suite.getXmlSuite().getFileName()+"} is going to start...."); 
-	     
-//	     System.out.println("###baseurl = "+ suite.getXmlSuite().getParameter("baseUrl"));
-	     //@TestSuite{com.ktsapi.element.test.SampleTest_1} is completed.
-//	     System.out.println("### Test count = "+this.testCount);
-//	     System.out.println("### Executed By = "+testPlan.getExecutedBy());
-//	     System.out.println("### TEP Name = "+testPlan.getTestPlanName());
-//	     System.out.println("### TEP ID = "+testPlan.getTestPlanid());
-//	     System.out.println("### Executed On = "+ testPlan.getExecutionStartTimestamp()); 
 	        
 	     suite.setAttribute(TestInitializr.TEST_EXECUTED_BY, AvtomatUtils.getWindowsLoggedInUser());	    
 	     suite.setAttribute(TestInitializr.TEST_PLAN_UUID, AvtomatUtils.getUUID());
@@ -143,7 +120,6 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		testPlanRequest.setBaseURL(testPlan.getParm_baseUrl());
 		testPlanRequest.setTestDriver(testPlan.getTestDriver());
 		testPlanRequest.setExecutionMode(testPlan.getExecutionMode());
-		//testPlanRequest.setExecutionCompletedTimestamp("2020-12-31 23:59:59");
 		testPlanRequest.setExecutedBy(testPlan.getExecutedBy());
 		testPlanRequest.setTestSuiteFileName(testPlan.getTestSuiteFileName());
 		testPlanRequest.setApplicationId(applicationId);
@@ -153,28 +129,41 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		testPlanRequest.setTestPlanTemplateId(testPlan.getTestPlanTemplateId());
 		testPlanRequest.setTestPlanRunId(testPlan.getTestPlanRunId());
 		
+		// for TestPlan run endpoint
+		testPlanRequest.setInitiatedTimestamp(testPlanRequest.getExecutionStartTimestamp());
+		testPlanRequest.setTotalTestCount(3);
+		testPlanRequest.setPassedTestCount(0);
+		testPlanRequest.setFailedTestCount(0);
+		testPlanRequest.setFailedTestCount(0);
+		
+		
 		
 		if(!isDryRun) {
 			
 			try {
-				TestPlanRequest response=null;
+				TestPlanRequest testPlanAutomatedRunResponse=null;
 				
 				// TODO : handle use case when runid is not provided , to initiate new Run
 				// 	TODO : when run id is provided , no use of template id,
-				// Logic : if both the ids are provided we can give priority to the the run id				
+				// Logic : if both the ids are provided we can give priority to the the run id	
+
 				if(isTestPlanRunIdIsProvided(testPlan.getTestPlanRunId())) {
-					response = KandyClientApiCaller.postTestPlan(testPlanRequest);
+					testPlanAutomatedRunResponse = KandyClientApiCaller.postTestPlanAutomatedRun(testPlanRequest);
 				} else if(isTestPlanTemplateIdProvided(testPlan.getTestPlanTemplateId())) {
-					// TODO : there can be another use case that to run without TEPRunID and create a new run from script execution
+					
+					// TODO : instead for invoking two endpoints from here we can come up with single endpoint to handle from client backend
+					TestPlanRequest testPlanRunResponse = KandyClientApiCaller.postTestPlanRun(testPlanRequest);
+					testPlanRequest.setTestPlanRunId(testPlanRunResponse.getTestPlanRunId());
+ 					
 				} else {
 					ConfigLogger.logInfo("@TestSuite{ TestPlanTemplateId or TestPlanTemplateId parameters are not provided }");
 				}
 				
 				
-				if(response!=null ) {
-					if(response.getTestPlanRunId()!=null && !response.getTestPlanRunId().equals("")) {						
-						kandyTestPlanID = response.getTestPlanRunId();						
-						kandyTestPlanAutmatedRunID = response.getTestPlanAutomatedRunId();
+				if(testPlanAutomatedRunResponse!=null ) {
+					if(testPlanAutomatedRunResponse.getTestPlanRunId()!=null && !testPlanAutomatedRunResponse.getTestPlanRunId().equals("")) {						
+						kandyTestPlanID = testPlanAutomatedRunResponse.getTestPlanRunId();						
+						kandyTestPlanAutmatedRunID = testPlanAutomatedRunResponse.getTestPlanAutomatedRunId();
 						ConfigLogger.logInfo("@TestSuite{ [KandyClient] => TestAutomatedRunId-"+ kandyTestPlanAutmatedRunID +" initiated under Test Plan "+ kandyTestPlanID + "..........}");
 						suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_AUTOMATED_RUN_ID, kandyTestPlanAutmatedRunID); 
 						suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_ID, kandyTestPlanID); 

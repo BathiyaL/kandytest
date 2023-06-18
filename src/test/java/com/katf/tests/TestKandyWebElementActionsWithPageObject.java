@@ -45,43 +45,43 @@ public class TestKandyWebElementActionsWithPageObject {
 		print(page.name.getAttribute("value")); // TOODO : get action getValue()
 		Assert.assertEquals(page.name.getAttribute("value"), typeValue,"Type action fail");
 //
-//		page.button.click();
-//		Assert.assertEquals(page.lbltipAddedComment.getText(), "you just clicked me!","Button click action Fail");
-//
-//		Assert.assertEquals(page.checkbox1.isSelected(), false,"Checkbox should not be checked at this point");
-//		page.checkbox1.check();
-//		Assert.assertEquals(page.checkbox1.isSelected(), true,"Check action fail on checkbox");
-//		Assert.assertEquals(page.checkbox1.getAttribute("checked"), "true","Check action fail"); // this returns null when not checked instead false
-//
-//		Assert.assertEquals(page.radio1.isSelected(), false,"Radio button should not be checked at this point");
-//		page.radio1.check();
-//		Assert.assertEquals(page.radio1.isSelected(), true,"Check action fail on radio button");
-//		
-//		// assert ComboBox actions
-//		Assert.assertEquals(page.selectCars.toComboBox().getFirstSelectedOption().getText(), "Volvo","Default option should be Volvo");
-//		page.selectCars.toComboBox().selectByValue("saab");
-//		Assert.assertEquals(page.selectCars.toComboBox().getFirstSelectedOption().getText(), "Saab","toComboBox().selectByValue() action fail");
-//		
-//		page.selectCars.toComboBox().selectByVisibleText("Mercedes");
-//		Assert.assertEquals(page.selectCars.toComboBox().getFirstSelectedOption().getText(), "Mercedes","toComboBox().selectByVisibleText action fail");
-//		
-//		page.selectCars.toComboBox().selectByIndex(3);
-//		Assert.assertEquals(page.selectCars.toComboBox().getFirstSelectedOption().getText(), "Audi","toComboBox().selectByIndex action fail");
-//		
-//				
-//		Assert.assertEquals(page.multiSelect.toComboBox().getAllSelectedOptions().size(), 0,"Deafult multi selected values count should be 0");
-//		page.multiSelect.toComboBox().selectByIndex(0);
-//		page.multiSelect.toComboBox().selectByIndex(2);
-//		ArrayList<String> multiSelectValues = new ArrayList<>();
-//		
-//		for(WebElement elm  : page.multiSelect.toComboBox().getAllSelectedOptions()) {
-//			multiSelectValues.add(elm.getText());
-//		}
-//		Assert.assertEquals(multiSelectValues.size(), 2,"multi selected values count should be 2");
-//		assertThat(multiSelectValues).containsExactly("Java","Python").describedAs("Multi selected values are not same");
-//		
-//		page.multiSelect.toComboBox().deselectAll();
-//		Assert.assertEquals(page.multiSelect.toComboBox().getAllSelectedOptions().size(), 0,"toComboBox().deselectAll() action fail");
+		page.button.click();
+		Assert.assertEquals(page.lbltipAddedComment.getText(), "you just clicked me!","Button click action Fail");
+
+		Assert.assertEquals(page.checkbox1.isSelected(), false,"Checkbox should not be checked at this point");
+		page.checkbox1.check();
+		Assert.assertEquals(page.checkbox1.isSelected(), true,"Check action fail on checkbox");
+		Assert.assertEquals(page.checkbox1.getAttribute("checked"), "true","Check action fail"); // this returns null when not checked instead false
+
+		Assert.assertEquals(page.radio1.isSelected(), false,"Radio button should not be checked at this point");
+		page.radio1.check();
+		Assert.assertEquals(page.radio1.isSelected(), true,"Check action fail on radio button");
+		
+		// assert ComboBox actions
+		Assert.assertEquals(page.selectCars.toComboBox().getFirstSelectedOption().getText(), "Volvo","Default option should be Volvo");
+		page.selectCars.toComboBox().selectByValue("saab");
+		Assert.assertEquals(page.selectCars.toComboBox().getFirstSelectedOption().getText(), "Saab","toComboBox().selectByValue() action fail");
+		
+		page.selectCars.toComboBox().selectByVisibleText("Mercedes");
+		Assert.assertEquals(page.selectCars.toComboBox().getFirstSelectedOption().getText(), "Mercedes","toComboBox().selectByVisibleText action fail");
+		
+		page.selectCars.toComboBox().selectByIndex(3);
+		Assert.assertEquals(page.selectCars.toComboBox().getFirstSelectedOption().getText(), "Audi","toComboBox().selectByIndex action fail");
+		
+				
+		Assert.assertEquals(page.multiSelect.toComboBox().getAllSelectedOptions().size(), 0,"Deafult multi selected values count should be 0");
+		page.multiSelect.toComboBox().selectByIndex(0);
+		page.multiSelect.toComboBox().selectByIndex(2);
+		ArrayList<String> multiSelectValues = new ArrayList<>();
+		
+		for(WebElement elm  : page.multiSelect.toComboBox().getAllSelectedOptions()) {
+			multiSelectValues.add(elm.getText());
+		}
+		Assert.assertEquals(multiSelectValues.size(), 2,"multi selected values count should be 2");
+		assertThat(multiSelectValues).containsExactly("Java","Python").describedAs("Multi selected values are not same");
+		
+		page.multiSelect.toComboBox().deselectAll();
+		Assert.assertEquals(page.multiSelect.toComboBox().getAllSelectedOptions().size(), 0,"toComboBox().deselectAll() action fail");
 		
 		// HTML drag and drop is not supported by selenium
 		//page.drag1.dragAndDropTo(page.rectangle);

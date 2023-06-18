@@ -23,8 +23,46 @@ public class KandyClientApiCaller {
 	
 	static final String KANDY_CLIENT_URL = "http://localhost:8080";
 	static final String testPlanAutomatedRunEndpoint = "/api/testPlanAutomatedRun";
+	static final String testPlanRunEndpoint = "/api/testPlanRun";
 	
-	public static TestPlanRequest postTestPlan(TestPlanRequest testPlanRequest) throws ClientProtocolException, IOException {		
+	public static TestPlanRequest postTestPlanRun(TestPlanRequest testPlanRequest) throws ClientProtocolException, IOException {	
+		
+		TestPlanRequest responseTestPlan;
+		
+		try{
+			GsonBuilder gsonBuilder = new GsonBuilder();  
+			gsonBuilder.serializeNulls();  
+			Gson gson = gsonBuilder.create();
+
+			String       postUrl       = KANDY_CLIENT_URL + testPlanRunEndpoint;
+			
+			HttpClient   httpClient    = HttpClientBuilder.create().build();
+			HttpPost     post          = new HttpPost(postUrl);
+			StringEntity postingString = new StringEntity(gson.toJson(testPlanRequest));
+			System.out.println(">>> : " + gson.toJson(testPlanRequest));
+			post.setEntity(postingString);
+			post.setHeader("Content-type", "application/json");
+			HttpResponse  response = httpClient.execute(post);
+			
+			HttpEntity entity = response.getEntity();
+	        String content = EntityUtils.toString(entity);
+	        
+	        Gson gson2 = new Gson();
+	        responseTestPlan = gson2.fromJson(content, TestPlanRequest.class);
+	       	        
+	        if(responseTestPlan.getTestPlanRunId()==null) {	        	
+	        	ConfigLogger.logWarn("@TestSuite{ [KandyClient] Test Plan Initiate Error : "+ content +" }");
+	        }
+	        
+	        return responseTestPlan;
+		}catch (Exception ex) {
+			ConfigLogger.logWarn("@TestSuite{ [KandyClient] :: Test Plan Initiate Error : "+ ex.getMessage() +" }");
+		}
+        
+        return null;	
+	}
+	
+	public static TestPlanRequest postTestPlanAutomatedRun(TestPlanRequest testPlanRequest) throws ClientProtocolException, IOException {		
 		
 		TestPlanRequest responseTestPlan;
 		

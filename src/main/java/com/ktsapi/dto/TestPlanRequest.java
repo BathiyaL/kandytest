@@ -7,7 +7,8 @@ public class TestPlanRequest {
 	private String testPlanAutomatedRunId;
 	private String testPlanRunName;
     private String initiatedTimestamp;
-    private Integer totalTestCount;
+
+	private Integer totalTestCount;
     private Integer passedTestCount;
     private Integer failedTestCount;
     private Integer skippedTestCount;
@@ -37,6 +38,14 @@ public class TestPlanRequest {
 	public TestPlanRequest() {
     	
     }
+	
+    public String getInitiatedTimestamp() {
+		return initiatedTimestamp;
+	}
+
+	public void setInitiatedTimestamp(String initiatedTimestamp) {
+		this.initiatedTimestamp = initiatedTimestamp;
+	}
 	
 	public String getExecutionStartTimestamp() {
 		return executionStartTimestamp;
