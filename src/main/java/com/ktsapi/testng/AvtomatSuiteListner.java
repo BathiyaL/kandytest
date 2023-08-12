@@ -153,7 +153,10 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 					
 					// TODO : instead for invoking two endpoints from here we can come up with single endpoint to handle from client backend
 					TestPlanRequest testPlanRunResponse = KandyClientApiCaller.postTestPlanRun(testPlanRequest);
-					testPlanRequest.setTestPlanRunId(testPlanRunResponse.getTestPlanRunId());
+					if(testPlanRunResponse != null) {
+						testPlanRequest.setTestPlanRunId(testPlanRunResponse.getTestPlanRunId());
+						testPlanAutomatedRunResponse = KandyClientApiCaller.postTestPlanAutomatedRun(testPlanRequest);
+					}
  					
 				} else {
 					ConfigLogger.logInfo("@TestSuite{ TestPlanTemplateId or TestPlanTemplateId parameters are not provided }");

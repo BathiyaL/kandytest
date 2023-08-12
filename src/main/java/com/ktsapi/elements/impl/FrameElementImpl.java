@@ -35,10 +35,10 @@ public class FrameElementImpl extends BaseWebElementImpl implements FrameElement
 	public void switchToFrame() {
 		try {			
 			webDriver.switchTo().frame(parentBaseWebElement.asWebelement());
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToFrameElement_switchToFrame,getElementLog(parentBaseWebElement,null),null,null));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToFrameElement_switchToFrame,getElementLog(parentBaseWebElement,null),null,null,null));
 			//ActionsLogger.logAction(ActionLog.ActionLogWithReturnValue(ABotActions.ToFrameElement_switchToFrame,getElementLog(parentBaseWebElement,null),null,null,"true"));
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToFrameElement_switchToFrame,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToFrameElement_switchToFrame,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}
 		

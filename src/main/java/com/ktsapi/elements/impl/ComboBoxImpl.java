@@ -34,9 +34,9 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 	public void selectByVisibleText(String text) {		
 		try {
 			selectElement.selectByVisibleText(text);			
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByVisibleText,getElementLog(parentBaseWebElement,null),text,null));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByVisibleText,getElementLog(parentBaseWebElement,null),text,null,null));
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByVisibleText,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByVisibleText,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}
 	}
@@ -46,10 +46,10 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 		boolean isMultiple;
 		try {
 			isMultiple = selectElement.isMultiple();			
-			ActionsLogger.logAction(ActionLog.ActionLogWithReturnValue(ABotActions.ToComboBox_isMultiple,getElementLog(parentBaseWebElement,null),null,null,Boolean.toString(isMultiple)));
+			ActionsLogger.logAction(ActionLog.ActionLogWithReturnValue(ABotActions.ToComboBox_isMultiple,getElementLog(parentBaseWebElement,null),null,null,Boolean.toString(isMultiple),null));
 			return isMultiple;
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_isMultiple,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_isMultiple,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}
 	}
@@ -59,10 +59,10 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 		List<WebElement> webElm;
 		try {			
 			webElm = selectElement.getAllSelectedOptions() ;
-			ActionsLogger.logAction(ActionLog.ActionLogWithReturnValue(ABotActions.ToComboBox_getOptions,getElementLog(parentBaseWebElement,null),null,null,"@List<WebElement>"));
+			ActionsLogger.logAction(ActionLog.ActionLogWithReturnValue(ABotActions.ToComboBox_getOptions,getElementLog(parentBaseWebElement,null),null,null,"@List<WebElement>",null));
 			return webElm;
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_getOptions,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_getOptions,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}
 	}
@@ -72,10 +72,10 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 		List<WebElement> webElm;
 		try {			
 			webElm = selectElement.getAllSelectedOptions() ;
-			ActionsLogger.logAction(ActionLog.ActionLogWithReturnValue(ABotActions.ToComboBox_getAllSelectedOptions,getElementLog(parentBaseWebElement,null),null,null,"@List<WebElement>"));
+			ActionsLogger.logAction(ActionLog.ActionLogWithReturnValue(ABotActions.ToComboBox_getAllSelectedOptions,getElementLog(parentBaseWebElement,null),null,null,"@List<WebElement>",null));
 			return webElm;
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_getAllSelectedOptions,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_getAllSelectedOptions,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}
 	}
@@ -85,10 +85,10 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 		WebElement webElm;
 		try {			
 			webElm = selectElement.getFirstSelectedOption() ;
-			ActionsLogger.logAction(ActionLog.ActionLogWithReturnValue(ABotActions.ToComboBox_getFirstSelectedOption,getElementLog(parentBaseWebElement,null),null,null,"@WebElement"));
+			ActionsLogger.logAction(ActionLog.ActionLogWithReturnValue(ABotActions.ToComboBox_getFirstSelectedOption,getElementLog(parentBaseWebElement,null),null,null,"@WebElement",null));
 			return webElm;
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_getFirstSelectedOption,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_getFirstSelectedOption,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}		
 	}
@@ -97,9 +97,9 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 	public void selectByIndex(int index) {
 		try {
 			selectElement.selectByIndex(index);			
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByIndex,getElementLog(parentBaseWebElement,null),Integer.toString(index),null));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByIndex,getElementLog(parentBaseWebElement,null),Integer.toString(index),null,null));
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByIndex,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByIndex,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}		
 	}
@@ -108,9 +108,9 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 	public void selectByValue(String value) {
 		try {
 			selectElement.selectByValue(value);			
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByValue,getElementLog(parentBaseWebElement,null),value,null));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByValue,getElementLog(parentBaseWebElement,null),value,null,null));
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByValue,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_selectByValue,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}		
 	}
@@ -119,9 +119,9 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 	public void deselectAll() {
 		try {
 			selectElement.deselectAll();			
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectAll,getElementLog(parentBaseWebElement,null),null,null));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectAll,getElementLog(parentBaseWebElement,null),null,null,null));
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectAll,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectAll,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}		
 	}
@@ -130,9 +130,9 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 	public void deselectByValue(String value) {
 		try {
 			selectElement.deselectByValue(value);			
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByValue,getElementLog(parentBaseWebElement,null),value,null));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByValue,getElementLog(parentBaseWebElement,null),value,null,null));
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByValue,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByValue,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}		
 	}
@@ -141,9 +141,9 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 	public void deselectByIndex(int index) {
 		try {
 			selectElement.deselectByIndex(index);			
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByIndex,getElementLog(parentBaseWebElement,null),Integer.toString(index),null));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByIndex,getElementLog(parentBaseWebElement,null),Integer.toString(index),null,null));
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByIndex,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByIndex,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}		
 	}
@@ -152,9 +152,9 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 	public void deselectByVisibleText(String text) {
 		try {
 			selectElement.deselectByVisibleText(text);			
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByIndex,getElementLog(parentBaseWebElement,null),text,null));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByIndex,getElementLog(parentBaseWebElement,null),text,null,null));
 		} catch (Exception e){
-			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByIndex,getElementLog(parentBaseWebElement,e.getMessage()),null,e));
+			ActionsLogger.logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToComboBox_deselectByIndex,getElementLog(parentBaseWebElement,e.getMessage()),null,e,null));
 			throw e;
 		}		
 	}

@@ -1,70 +1,34 @@
 package com.ktsapi.actions.core;
 
-import static com.ktsapi.actions.core.ActionsLogger.getActionsLogger;
-import static com.ktsapi.actions.core.ActionsLogger.getActionsLoggerMsg;
-import static com.ktsapi.actions.core.ActionsLogger.getLocator;
-import static com.ktsapi.actions.core.ActionsLogger.logAction;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 
-//import org.apache.commons.logging.Log;
-import org.openqa.selenium.WebElement;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-
-import com.ktsapi.actions.KandyTestWebDriverActions;
 import com.ktsapi.actions.log.ActionLog;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.elements.BaseWebElement;
 import com.ktsapi.enums.ABotActions;
 
-//import ch.qos.logback.core.net.SyslogOutputStream;
+
 
 public class ActionsLogger {
-	//private static final Logger LOG = LoggerFactory.getLogger(""); //LoggerFactory.getLogger(AvtomatBotWebDriverActions.class); // need to get from TestCache
-//	private static List<Object> actionsList;  // need to get from TestCache
-	
-//	private static List<Object> initActionList(){
-//		if(actionsList == null){
-//			actionsList = new ArrayList<Object>();
-//		}
-//		return actionsList;
-//	}
-//	public static void addToActionsList(Object actionObject){
-//		//initActionList().add(actionObject);
-//		TestCache.getTestActionsList().add(actionObject);
-//	}
+
 	public static void logAction(ActionLog actionObject) {
-		//initActionList().add(actionObject);
 		TestInitializr.getTestActionsList().add(actionObject);
 		
 		if(actionObject.getStackTraceString()!=null && !actionObject.getStackTraceString().isEmpty() && !actionObject.getStackTraceString().equals("N/A")) {
 			String errorString = "\n#######################<FAILURE MESSAGE>########################### \n" + actionObject.getStackTraceString() + "\n#######################</FAILURE MESSAGE>########################## \n";			
 			TestInitializr.getTestLogger().error(actionObject.getActionLogString() + "\n" + errorString);
-		}else {
-			String returnValue = "";
-			if(actionObject.getReturnValue()!=null  && !actionObject.getReturnValue().equals("N/A")) {
-				returnValue = " @return="+ actionObject.getReturnValue();
-			}			
-			TestInitializr.getTestLogger().info(actionObject.getActionLogString() + returnValue);
 		}
-		
-			
-//			if(actionObject.getErrorMssage().equals("N/A")){
-//				logAction(actionObject.getElement(),actionObject.getAction(),obj.getValue());
-//			}else {
-//				//logActionError(obj.getElement(),obj.getAction(),obj.getValue(),obj.getErrorMssage());
-//			}
-			
-
+//		else {
+//			String returnValue = "";
+//			if(actionObject.getReturnValue()!=null  && !actionObject.getReturnValue().equals("N/A")) {
+//				returnValue = " @return="+ actionObject.getReturnValue();
+//			}			
+//			TestInitializr.getTestLogger().info(actionObject.getActionLogString() + returnValue);
+//		}
+		// DOC BL : decide not to print log for every action atm, since it can also found with the json log
 		
 	}
-//	public static List<Object> getActionsList(){
-//		return initActionList();
-//	}
 
 	protected static String getLocator(String element) {
 		String locator = null;
@@ -181,47 +145,12 @@ public class ActionsLogger {
 			System.out.println("[ActionsLOGError] "+action+"Unbale to Fetch loger Message");
 		}
 	}
-	
-//	protected static void getNoSuchElementLogger(String eMsg, ABotActions action) {
-//
-//		String[] lines = eMsg.split("\n");
-//		LOG.error("[Actions] "+action+"[]-> ERROR :: " + lines[0]);
-//		
-////		try {
-////			if (eMsg != null) {
-////				String locatorStr;
-////				String[] locators;
-////				String[] method = null;
-////				String[] selector = null;
-////				if (eMsg != null) {
-////					if (eMsg.contains("Unable to locate element")) {
-////						locatorStr = eMsg.substring(eMsg.indexOf("Unable to locate element"), eMsg.indexOf("}") + 1);
-////						locators = locatorStr.replaceAll("[{}]", "").trim().split(",");
-////						method = locators[0].split(":");
-////						selector = locators[1].split(":");
-////					}
-////				}
-////				LOG.error("[Actions] "+action+"[@elment{" + method[1].replace("\"", "").trim() + ": "
-////						+ selector[1].replace("\"", "").trim() + "}] -> Unable to locate element");
-////			} else {
-////				LOG.error("[Actions] "+action+"[]-> Unable to locate element");
-////			}
-////
-////		} catch (Exception e) {
-////			LOG.error("[Actions] "+action+"[]-> Unable to locate element");
-////		}
-//	}
-	
+
 	protected static void getActionErrorLogger(String eMsg, ABotActions action) {
 		String[] lines = eMsg.split("\n");
 		TestInitializr.getTestLogger().error("[Actions] "+action+"[]-> FAIL :: " + lines[0]);
 	}
-	
-//	public static void getElementWarningLogger(String eMsg, String element) {
-//		//String[] lines = eMsg.split("\n");
-//		LOG.warn("[Element] "+element+"[]-> Warning :: " + eMsg);
-//	}
-	
+
 	public static String getElementLog(BaseWebElement element, String errorMessage){
 		String elementLogStr = "";
 		if (element.getFieldName() != null) {
@@ -231,7 +160,6 @@ public class ActionsLogger {
 		} else if (element.asWebelement() != null) {
 			if (errorMessage == null) {
 				String elmentStr = element.asWebelement().toString();
-				//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + elmentStr);
 				String tagName = element.asWebelement().getTagName();
 				elementLogStr = "{" + tagName + "(" + getLocator(elmentStr) + ")}";
 			}else{
@@ -239,7 +167,6 @@ public class ActionsLogger {
 			}
 
 		}
-		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + elementLogStr);
 		return elementLogStr;
 	}	
 	

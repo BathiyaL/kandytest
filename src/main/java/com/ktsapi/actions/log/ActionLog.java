@@ -1,5 +1,6 @@
 package com.ktsapi.actions.log;
 
+import com.google.gson.annotations.Expose;
 import com.ktsapi.enums.ABotActions;
 
 public class ActionLog {
@@ -7,23 +8,35 @@ public class ActionLog {
 	private String element;
 	private String value;
 	private String errorMssage;
-	private Throwable stackTrace;
 	private String stackTraceString;
 	private String actionLogString;
 	private String returnValue;
-	private String warning;
-	// test
+	private String warning;	
 	
-	public ActionLog(ABotActions action,String element,String actionParamValue, Throwable stackTrace) {
+	private transient Throwable stackTrace; // By default, Gson would exclude a field from serialization and deserialization – both, if we simply mark the field as transient
+	
+	public ActionLog(ABotActions action,String element,String actionParamValue, String logMessage, Throwable stackTrace) {
 		this.action = action;
 		this.element = element;
 		String logElement = "NA";
 		if(this.element!=null) {
-			logElement = this.element.replaceFirst("class ", "");
+			String[] names = this.element.replaceFirst("class ", "").split("\\.");
+			logElement = names[names.length-2].concat(".").concat(names[names.length-1]);
 		}
-		if(actionParamValue!=null){
-			value = actionParamValue;			
-			actionLogString = action + "[" + logElement + "]" + " @value=" + this.value; // changed -> to @value
+//		if(actionParamValue!=null){
+//			value = actionParamValue;			
+//			actionLogString = action + "[" + logElement + "]" + " @value=" + this.value; // changed -> to @value
+//		}else {
+//			value = "N/A";
+//			actionLogString = action + "[" + logElement + "]" ;
+//		}
+		
+		if(logMessage!=null) {
+			if(logMessage.contains("%s")) {
+				actionLogString = String.format(logMessage, logElement);
+			}else {
+				actionLogString = action + "[" + logElement + "]" + " @value=" + this.value; // TODO : This need to remove after refactor all
+			}
 		}else {
 			value = "N/A";
 			actionLogString = action + "[" + logElement + "]" ;
@@ -61,14 +74,14 @@ public class ActionLog {
 		
 	}
 	
-	public static ActionLog ActionLogWithoutReturnValue(ABotActions action,String element,String actionParamValue, Throwable stackTrace) {
-		ActionLog actionLog = new ActionLog(action,element,actionParamValue, stackTrace);
+	public static ActionLog ActionLogWithoutReturnValue(ABotActions action,String element,String actionParamValue, Throwable stackTrace, String logMessage) {
+		ActionLog actionLog = new ActionLog(action,element,actionParamValue,logMessage, stackTrace);
 		actionLog.returnValue = "N/A";
 		return actionLog;
 	}
 	
 	public static ActionLog ActionLogWithWarningsAndWithoutReturnValue(ABotActions action,String element,String actionParamValue, Throwable stackTrace,String Warning) {
-		ActionLog actionLog = new ActionLog(action,element,actionParamValue, stackTrace);
+		ActionLog actionLog = new ActionLog(action,element,actionParamValue,null, stackTrace);
 		actionLog.returnValue = "N/A";
 		actionLog.warning = Warning;
 		return actionLog;
@@ -93,8 +106,8 @@ public class ActionLog {
 		return  actionLog;
 	}
 	
-	public static ActionLog ActionLogWithReturnValue(ABotActions action,String element,String actionParamValue, Throwable stackTrace, String returnValue) {
-		ActionLog actionLog = new ActionLog(action,element,actionParamValue, stackTrace);
+	public static ActionLog ActionLogWithReturnValue(ABotActions action,String element,String actionParamValue, Throwable stackTrace, String returnValue,String logMessage) {
+		ActionLog actionLog = new ActionLog(action,element,actionParamValue,logMessage, stackTrace);
 		actionLog.returnValue = returnValue;
 		return actionLog;
 	}

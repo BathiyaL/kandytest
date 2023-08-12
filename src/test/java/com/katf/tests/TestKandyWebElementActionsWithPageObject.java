@@ -91,7 +91,7 @@ public class TestKandyWebElementActionsWithPageObject {
 //		GoTo("C:/Users/stz/Downloads/js-sortable-list/sort-list.html");
 //		pause(5);
 //		page.source.dragAndDropTo(page.destination);
-		pause(5);
+		pause(1);
 		
 	}
 

@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.client.ClientProtocolException;
@@ -246,10 +247,12 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		String json = "{}";
 		try {
 			Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-			json = gson.toJson(TestInitializr.getTestActionsList());
+			json = gson.toJson(TestInitializr.getTestActionsList()); 
 			ConfigLogger.logInfo(json);
 		} catch (Exception e) {
-			return "{\"ERROR\":\"Error occurred while extracting the action logger\",\"ERROR MESSAGE\":\""+e.getMessage()+"\"}";
+			String errorMessage = "{\"ERROR\":\"Error occurred while extracting the action logger\",\"ERROR MESSAGE\":\""+e.getMessage()+"\"}";
+			ConfigLogger.logInfo(errorMessage);
+			return errorMessage;
 		}
 		return json;
 	}

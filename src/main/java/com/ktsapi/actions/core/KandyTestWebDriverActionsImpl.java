@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.LogManager;
+
+import javax.management.RuntimeErrorException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -133,15 +136,8 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	private final String EXPECTED_EROR_MESSAGE_WHEN_ELEMENT_NOT_CICKABLE = "is not clickable at point";
 	@Override
 	public void Click(BaseWebElement element) {
+		String logMessage = "Click on {%s}";
 		try {
-//			if (element.asWebelement() != null) { // TOTO: what is the need for if ??
-//				//$$(element).click();
-//				element.asWebelement().click();				
-//			} else if (element.getByLocator() != null) {				
-//				$$(element).click();		
-//			}	
-//			$$(element).click();
-			
 			final int noOfTries = 5; // TODO : should be change by config file
 			for(int i=1 ; i<=noOfTries ; i++) {
 				try {				
@@ -152,7 +148,8 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 					systemLogsWarn("[Try-"+i+" : "+element.getByLocator()+"] " + "Click failed with StaleElementReferenceException" );
 				}
 			}
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Click,getElementLog(element,null),null,null));
+			
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Click,getElementLog(element,null),null,null,logMessage));
 		}catch (ElementClickInterceptedException e){
 			String warning = "ElementClickInterceptedException occuerd and click action perform with java script";
 			try {
@@ -162,12 +159,12 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 					logAction(ActionLog.ActionLogWithWarningsAndWithoutReturnValue(ABotActions.Click,getElementLog(element,null),null,null,warning));
 				}
 			}catch (Exception ee){
-				logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Click,getElementLog(element,ee.getMessage()),null,ee));
+				logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Click,getElementLog(element,ee.getMessage()),null,ee,logMessage));
 				throw e;
 			}
 		}
 		catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Click,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Click,getElementLog(element,e.getMessage()),null,e,logMessage));
 			throw e;
 		}
 	}
@@ -176,7 +173,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public void SendKeys(BaseWebElement element, CharSequence... keysToSend){	
 		try {			
 			$$(element).sendKeys(keysToSend);
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.SendKeys,getElementLog(element,null),Arrays.toString(keysToSend),null));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.SendKeys,getElementLog(element,null),Arrays.toString(keysToSend),null,null));
 		} catch (Exception e){			
 			String value = "";
 			if(keysToSend==null){
@@ -184,7 +181,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			}else {
 				value = Arrays.toString(keysToSend);
 			}
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.SendKeys,getElementLog(element,e.getMessage()),value,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.SendKeys,getElementLog(element,e.getMessage()),value,e,null));
 			throw e;
 		}
 	}
@@ -194,9 +191,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public void Clear(BaseWebElement element) {
 		try {			
 			$$(element).clear();
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Clear,getElementLog(element,null),null,null));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Clear,getElementLog(element,null),null,null,null));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Clear,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Clear,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}		
 	}
@@ -205,9 +202,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public void Submit(BaseWebElement element) {
 		try {		
 			$$(element).submit();
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Submit,getElementLog(element,null),null,null));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Submit,getElementLog(element,null),null,null,null));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Submit,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Submit,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}		
 	}
@@ -218,9 +215,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		try {		
 			tagName = $$(element).getTagName();
 			//logAction(new ActionLog(ABotActions.GetTagName,getElementLog(element,null),null,null));
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetTagName,getElementLog(element,null),null,null,tagName));
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetTagName,getElementLog(element,null),null,null,tagName,null));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetTagName,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetTagName,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		return tagName;
@@ -232,9 +229,10 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		try {		
 			attributeValue = $$(element).getAttribute(attributeName);
 			//logAction(new ActionLog(ABotActions.GetAttribute,getElementLog(element,null),attributeName,null));
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetAttribute,getElementLog(element,null),attributeName,null,attributeValue));
+			String logMessage = "GetAttribute of {%s} return {"+attributeValue+"}";
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetAttribute,getElementLog(element,null),attributeName,null,attributeValue,logMessage));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetAttribute,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetAttribute,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		return attributeValue;
@@ -245,9 +243,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		boolean isSelected;
 		try {		
 			isSelected = $$(element).isSelected();			
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.IsSelected,getElementLog(element,null),null,null,Boolean.toString(isSelected)));
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.IsSelected,getElementLog(element,null),null,null,Boolean.toString(isSelected),null));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.IsSelected,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.IsSelected,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		return isSelected;
@@ -258,9 +256,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		boolean isEnabled;
 		try {		
 			isEnabled = $$(element).isEnabled();	
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.IsEnabled,getElementLog(element,null),null,null,Boolean.toString(isEnabled)));
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.IsEnabled,getElementLog(element,null),null,null,Boolean.toString(isEnabled),null));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.IsEnabled,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.IsEnabled,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		return isEnabled;
@@ -268,12 +266,14 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	@Override
 	public String GetText(BaseWebElement element) {
+		String logMessage = "GetText of {%s} ";
 		String getText="";
 		try {		
 			getText = $$(element).getText();
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetText,getElementLog(element,null),null,null,getText));
+			logMessage=logMessage.concat("returns {"+getText+"}");
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetText,getElementLog(element,null),null,null,getText,logMessage));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetText,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetText,getElementLog(element,e.getMessage()),null,e,logMessage));
 			throw e;
 		}
 		return getText;
@@ -298,9 +298,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		boolean isDisplayed;
 		try {		
 			isDisplayed = $$(element).isDisplayed();	
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.IsDisplayed,getElementLog(element,null),null,null,Boolean.toString(isDisplayed)));
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.IsDisplayed,getElementLog(element,null),null,null,Boolean.toString(isDisplayed),null));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.IsDisplayed,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.IsDisplayed,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		return isDisplayed;
@@ -312,9 +312,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		Point getLocation =null;
 		try {		
 			getLocation = $$(element).getLocation();
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetLocation,getElementLog(element,null),null,null,getLocation.toString())); 
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetLocation,getElementLog(element,null),null,null,getLocation.toString(),null)); 
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetLocation,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetLocation,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		return getLocation;
@@ -326,9 +326,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		Dimension dimension =null;
 		try {		
 			dimension = $$(element).getSize();
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetSize,getElementLog(element,null),null,null,dimension.toString())); 
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetSize,getElementLog(element,null),null,null,dimension.toString(),null)); 
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetSize,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetSize,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		return dimension;
@@ -340,9 +340,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		Rectangle rectangle =null;
 		try {		
 			rectangle = $$(element).getRect();
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetRect,getElementLog(element,null),null,null,rectangle.toString())); 
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetRect,getElementLog(element,null),null,null,rectangle.toString(),null)); 
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetRect,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetRect,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		return rectangle;
@@ -353,9 +353,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		String cssValue="";
 		try {		
 			cssValue = $$(element).getCssValue(propertyName);
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetText,getElementLog(element,null),propertyName,null,cssValue));
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetText,getElementLog(element,null),propertyName,null,cssValue,null));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetText,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetText,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		return cssValue;
@@ -380,9 +380,12 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			WebElement elm = $$(element);
 			elm.clear();
 			elm.sendKeys(textValue);
-			logAction(new ActionLog(ABotActions.Type,getElementLog(element,null),typeValue.toString(),null));
+			
+			String logMessage = "Type {"+typeValue+"} in the {%s}";
+
+			logAction(new ActionLog(ABotActions.Type,getElementLog(element,null),typeValue,logMessage, null));
 		} catch (Exception e) {
-			logAction(new ActionLog(ABotActions.Type,getElementLog(element,e.getMessage()),typeValue,e));
+			logAction(new ActionLog(ABotActions.Type,getElementLog(element,e.getMessage()),typeValue,null,e));
 			throw e;
 		}
 	}
@@ -397,9 +400,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			} else if (element.getByLocator() != null) {				
 				$$(element).click();		
 			}			
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.NativeClick,getElementLog(element,null),null,null));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.NativeClick,getElementLog(element,null),null,null,null));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.NativeClick,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.NativeClick,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		
@@ -417,9 +420,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			if(!$$(element).isSelected()) {
 				$$(element).click();				
 			}
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Check,getElementLog(element,null),null,null));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Check,getElementLog(element,null),null,null,null));
 		}catch(Exception e) {
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Check,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Check,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 	}
@@ -431,9 +434,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			if($$(element).isSelected()) {
 				$$(element).click();				
 			}
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.UnCheck,getElementLog(element,null),null,null));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.UnCheck,getElementLog(element,null),null,null,null));
 		}catch(Exception e) {
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.UnCheck,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.UnCheck,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 	}
@@ -732,7 +735,8 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public String GetTitle() {
 		String title = null;
 		title = driver().getTitle();
-		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.GetTitle," ",null,title));	
+		String logMessage = "returns "+title;
+		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.GetTitle,logMessage,null,title));	
 		return title;
 	}
 
@@ -885,7 +889,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		     */
 			return new ComboBoxImpl(element);
 		}catch(Exception e ) {
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToCombobox,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToCombobox,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 	}
@@ -936,7 +940,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		try {
 			return new FrameElementImpl(element,driver());
 		}catch(Exception e ) {
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToFrameElement,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToFrameElement,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 	}
@@ -1016,12 +1020,12 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		try {		
 			switchToFrames(element);
 			elementCount = driver().findElements(element.getByLocator()).size();
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetElementCount,getElementLog(element,null),null,null,String.valueOf(elementCount)));
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetElementCount,getElementLog(element,null),null,null,String.valueOf(elementCount),null));
 		}catch (NoSuchElementException e) {
 			elementCount = 0;
 		}
 		catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetElementCount,getElementLog(element,e.getMessage()),null,e));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetElementCount,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
 		}
 		return elementCount;
