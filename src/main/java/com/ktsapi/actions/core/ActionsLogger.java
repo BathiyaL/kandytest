@@ -19,15 +19,6 @@ public class ActionsLogger {
 			String errorString = "\n#######################<FAILURE MESSAGE>########################### \n" + actionObject.getStackTraceString() + "\n#######################</FAILURE MESSAGE>########################## \n";			
 			TestInitializr.getTestLogger().error(actionObject.getActionLogString() + "\n" + errorString);
 		}
-//		else {
-//			String returnValue = "";
-//			if(actionObject.getReturnValue()!=null  && !actionObject.getReturnValue().equals("N/A")) {
-//				returnValue = " @return="+ actionObject.getReturnValue();
-//			}			
-//			TestInitializr.getTestLogger().info(actionObject.getActionLogString() + returnValue);
-//		}
-		// DOC BL : decide not to print log for every action atm, since it can also found with the json log
-		
 	}
 
 	protected static String getLocator(String element) {
@@ -74,15 +65,7 @@ public class ActionsLogger {
 			System.out.println("[Actions] "+action+"Unbale to Fetch loger Message");
 		}		
 	}
-	
-//	protected static void getActionsLoggerMsg(String action, String value){		
-//		try {
-//			LOG.info("[Actions] "+action+ " -> " + value);
-//		} catch(Exception e){
-//			System.out.println("[Actions] "+action+" -> Unbale to Fetch loger Message");
-//		}	
-//	}
-	
+
 	protected static void userLogs(String loggerMessage){		
 		try {
 			TestInitializr.getTestLogger().info("[Actions] Log -> " + loggerMessage );

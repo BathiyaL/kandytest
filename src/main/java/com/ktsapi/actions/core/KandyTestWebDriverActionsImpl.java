@@ -240,12 +240,14 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	@Override
 	public boolean IsSelected(BaseWebElement element) {
+		String logMessage = "IsSelected on {%s} ";
 		boolean isSelected;
 		try {		
-			isSelected = $$(element).isSelected();			
-			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.IsSelected,getElementLog(element,null),null,null,Boolean.toString(isSelected),null));
+			isSelected = $$(element).isSelected();
+			logMessage = logMessage.concat("returns "+Boolean.toString(isSelected));
+			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.IsSelected,getElementLog(element,null),null,null,Boolean.toString(isSelected),logMessage));
 		} catch (Exception e){
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.IsSelected,getElementLog(element,e.getMessage()),null,e,null));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.IsSelected,getElementLog(element,e.getMessage()),null,e,logMessage));
 			throw e;
 		}
 		return isSelected;
@@ -415,14 +417,14 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	@Override
 	public void Check(BaseWebElement element) {
-		
+		String logMessage = "Check on {%s} ";
 		try {
 			if(!$$(element).isSelected()) {
 				$$(element).click();				
 			}
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Check,getElementLog(element,null),null,null,null));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Check,getElementLog(element,null),null,null,logMessage));
 		}catch(Exception e) {
-			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Check,getElementLog(element,e.getMessage()),null,e,null));
+			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Check,getElementLog(element,e.getMessage()),null,e,logMessage));
 			throw e;
 		}
 	}

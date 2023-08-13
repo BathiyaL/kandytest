@@ -1,6 +1,5 @@
 package com.ktsapi.actions.log;
 
-import com.google.gson.annotations.Expose;
 import com.ktsapi.enums.ABotActions;
 
 public class ActionLog {
@@ -23,13 +22,13 @@ public class ActionLog {
 			String[] names = this.element.replaceFirst("class ", "").split("\\.");
 			logElement = names[names.length-2].concat(".").concat(names[names.length-1]);
 		}
-//		if(actionParamValue!=null){
-//			value = actionParamValue;			
-//			actionLogString = action + "[" + logElement + "]" + " @value=" + this.value; // changed -> to @value
-//		}else {
-//			value = "N/A";
-//			actionLogString = action + "[" + logElement + "]" ;
-//		}
+		if(actionParamValue!=null){
+			value = actionParamValue;			
+			//actionLogString = action + "[" + logElement + "]" + " @value=" + this.value; // changed -> to @value
+		}else {
+			value = "N/A";
+			//actionLogString = action + "[" + logElement + "]" ;
+		}
 		
 		if(logMessage!=null) {
 			if(logMessage.contains("%s")) {
