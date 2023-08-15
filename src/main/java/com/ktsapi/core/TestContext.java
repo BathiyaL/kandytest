@@ -9,6 +9,7 @@ import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.dto.Testplan;
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.TestDriver;
+import com.ktsapi.testng.KTestConfig;
 
 public interface TestContext {
 
@@ -34,6 +35,8 @@ public interface TestContext {
 	String getTestName();
 	
 	Testplan getTestPlanObj();
+	KTestConfig getTestConfigObj();
+
 	
 	Map<String,String> getTestLevelParametersMap();
 	

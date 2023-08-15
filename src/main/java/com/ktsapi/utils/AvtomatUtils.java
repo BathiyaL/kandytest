@@ -22,6 +22,7 @@ import com.ktsapi.core.TestInitializr;
 import com.ktsapi.exceptions.AndriodDriverManagerException;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
 import com.ktsapi.mobile.AndriodDriverManagerObject;
+import com.ktsapi.testng.KTestConfig;
 public class AvtomatUtils {
 	
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
@@ -57,7 +58,7 @@ public class AvtomatUtils {
 		}
 	}
 	
-	public static Properties getPropertyFile(){
+	public static Properties getConfigPropertyFile(){
 		FileReader reader;
 		Properties configPropertyFile = new Properties(); 
 		
@@ -77,7 +78,7 @@ public class AvtomatUtils {
 	}
 	
 	public static AndriodDriverManagerObject getAndriodDriverManagerObject(){
-		Properties ktestconfig = AvtomatUtils.getPropertyFile();
+		Properties ktestconfig = AvtomatUtils.getConfigPropertyFile();
 		AndriodDriverManagerObject admObje = new AndriodDriverManagerObject();
 		admObje.setAppiumJS(new File(ktestconfig.getProperty(Const.ktestconfig_AppiumJSPath)));
 		admObje.setNodeJSExecutable(new File(ktestconfig.getProperty(Const.ktestconfig_NodeJSPath)));
@@ -104,6 +105,18 @@ public class AvtomatUtils {
         } catch (Exception e) {
         	throw new AndriodDriverManagerException("Error occur whild fetching mobile capabilities json file -> " + e.getMessage());
         }
+	}
+	
+	public static KTestConfig getKTestConfig() {
+		KTestConfig config = new KTestConfig();
+		Properties property = AvtomatUtils.getConfigPropertyFile();
+		
+		config.setApplicationId(property.getProperty(Const.ktestconfig_ApplicationId));
+		config.setDryRun(Boolean.parseBoolean(Const.ktestconfig_IsDryRun));
+
+		
+		return config;
+
 	}
 
 }

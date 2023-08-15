@@ -210,7 +210,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		// Setting data to TestCache
 		runner = new TestRunner(testContext);
 
-		runner.start(); // set to the the TestCache
+		runner.start(); // Open/Init TestCache map in TestInitializr
 
 		String browserVersionLog = " (driver should exist in the .drivers folder)"; // TODO : add correct path later
 		if (TestInitializr.getTestConfiguration().getBrowserVersion()
@@ -229,7 +229,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 				+ TestInitializr.getPageLoadTimeout() + "\n" + "scriptTimeout : " + TestInitializr.getScriptTimeout()
 				+ "\n" + "######################################################################";
 		ConfigLogger.logInfo(log);
-
 	}
 
 	@Override

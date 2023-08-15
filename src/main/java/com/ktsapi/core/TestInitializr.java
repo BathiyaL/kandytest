@@ -14,6 +14,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.dto.Testplan;
 import com.ktsapi.mobile.AndroidDriverManager;
+import com.ktsapi.testng.KTestConfig;
 
 import io.appium.java_client.android.AndroidDriver;
 
@@ -37,6 +38,8 @@ public class TestInitializr {
 	public static final String TEST_ACTION_LIST = "__test.action.list"; 
 	
 	public static final String TEST_PLAN_OBJ = "__test.plan.obj"; 
+	public static final String TEST_CONFIG_OBJ = "__test.config.obj"; 
+
 	
 	public static final String IMPLICITLY_WAIT_TIME = "__implicitly.wait.time";
 	public static final String SCRIPT_TIMEOUT = "__script.timeout";
@@ -101,6 +104,11 @@ public class TestInitializr {
     public static void setTestPlanObj(Testplan testPlanObj) {
     	set(TEST_PLAN_OBJ, testPlanObj);
     }
+    
+    public static void setTestConfigObj(KTestConfig testConfig) {
+    	set(TEST_CONFIG_OBJ, testConfig);
+    }
+    
     // These wait times can set by user within script life cycle
     public static void setImplicitlyWaitTime(long implicitlyWaitTime) {
     	set(IMPLICITLY_WAIT_TIME, implicitlyWaitTime);
@@ -135,6 +143,10 @@ public class TestInitializr {
     }    
     public static Testplan getTestPlanObj() {
     	return (Testplan)get(TEST_PLAN_OBJ);
+    }
+    
+    public static KTestConfig getTestConfigObj() {
+    	return (KTestConfig)get(TEST_CONFIG_OBJ);
     }
     
     public static Long getImplicitlyWaitTime() {

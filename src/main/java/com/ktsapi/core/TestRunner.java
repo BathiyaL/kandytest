@@ -56,6 +56,7 @@ public class TestRunner extends TestSession implements Runner{
 		setKandyClientTestPlanAutomatedRunId(testContext.getKandyClientTestPlanAutomatedRunId());
 		
 		setTestPlanObj(testContext.getTestPlanObj());
+		setTestConfigObj(testContext.getTestConfigObj());
 	}
 
 	@Override

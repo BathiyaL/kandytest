@@ -28,15 +28,14 @@ import com.ktsapi.kclient.KandyClientApiCaller;
 import com.ktsapi.utils.AvtomatUtils;
 
 public class AvtomatSuiteListner implements ISuiteListener  {
-
 	//private static final Logger LOG = Logger.getLogger(AvtomatSuiteListner.class);
 	private Integer testCount = 0 ; 
 	private Testplan testPlan = null;
 	private List<ITestNGMethod> testMethods = null;
 	private String kandyTestPlanID;
 	private String kandyTestPlanAutmatedRunID;
-	boolean isDryRun = false; // TODO :: This need to fetch from config
-	private String applicationId = "d5b0cef8-396d-11eb-adc1-0242ac120002"; // this need to get from Kandy client and place in the config file
+	private boolean isDryRun;
+	//private String applicationId = "d5b0cef8-396d-11eb-adc1-0242ac120002"; // this need to get from Kandy client and place in the config file
 	private Long workspaceId = 101L;
 
 	 public void setTestCount(int testCount){
@@ -49,6 +48,14 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	 
 	@Override
 	public void onStart(ISuite suite) {
+		
+		KTestConfig ktestConfig = AvtomatUtils.getKTestConfig();
+		// TODO : need to validate appconfig and return error exception if not setup properly
+			// assert for compulsory values when missing
+			// assert for incorrect values
+		suite.setAttribute(TestInitializr.TEST_CONFIG_OBJ, ktestConfig);  
+		isDryRun = getIsDryRunForTestInstance(ktestConfig, suite);
+
 
 		 testMethods  = suite.getAllMethods();
 	     this.testCount = testMethods.size();
@@ -122,7 +129,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		testPlanRequest.setExecutionMode(testPlan.getExecutionMode());
 		testPlanRequest.setExecutedBy(testPlan.getExecutedBy());
 		testPlanRequest.setTestSuiteFileName(testPlan.getTestSuiteFileName());
-		testPlanRequest.setApplicationId(applicationId);
+		testPlanRequest.setApplicationId(ktestConfig.getApplicationId());
 		testPlanRequest.setWorkspaceId(workspaceId);
 		testPlanRequest.setModifiedTimestamp(tepStartTimestamp);
 		
@@ -215,6 +222,20 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		
 		return true;
 	}
+	
+	/*
+	 * Handle the isDryRun logic and return isDryrun status for the test execution
+	 */
+	private Boolean getIsDryRunForTestInstance(KTestConfig ktestConfig, ISuite suite) {
+		boolean tepParameterValue = Boolean.parseBoolean(suite.getXmlSuite().getParameter(TestSuiteParameters.IS_DRY_RUN)); // DOC BL : if not define in TEP return default value false
+		boolean appConfigValue = ktestConfig.isDryRun();
+		
+		if(!appConfigValue) {
+			return false;
+		}else {
+			return tepParameterValue ;
+		}
+	} 
 	
 	
 	private String validateNumericParameterValueOf(String parameter,ISuite suite) {	

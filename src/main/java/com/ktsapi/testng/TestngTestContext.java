@@ -378,6 +378,11 @@ public class TestngTestContext implements TestContext{
 	public Testplan getTestPlanObj() {
 		return (Testplan)result.getTestContext().getSuite().getAttribute(TestInitializr.TEST_PLAN_OBJ);
 	}
+	
+	@Override
+	public KTestConfig getTestConfigObj() {
+		return (KTestConfig)result.getTestContext().getSuite().getAttribute(TestInitializr.TEST_CONFIG_OBJ);
+	}
 
 	@Override
 	public Map<String, String> getTestLevelParametersMap() {

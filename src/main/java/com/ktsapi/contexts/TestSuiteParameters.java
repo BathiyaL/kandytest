@@ -15,5 +15,6 @@ public class TestSuiteParameters {
 	public static final String SUT_VERSION_NUMBER = "sutVersionNumber";
 	public static final String TEST_PLAN_TEMPLATE_ID = "testPlanTemplateId";
 	public static final String TEST_PLAN_RUN_ID = "testPlanRunId";
+	public static final String IS_DRY_RUN = "isDryRun";
 	
 }
