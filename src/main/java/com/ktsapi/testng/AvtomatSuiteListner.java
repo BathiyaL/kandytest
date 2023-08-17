@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.ClientProtocolException;
-//import org.apache.log4j.PropertyConfigurator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.testng.ISuite;
@@ -28,14 +27,12 @@ import com.ktsapi.kclient.KandyClientApiCaller;
 import com.ktsapi.utils.AvtomatUtils;
 
 public class AvtomatSuiteListner implements ISuiteListener  {
-	//private static final Logger LOG = Logger.getLogger(AvtomatSuiteListner.class);
 	private Integer testCount = 0 ; 
 	private Testplan testPlan = null;
 	private List<ITestNGMethod> testMethods = null;
 	private String kandyTestPlanID;
 	private String kandyTestPlanAutmatedRunID;
 	private boolean isDryRun;
-	//private String applicationId = "d5b0cef8-396d-11eb-adc1-0242ac120002"; // this need to get from Kandy client and place in the config file
 	private Long workspaceId = 101L;
 
 	 public void setTestCount(int testCount){
@@ -50,12 +47,8 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	public void onStart(ISuite suite) {
 		
 		KTestConfig ktestConfig = AvtomatUtils.getKTestConfig();
-		// TODO : need to validate appconfig and return error exception if not setup properly
-			// assert for compulsory values when missing
-			// assert for incorrect values
 		suite.setAttribute(TestInitializr.TEST_CONFIG_OBJ, ktestConfig);  
 		isDryRun = getIsDryRunForTestInstance(ktestConfig, suite);
-
 
 		 testMethods  = suite.getAllMethods();
 	     this.testCount = testMethods.size();
@@ -65,7 +58,6 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	     
 	    // TODO : we may set these things to initial starter
 		System.setProperty("test.suite.uuid", testPlanUUID);
-		//PropertyConfigurator.configure(AvtomatSuiteListner.class.getResource("/log4j.properties"));
 			
 		 try {
 			 LoggerContext context  = (LoggerContext)LogManager.getContext(false);

@@ -21,6 +21,7 @@ import com.ktsapi.core.Const;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.exceptions.AndriodDriverManagerException;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
+import com.ktsapi.exceptions.TestConfigValidationException;
 import com.ktsapi.mobile.AndriodDriverManagerObject;
 import com.ktsapi.testng.KTestConfig;
 public class AvtomatUtils {
@@ -108,11 +109,18 @@ public class AvtomatUtils {
 	}
 	
 	public static KTestConfig getKTestConfig() {
+		String errorMessage = "Invalid value \"%s\" for %s, please fix config value and try again";
+		
 		KTestConfig config = new KTestConfig();
 		Properties property = AvtomatUtils.getConfigPropertyFile();
 		
 		config.setApplicationId(property.getProperty(Const.ktestconfig_ApplicationId));
-		config.setDryRun(Boolean.parseBoolean(Const.ktestconfig_IsDryRun));
+		
+		String isDryrun = property.getProperty(Const.ktestconfig_IsDryRun);
+		if(isDryrun.toLowerCase()!="true" || isDryrun.toLowerCase()!="false") {
+			throw new TestConfigValidationException(String.format(errorMessage, isDryrun,Const.ktestconfig_IsDryRun));
+		}
+		config.setDryRun(Boolean.parseBoolean(isDryrun));
 
 		
 		return config;
