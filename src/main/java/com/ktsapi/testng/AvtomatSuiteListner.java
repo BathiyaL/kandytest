@@ -46,7 +46,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	@Override
 	public void onStart(ISuite suite) {
 		
-		KTestConfig ktestConfig = AvtomatUtils.getKTestConfig();
+		KTestConfig ktestConfig = AvtomatUtils.validateAndGetKTestConfig();
 		suite.setAttribute(TestInitializr.TEST_CONFIG_OBJ, ktestConfig);  
 		isDryRun = getIsDryRunForTestInstance(ktestConfig, suite);
 
@@ -101,16 +101,21 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	    	 
 	     }
 	    
-	     ConfigLogger.logInfo("@TestSuite{"+suite.getXmlSuite().getFileName()+"} is going to start...."); 
+	     ConfigLogger.logInfo("@TestSuite{"+suite.getXmlSuite().getFileName()+"} is starting.....");
 	        
-	     suite.setAttribute(TestInitializr.TEST_EXECUTED_BY, AvtomatUtils.getWindowsLoggedInUser());	    
+	     suite.setAttribute(TestInitializr.TEST_EXECUTED_BY, AvtomatUtils.getWindowsLoggedInUser());   
 	     suite.setAttribute(TestInitializr.TEST_PLAN_UUID, AvtomatUtils.getUUID());
 	     suite.setAttribute(TestInitializr.TOTOAL_TESTS_IN_TEST_PLAN_XML, this.testCount);
-	     suite.setAttribute(TestInitializr.TEST_PLAN_OBJ, testPlan);     
+	     suite.setAttribute(TestInitializr.TEST_PLAN_OBJ, testPlan);
+	     suite.setAttribute(TestInitializr.IS_DRY_RUN, isDryRun);
 	     
-	     suite.setAttribute(TestInitializr.IS_DRY_RUN, isDryRun);     
-	     
+	     handleKandyClientAPI(suite,getTestPlanRequestForKandyclient(ktestConfig));
+
+	}
+	
+	private TestPlanRequest getTestPlanRequestForKandyclient(KTestConfig ktestConfig) {
 	    String tepStartTimestamp = AvtomatUtils.localDateTimeStringFormat(testPlan.getExecutionStartTimestamp());
+
 		TestPlanRequest testPlanRequest = new TestPlanRequest();
 		testPlanRequest.setTestPlanName(testPlan.getTestPlanName());
 		testPlanRequest.setExecutionStartTimestamp(tepStartTimestamp);
@@ -135,10 +140,11 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		testPlanRequest.setFailedTestCount(0);
 		testPlanRequest.setFailedTestCount(0);
 		
-		
-		
+		return testPlanRequest;
+	}
+	
+	private void handleKandyClientAPI(ISuite suite, TestPlanRequest testPlanRequest) {
 		if(!isDryRun) {
-			
 			try {
 				TestPlanRequest testPlanAutomatedRunResponse=null;
 				
@@ -187,13 +193,11 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 				e.printStackTrace();
 			}
 		}else {
-			ConfigLogger.logInfo("@TestSuite{ DryRun=False}"); 
+			ConfigLogger.logInfo("@TestSuite{DryRun=True}"); 
 			suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_ID, "DRY_RUN");  
+			suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_AUTOMATED_RUN_ID, "DRY_RUN"); 
 		}
-				
-		
 	}
-	
 	
 	private boolean isTestPlanTemplateIdProvided(String testPlanTemplateId) {
 		if(testPlanTemplateId==null || testPlanTemplateId.isEmpty()) {
@@ -217,13 +221,14 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	
 	/*
 	 * Handle the isDryRun logic and return isDryrun status for the test execution
+	 * if isDryRun==true , then test result should not persist to the db
 	 */
 	private Boolean getIsDryRunForTestInstance(KTestConfig ktestConfig, ISuite suite) {
 		boolean tepParameterValue = Boolean.parseBoolean(suite.getXmlSuite().getParameter(TestSuiteParameters.IS_DRY_RUN)); // DOC BL : if not define in TEP return default value false
 		boolean appConfigValue = ktestConfig.isDryRun();
 		
-		if(!appConfigValue) {
-			return false;
+		if(appConfigValue) {
+			return true;
 		}else {
 			return tepParameterValue ;
 		}

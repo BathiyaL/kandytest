@@ -108,7 +108,7 @@ public class AvtomatUtils {
         }
 	}
 	
-	public static KTestConfig getKTestConfig() {
+	public static KTestConfig validateAndGetKTestConfig() {
 		String errorMessage = "Invalid value \"%s\" for %s, please fix config value and try again";
 		
 		KTestConfig config = new KTestConfig();
@@ -117,14 +117,12 @@ public class AvtomatUtils {
 		config.setApplicationId(property.getProperty(Const.ktestconfig_ApplicationId));
 		
 		String isDryrun = property.getProperty(Const.ktestconfig_IsDryRun);
-		if(isDryrun.toLowerCase()!="true" || isDryrun.toLowerCase()!="false") {
+		if(isDryrun.toLowerCase().equals("true") || isDryrun.toLowerCase().equals("false")) {
+			config.setDryRun(Boolean.parseBoolean(isDryrun));
+		}else {
 			throw new TestConfigValidationException(String.format(errorMessage, isDryrun,Const.ktestconfig_IsDryRun));
 		}
-		config.setDryRun(Boolean.parseBoolean(isDryrun));
-
-		
 		return config;
-
 	}
 
 }

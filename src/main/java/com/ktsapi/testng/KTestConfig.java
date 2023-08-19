@@ -2,7 +2,7 @@ package com.ktsapi.testng;
 
 public class KTestConfig {
 
-	private boolean isDryRun;
+	private boolean isDryRun=true;// default value is true
 	private String applicationId;
 	
 	public boolean isDryRun() {
