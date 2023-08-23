@@ -241,6 +241,14 @@ public class TestInitializr {
     	return get(RUNNING_BROWSER_VERSION);
     }
     
+    public static boolean getDryRunStatus() {
+    	return get(IS_DRY_RUN);
+    }
+    
+    public static void setDryRunStatus(boolean isDryRun) {
+    	set(IS_DRY_RUN,isDryRun);
+    }
+    
     public static Logger getTestLogger() {
     	if(isTestCacheInUse()){
         	if(get(TEST_LOG)!=null) {

@@ -41,7 +41,6 @@ public class TestRunner extends TestSession implements Runner{
 		setTestConfiguration(testContext.getTestConfigurationContext());
 		
 		
-		
 		// set initial wait times
 		setImplicitlyWaitTime(testContext.getTestConfigurationContext().getImplicitlyWaitTime());
 		setScriptTimeout(testContext.getTestConfigurationContext().getScriptTimeout());
@@ -57,6 +56,7 @@ public class TestRunner extends TestSession implements Runner{
 		
 		setTestPlanObj(testContext.getTestPlanObj());
 		setTestConfigObj(testContext.getTestConfigObj());
+		setDryRunStatus(testContext.isDryrun());
 	}
 
 	@Override

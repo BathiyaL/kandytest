@@ -18,6 +18,7 @@ gradle-app.setting
 *.test-output
 **/test-output
 *.DS_Store
+**/src/main/resources/drivers/*
 
 ### Gradle ###
 .gradle

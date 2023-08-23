@@ -59,6 +59,8 @@ public class TestngTestContext implements TestContext{
 	String mobileDeviceName;
 	String mobileCapabilitiesFileName;
 	
+	boolean isDryRun;
+	
 	TestConfigurationContext testConfigurationContext ;
 	
 	@Override
@@ -404,6 +406,12 @@ public class TestngTestContext implements TestContext{
 	@Override
 	public String getKandyClientTestPlanAutomatedRunId() {
 		return result.getTestContext().getSuite().getAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_AUTOMATED_RUN_ID).toString();
+	}
+
+	// this may need to handle test level currently tep header/suite level
+	@Override
+	public boolean isDryrun() {
+		return (Boolean)result.getTestContext().getSuite().getAttribute(TestInitializr.IS_DRY_RUN);
 	}
 
 

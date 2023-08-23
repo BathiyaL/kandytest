@@ -1,14 +1,10 @@
 package com.ktsapi.testng;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import org.apache.http.client.ClientProtocolException;
 import org.testng.IClass;
 import org.testng.IConfigurationListener2;
 import org.testng.ITestContext;
@@ -35,7 +31,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	private Runner runner = null;
 	LocalDateTime testExecutionStartTime;
-	boolean isDryRun = true; // this will override from TEP configurations
 
 	boolean postTestResult(TestResultStatus testResultStatus) {
 		
@@ -56,7 +51,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		testResultRequest.setExecutionNode("bladduwahetty");// TODO: for now hardcoded need to handle this
 		testResultRequest.setExecutionStartTimestamp(AvtomatUtils.localDateTimeStringFormat(testExecutionStartTime)); // Need to pass start time
 
-//    	testResultRequest.setTestCaseId("TC-11");// TODO: for now hardcoded need to handle thisb 
 		testResultRequest.setTestName(TestInitializr.getTestName());
 		testResultRequest.setTestDriver(TestInitializr.getTestConfiguration().getTestDriver().toString());
 		testResultRequest.setTestExecutionLog(ationLog);
@@ -81,24 +75,13 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		String executionNode = AvtomatUtils.getWindowsLoggedInUser();
 		testResultRequest.setExecutionNode(executionNode);
 
-		if (!isDryRun && testID != null && testID.contains("TC-")) {
 			try {
 				KandyClientApiCaller.postTestResult(testResultRequest);
-				// ConfigLogger.logInfo("@TestSuite{"+ response.getTestPlanId() +" Initiated
-				// .........}");
 				return true;
-			} catch (ClientProtocolException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else {
-			// ConfigLogger.logInfo("@TestSuite{ DryRun=False}");
-			// TODO : add some logs
-		}
-
+				e.printStackTrace(); // TODO : Add custom exception
+			}		
 		return false;
 	}
 
@@ -161,7 +144,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	public void onStart(ITestContext testContext) {
 
 		setXmlTestLevelParametersToMap(testContext);
-		isDryRun = (boolean) testContext.getSuite().getAttribute(TestInitializr.IS_DRY_RUN);
 		testExecutionStartTime = AvtomatUtils.getCurretnTimeStamp();
 		logMethodStart("@TestClass", "", testContext.getCurrentXmlTest().getName());
 	}
@@ -191,7 +173,9 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	private void tearDownContext(ITestResult result, TestResultStatus testResultStatus) {
 		if (runner != null) {
-			postTestResult(testResultStatus);
+			if(TestInitializr.getDryRunStatus()) {
+				postTestResult(testResultStatus);
+			}
 			runner.end();
 		}
 	}

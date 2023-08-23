@@ -36,6 +36,8 @@ public interface TestContext {
 	
 	Testplan getTestPlanObj();
 	KTestConfig getTestConfigObj();
+	
+	boolean isDryrun();
 
 	
 	Map<String,String> getTestLevelParametersMap();

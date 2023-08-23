@@ -224,7 +224,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	 * if isDryRun==true , then test result should not persist to the db
 	 */
 	private Boolean getIsDryRunForTestInstance(KTestConfig ktestConfig, ISuite suite) {
-		boolean tepParameterValue = Boolean.parseBoolean(suite.getXmlSuite().getParameter(TestSuiteParameters.IS_DRY_RUN)); // DOC BL : if not define in TEP return default value false
+		boolean tepParameterValue = Boolean.parseBoolean(suite.getXmlSuite().getParameter(TestSuiteParameters.IS_DRY_RUN)); // DOC BL : if not define in TEP return default value true
 		boolean appConfigValue = ktestConfig.isDryRun();
 		
 		if(appConfigValue) {
