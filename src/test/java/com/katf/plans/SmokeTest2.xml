@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name = "SmokeTest2" parallel="false" thread-count="1" verbose="1">
+<!-- <suite name = "SmokeTest" parallel="tests" thread-count="3" verbose="1"> -->
+
+    <parameter name="baseUrl" value="https://www.facebook.com/" />
+    <parameter name="browser" value="chrome" />
+    
+    <parameter name="testPlanTemplateId" value="1" />  
+	<!-- <parameter name="testPlanRunId" value="12" /> -->
+	
+   <test name = "Test1">
+	   <parameter name="baseUrl" value="https://github.com/" />
+	   <parameter name="browser" value="chrome" />
+      <classes>
+         <class name = "com.katf.tests.TC0_TestDemo" />
+      </classes>
+   </test>
+   
+   <test name = "Test2">
+	   <parameter name="baseUrl" value="https://stackoverflow.com/" />
+	   <parameter name="browser" value="chrome" />
+      <classes>
+         <class name = "com.katf.tests.TC0_TestDemo" />
+      </classes>
+   </test>
+   
+<!--   <test name = "TestFail">
+      <classes>
+         <class name = "com.katf.tests.clientsamples.TC1_TestFail" />
+      </classes>
+   </test>-->
+
+
+   
+</suite>	

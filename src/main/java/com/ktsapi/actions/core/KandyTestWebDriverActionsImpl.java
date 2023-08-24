@@ -1,6 +1,5 @@
 package com.ktsapi.actions.core;
 
-import static com.ktsapi.WebActons.driver;
 import static com.ktsapi.actions.core.ActionsLogger.getElementLog;
 import static com.ktsapi.actions.core.ActionsLogger.logAction;
 import static com.ktsapi.actions.core.ActionsLogger.systemLogsWarn;
@@ -11,10 +10,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.LogManager;
-
-import javax.management.RuntimeErrorException;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -67,15 +62,21 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public WebDriver driver(){			
 		return TestInitializr.getWebDriver();
 	}
-	// @Override
+	
+	@Override
 	public void OpenBrowser() {
-		//driver = TestCache.getWebDriver();
-		driver();
-		String launchedBrowser = TestInitializr.getDesiredCapabilities().getBrowserName()  + " " + TestInitializr.getRunningBrowserVersion();
-		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.OpenBrowser, launchedBrowser, null));		
+		String launchedBrowser = TestInitializr.getDesiredCapabilities().getBrowserName();
+		try {
+			driver();
+			launchedBrowser = launchedBrowser + " " + TestInitializr.getRunningBrowserVersion();
+			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.OpenBrowser, launchedBrowser, null));		
+		} catch (Exception e) {
+			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.OpenBrowser, launchedBrowser, e));		
+			throw e;
+		}
 	}
 
-	// @Override
+	@Override
 	public String GoTo(String url) {
 		String logMessage = "GoTo "+url;
 		String logMessage2 = " " + url;

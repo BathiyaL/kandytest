@@ -173,8 +173,10 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	private void tearDownContext(ITestResult result, TestResultStatus testResultStatus) {
 		if (runner != null) {
-			if(TestInitializr.getDryRunStatus()) {
+			if(!TestInitializr.getDryRunStatus()) {
 				postTestResult(testResultStatus);
+			}else {
+				printAndGetActionLogger();
 			}
 			runner.end();
 		}

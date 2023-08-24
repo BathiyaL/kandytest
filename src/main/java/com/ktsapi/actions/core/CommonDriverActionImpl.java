@@ -23,7 +23,8 @@ public class CommonDriverActionImpl implements CommonDriverAction {
 
 	@Override
 	public void print(String logMessage) {
-		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.Print,logMessage,null));		
+		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.Print,logMessage,null));
+		systemLogsInfo(logMessage);
 	}
 
 	@Override
@@ -32,9 +33,7 @@ public class CommonDriverActionImpl implements CommonDriverAction {
 		String baseUrlInCache = TestInitializr.getTestConfiguration().getBaseUrl();
 		if(baseUrlInCache.equals(TestConfigurationDefaults.DEFAULT_BASE_URL)){
 			systemLogsInfo("Base URL is same as system default url, it may have not overrode");
-		}
-		String logMessage = "Set as : " + baseUrlInCache;
-//		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.BaseUrl,logMessage,null));	
+		}	
 		return baseUrlInCache;
 	}
 
