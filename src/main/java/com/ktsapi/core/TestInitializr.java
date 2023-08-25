@@ -14,7 +14,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.dto.Testplan;
 import com.ktsapi.mobile.AndroidDriverManager;
-import com.ktsapi.testng.KTestConfig;
+import com.ktsapi.utils.testconfig.KTestConfig;
 
 import io.appium.java_client.android.AndroidDriver;
 

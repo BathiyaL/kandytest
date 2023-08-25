@@ -25,6 +25,7 @@ import com.ktsapi.enums.TestDriver;
 import com.ktsapi.exceptions.TestSuiteValidationException;
 import com.ktsapi.kclient.KandyClientApiCaller;
 import com.ktsapi.utils.AvtomatUtils;
+import com.ktsapi.utils.testconfig.KTestConfig;
 
 public class AvtomatSuiteListner implements ISuiteListener  {
 	private Integer testCount = 0 ; 
@@ -46,7 +47,9 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	@Override
 	public void onStart(ISuite suite) {
 		
+		//KTestConfig ktestConfig = AvtomatUtils.validateAndGetKTestConfig();
 		KTestConfig ktestConfig = AvtomatUtils.validateAndGetKTestConfig();
+
 		suite.setAttribute(TestInitializr.TEST_CONFIG_OBJ, ktestConfig);  
 		isDryRun = getIsDryRunForTestInstance(ktestConfig, suite);
 
@@ -225,7 +228,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	 */
 	private Boolean getIsDryRunForTestInstance(KTestConfig ktestConfig, ISuite suite) {
 		boolean tepParameterValue = Boolean.parseBoolean(suite.getXmlSuite().getParameter(TestSuiteParameters.IS_DRY_RUN)); // DOC BL : if not define in TEP return default value true
-		boolean appConfigValue = ktestConfig.isDryRun();
+		boolean appConfigValue = ktestConfig.getIsDryRun();
 		
 		if(appConfigValue) {
 			return true;

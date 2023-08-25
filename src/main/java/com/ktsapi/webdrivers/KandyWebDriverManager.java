@@ -112,9 +112,13 @@ public abstract class KandyWebDriverManager implements WebDriverManager{
 		if(browser.equals(Browsers.CHROME_HEADLESS)) {
 			browser = Browsers.CHROME; // both chrome and chrome headless use same driver
 		}
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  : " + TestInitializr.getTestConfigObj().getWebDrivers().getChrome().getDriverPath());
+		String driverPath1 = TestInitializr.getTestConfigObj().getWebDrivers().getChrome().getDriverPath();
+		URL urlPath = KandyWebDriverManager.class.getResource(driverPath1);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>getPath  : " + urlPath.getPath());
+		
 		
 		URL driverPath = KandyWebDriverManager.class.getResource("/drivers/"+browser.getBrowserName()+ "/"+getOS() +"/_"+getBitSystem()); // TODO use more efficient way to handle path
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. : " + driverPath.getPath());
 		String decodedDriverPath = URLDecoder.decode(driverPath.getPath(), "UTF-8");
 		return decodedDriverPath;
 	}

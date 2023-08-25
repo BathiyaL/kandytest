@@ -21,6 +21,7 @@ import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.ExecutionMode;
 import com.ktsapi.enums.TestDriver;
 import com.ktsapi.exceptions.TestClassNotFoundException;
+import com.ktsapi.utils.testconfig.KTestConfig;
 
 public class TestngTestContext implements TestContext{
 	

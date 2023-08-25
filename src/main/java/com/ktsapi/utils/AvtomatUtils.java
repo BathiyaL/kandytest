@@ -17,13 +17,13 @@ import java.util.UUID;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ktsapi.core.Const;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.exceptions.AndriodDriverManagerException;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
-import com.ktsapi.exceptions.TestConfigValidationException;
 import com.ktsapi.mobile.AndriodDriverManagerObject;
-import com.ktsapi.testng.KTestConfig;
+import com.ktsapi.utils.testconfig.KTestConfig;
 public class AvtomatUtils {
 	
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
@@ -72,9 +72,7 @@ public class AvtomatUtils {
 			}
 		} catch (FileNotFoundException e) {
 			throw new ConfigFileNotFoundException(configFileNotFoundExceptionMessage);
-		}  
-
-	      	    
+		}	    
 	    return configPropertyFile;
 	}
 	
@@ -108,26 +106,60 @@ public class AvtomatUtils {
         }
 	}
 	
+//	public static KTestConfig validateAndGetKTestConfig() {
+//		String errorMessage = "Invalid value \"%s\" for %s, please fix config value and try again";
+//		
+//		KTestConfig config = new KTestConfig();
+//		Properties property = AvtomatUtils.getConfigPropertyFile();
+//		
+//		config.setApplicationId(property.getProperty(Const.ktestconfig_ApplicationId));
+//		
+//		String isDryrun = property.getProperty(Const.ktestconfig_IsDryRun);
+//		if(isDryrun.toLowerCase().equals("true") || isDryrun.toLowerCase().equals("false")) {
+//			config.setDryRun(Boolean.parseBoolean(isDryrun));
+//		}else {
+//			throw new TestConfigValidationException(String.format(errorMessage, isDryrun,Const.ktestconfig_IsDryRun));
+//		}
+//		
+//		// Webdriver
+//		String chromeDriverPath = property.getProperty(Const.ktestconfig_ChromeDriverPath);
+//
+//		
+//		return config;
+//	}
+	
+	public static File getConfigJsonFile(){
+		File file;
+		
+		try {
+			file = new File(getConfigFolderPath().resolve(Const.TEST_API_JSON_PROPERTY_FILE_NAME).toString());
+		} catch (NullPointerException e) {
+			throw new ConfigFileNotFoundException(configFileNotFoundExceptionMessage);
+		}	    
+	    return file;
+	}
+	
 	public static KTestConfig validateAndGetKTestConfig() {
-		String errorMessage = "Invalid value \"%s\" for %s, please fix config value and try again";
-		
-		KTestConfig config = new KTestConfig();
-		Properties property = AvtomatUtils.getConfigPropertyFile();
-		
-		config.setApplicationId(property.getProperty(Const.ktestconfig_ApplicationId));
-		
-		String isDryrun = property.getProperty(Const.ktestconfig_IsDryRun);
-		if(isDryrun.toLowerCase().equals("true") || isDryrun.toLowerCase().equals("false")) {
-			config.setDryRun(Boolean.parseBoolean(isDryrun));
-		}else {
-			throw new TestConfigValidationException(String.format(errorMessage, isDryrun,Const.ktestconfig_IsDryRun));
-		}
-		
-		// Webdriver
-		String chromeDriverPath = property.getProperty(Const.ktestconfig_ChromeDriverPath);
+		//String jsonString = "{\"isDryRun\":true,\"applicationId\":\"d5b0cef8-396d-11eb-adc1-0242ac120002\",\"webDrivers\":{\"chrome\":{\"isDownload\":false,\"driverPath\":\"//drivers//chrome//mac//_arm64\"},\"firefox\":{\"isDownload\":false,\"driverPath\":\"//drivers//firefox//mac//_arm64\"}}}";
 
-		
-		return config;
+        ObjectMapper objectMapper = new ObjectMapper();
+        KTestConfig config = new KTestConfig();
+
+        try {
+            // Deserialize JSON to a custom Java object
+            config = objectMapper.readValue(getConfigJsonFile(), KTestConfig.class);
+            
+            System.out.println("ApplicationID: " + config.getApplicationId());
+            System.out.println("Driver Path: " + config.getWebDrivers().getChrome().getDriverPath());
+
+            return config;
+        } catch (IOException e) {
+        	throw new ConfigFileNotFoundException(configFileNotFoundExceptionMessage);
+        }
+	}
+	
+	public static void main(String[] args) {
+		validateAndGetKTestConfig();
 	}
 
 }

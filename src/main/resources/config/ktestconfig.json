@@ -1,14 +1,14 @@
 {
-  "IsDryRun": true,
-  "ApplicationId": "d5b0cef8-396d-11eb-adc1-0242ac120002",
-  "WebDrivers": {
-    "Chrome": {
-      "IsDownload": false,
-      "DriverPath": "//drivers//chrome//mac//_arm64"
+  "isDryRun": true,
+  "applicationId": "d5b0cef8-396d-11eb-adc1-0242ac120002",
+  "webDrivers": {
+    "chrome": {
+      "isDownload": false,
+      "driverPath": "/drivers/chrome/mac/_arm64"
     },
-    "Firefox": {
-      "IsDownload": false,
-      "DriverPath": "//drivers//firefox//mac//_arm64"
+    "firefox": {
+      "isDownload": false,
+      "driverPath": "//drivers//firefox//mac//_arm64"
     }
   }
 }

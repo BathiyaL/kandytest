@@ -7,9 +7,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.dto.Testplan;
-import com.ktsapi.enums.Browsers;
-import com.ktsapi.enums.TestDriver;
-import com.ktsapi.testng.KTestConfig;
+import com.ktsapi.utils.testconfig.KTestConfig;
 
 public interface TestContext {
 
