@@ -54,13 +54,11 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		testResultRequest.setTestName(TestInitializr.getTestName());
 		testResultRequest.setTestDriver(TestInitializr.getTestConfiguration().getTestDriver().toString());
 		testResultRequest.setTestExecutionLog(ationLog);
-		// "testExecutionType": "AUTOMATED",
 		testResultRequest.setTestClass(TestInitializr.getTestClassName());
 		testResultRequest.setTestResultStatus(testResultStatus.name());
 
 		testResultRequest.setTestPlanId(TestInitializr.getKandyClientTestPlanId());
 		testResultRequest.setTestPlanAutomatedRunId(TestInitializr.getKandyClientTestPlanAutomatedRunId());
-		// "testPlanAutomatedRunId": 6
 		String[] nampeSplit = TestInitializr.getTestClassName().split("\\.");
 		String testClassName = nampeSplit[nampeSplit.length - 1];
 		String testID = null;

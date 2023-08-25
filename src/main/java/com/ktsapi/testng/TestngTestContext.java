@@ -4,8 +4,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-//import org.hibernate.dialect.FrontBaseDialect;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestResult;
@@ -26,16 +24,12 @@ import com.ktsapi.exceptions.TestClassNotFoundException;
 
 public class TestngTestContext implements TestContext{
 	
-//	private static final Logger LOG = Logger.getLogger("CONFIG");
-	
 	private ITestResult result;
 	
 	public TestngTestContext(final ITestResult result) {
 		this.result = result;
 	}
-	
 
-	
 	/*
 	 * These capabilities are as in selenium DesiredCapabilities
 	 * https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
@@ -47,6 +41,7 @@ public class TestngTestContext implements TestContext{
 	String browserversion = null;
 	Platform platform = Platform.ANY;
 	String chromeOptions[];
+	
 	// Avotomat attributes
 	TestDriver testDriver;
 	ExecutionMode executionMode;
@@ -132,7 +127,7 @@ public class TestngTestContext implements TestContext{
 		testConfigurationContext.setMobileCapabilitiesFileName(mobileCapabilitiesFileName);
 	}
 	
-	// if suite levle parameter is undefined get from test config
+	// if suite level parameter is undefined get from test config
 	private String getValueOfStandardParameter(String parameter,Testplan testPlan , TestConfiguration testConfig) {
 		
 		String suiteLevelParameterValue=null;
@@ -206,126 +201,6 @@ public class TestngTestContext implements TestContext{
 		
 		return returnParameterValue;
 	}
-	
-	
-	private String getValueOfStandardParameter3(String parameter,Testplan testPlan , TestConfiguration testConfig) {
-				
-		String suiteLevelParameterValue=null;
-		String testLevelParameterValue = getTestLevelParametersMap().get(parameter);
-		String logPostfix = " from test-level suite parameter";
-		String returnParameterValue = testLevelParameterValue;
-		
-		switch(parameter) {
-		case TestSuiteParameters.BASE_URL : {
-			suiteLevelParameterValue = testPlan.getParm_baseUrl();
-			break;
-		}
-		case TestSuiteParameters.IMPLICITLY_WAIT_TIME : {
-			suiteLevelParameterValue = testPlan.getParm_implicitlyWaitTime();							
-			break;
-		}
-//		case TestSuiteParameters.PAGE_LOAD_TIMEOUT : {
-//			parameterValue = testPlan.getParm_implicitlyWaitTime();
-//			break;
-//		}
-	}
-		
-		
-		if(suiteLevelParameterValue!=null) {			
-			if(testLevelParameterValue!=null) {		
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>1  :: " + returnParameterValue);
-				if(testPlan.getParm_overrideTestParameters()) {
-					returnParameterValue = suiteLevelParameterValue;
-					
-					logPostfix = " from header-level suite parameter";
-				}
-			}else {
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>  :: " + returnParameterValue);
-				switch(parameter) {
-					case TestSuiteParameters.BASE_URL : {
-						returnParameterValue = testPlan.getParm_baseUrl();
-						break;
-					}
-					case TestSuiteParameters.IMPLICITLY_WAIT_TIME : {
-						returnParameterValue = testPlan.getParm_implicitlyWaitTime();
-						
-						break;
-					}
-				}				
-				logPostfix = " from header-level suite parameter";
-			}
-		}else {
-			if(getTestLevelParametersMap().get(parameter)==null) {
-				switch(parameter) {
-					case TestSuiteParameters.BASE_URL : {
-						returnParameterValue = testConfig.baseUrl();
-						break;
-					}
-					case TestSuiteParameters.IMPLICITLY_WAIT_TIME : {
-						returnParameterValue = String.valueOf(testConfig.implicitlyWaitTime());
-						break;
-					}
-				}				
-				logPostfix = " from test configuration annotation ";
-			}			
-		}
-		
-//		// validate numeric values
-//		switch(parameter) {
-//			case TestSuiteParameters.IMPLICITLY_WAIT_TIME : {
-//				try {
-//					Long.parseLong(parameterValue);
-//				}catch(NumberFormatException e) {
-//					ConfigLogger.logWarn(parameter + " value \""+parameterValue + "\" defined in test suite xml is not a valid numeric value.");
-//					parameterValue = String.valueOf(testConfig.implicitlyWaitTime());
-//					logPostfix = " from test configuration annotation ";
-//					
-//				}
-//				break;
-//			}
-//		}	
-		
-		if(StringUtils.isEmpty(returnParameterValue)) {
-			ConfigLogger.logWarn(parameter + " not defined in either test suite or test configuration");
-		}else {
-			ConfigLogger.logInfo("Setting " + parameter + " " + returnParameterValue + logPostfix);
-		}
-		
-		
-		
-		
-		return returnParameterValue;
-	}
-	
-//	private String getBaseUrlFromParameters(Testplan testPlan , TestConfiguration testConfig) {
-//		String logPostfix = " from test-level suite parameter";
-//		String baseURL = getTestLevelParametersMap().get(TestSuiteParameters.BASE_URL);
-//		if(testPlan.getParm_baseUrl()!=null) {			
-//			if(getTestLevelParametersMap().get(TestSuiteParameters.BASE_URL)!=null) {				
-//				if(testPlan.getParm_overrideTestParameters()) {
-//					baseURL = testPlan.getParm_baseUrl();
-//					logPostfix = " from header-level suite parameter";
-//				}
-//			}else {
-//				baseURL = testPlan.getParm_baseUrl();
-//				logPostfix = " from header-level suite parameter";
-//			}
-//		}else {
-//			if(getTestLevelParametersMap().get(TestSuiteParameters.BASE_URL)==null) {
-//				baseURL = testConfig.baseUrl();	
-//				logPostfix = " from test configuration annotation ";
-//			}			
-//		}
-//		
-//		if(StringUtils.isEmpty(baseURL)) {
-//			ConfigLogger.logWarn("Base url not defined in either test suite or test configuration");
-//		}else {
-//			ConfigLogger.logInfo("Setting base url " + baseURL + logPostfix);
-//		}
-//		
-//		return baseURL;
-//	}
-	
 	
 	@Override
 	public boolean hasTestConfigurationAnnotation(){		
@@ -413,17 +288,5 @@ public class TestngTestContext implements TestContext{
 	public boolean isDryrun() {
 		return (Boolean)result.getTestContext().getSuite().getAttribute(TestInitializr.IS_DRY_RUN);
 	}
-
-
-
-//	@Override
-//	public Browsers getTestConfigurationBrowser() {
-//		return this.browser;
-//	}
-//
-//	@Override
-//	public String[] getTestConfigurationChromeOptions() {
-//		return this.chromeOptions;
-//	}
 
 }

@@ -36,6 +36,10 @@ public class Const {
 	
 	public static final String ktestconfig_IsDryRun = "IsDryRun";
 	public static final String ktestconfig_ApplicationId = "ApplicationId";
+	
+	//WebDriver keys
+	public static final String ktestconfig_ChromeDriverPath = "ChromeDriverPath";
+	public static final String ktestconfig_FirefoxDriverPath = "FirefoxDriverPath";
 
 
 }

@@ -114,7 +114,7 @@ public abstract class KandyWebDriverManager implements WebDriverManager{
 		}
 		
 		URL driverPath = KandyWebDriverManager.class.getResource("/drivers/"+browser.getBrowserName()+ "/"+getOS() +"/_"+getBitSystem()); // TODO use more efficient way to handle path
-
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. : " + driverPath.getPath());
 		String decodedDriverPath = URLDecoder.decode(driverPath.getPath(), "UTF-8");
 		return decodedDriverPath;
 	}

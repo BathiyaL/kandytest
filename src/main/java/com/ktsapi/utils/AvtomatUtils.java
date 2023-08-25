@@ -122,6 +122,11 @@ public class AvtomatUtils {
 		}else {
 			throw new TestConfigValidationException(String.format(errorMessage, isDryrun,Const.ktestconfig_IsDryRun));
 		}
+		
+		// Webdriver
+		String chromeDriverPath = property.getProperty(Const.ktestconfig_ChromeDriverPath);
+
+		
 		return config;
 	}
 
