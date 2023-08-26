@@ -5,9 +5,8 @@ import java.io.UnsupportedEncodingException;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import com.ktsapi.contexts.WebDriverDefaults;
 import com.ktsapi.core.TestInitializr;
+import com.ktsapi.exceptions.WebDriverProviderException;
 
 public class FirefoxDriverProvider extends KandyWebDriverManager {
 
@@ -39,19 +38,13 @@ public class FirefoxDriverProvider extends KandyWebDriverManager {
 	}
 	
 	private void setSystemProperty() {
-		String firefoxDriverPath = "";
+		File file = null;
 		try {
-			if(TestInitializr.getTestConfiguration().getBrowserVersion().equals(WebDriverDefaults.BUILT_IN_BROWSER_VERSION)) {
-				firefoxDriverPath = getWebDriverPathOf(TestInitializr.getTestConfiguration().getBrowser());
-			}else {
-				// TODO : get from drivers folder
-			}
+			file = getWebDriverPathOf(TestInitializr.getTestConfiguration().getBrowser());
 			
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			throw new WebDriverProviderException(e.getMessage());
 		}
-		
-		File file =  new File(firefoxDriverPath,WebDriverDefaults.BUILT_IN_FIREFOX_DRIVER_FILE_NAME);
 		System.setProperty("webdriver.gecko.driver",file.getPath());
 	}
 

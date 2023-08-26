@@ -11,7 +11,7 @@
 	
    <test name = "Test1">
 	   <parameter name="baseUrl" value="https://github.com/" />
-	   <parameter name="browser" value="chrome" />
+	   <parameter name="browser" value="firefox" />
       <classes>
          <class name = "com.katf.tests.TC0_TestDemo" />
       </classes>

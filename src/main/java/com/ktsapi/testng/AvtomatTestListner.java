@@ -196,19 +196,19 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 		runner.start(); // Open/Init TestCache map in TestInitializr
 
-		String browserVersionLog = " (driver should exist in the .drivers folder)"; // TODO : add correct path later
-		if (TestInitializr.getTestConfiguration().getBrowserVersion()
-				.equals(WebDriverDefaults.BUILT_IN_BROWSER_VERSION)) {
-			browserVersionLog = " (execution will use the built-in driver)";
-		}
+		//String browserVersionLog = " (driver should exist in the .drivers folder)"; // TODO : add correct path later
+//		if (TestInitializr.getTestConfiguration().getBrowserVersion()
+//				.equals(WebDriverDefaults.BUILT_IN_BROWSER_VERSION)) {
+//			browserVersionLog = " (execution will use the built-in driver)";
+//		}
 		String log = "\n#################### Test Startup Configuration #####################\n" + "Test Suite : "
 				+ TestInitializr.getTestPlanName() + "["
 				+ TestInitializr.getTestSuiteFilePath().getFileName().toString() + "]" + "\n" + "Test Name : "
 				+ TestInitializr.getTestName() + "\n" + "Test Class : " + TestInitializr.getTestClassName() + "\n"
 				+ "baseUrl : " + TestInitializr.getTestConfiguration().getBaseUrl() + "\n" + "testDriver : "
 				+ TestInitializr.getTestConfiguration().getTestDriver() + "\n" + "browser : "
-				+ TestInitializr.getTestConfiguration().getBrowser() + "\n" + "browserVersion : "
-				+ TestInitializr.getTestConfiguration().getBrowserVersion() + browserVersionLog + "\n"
+				+ TestInitializr.getTestConfiguration().getBrowser() + "\n" + "Running OS : "
+				+ AvtomatUtils.getOS() + "\n"
 				+ "implicitlyWaitTime : " + TestInitializr.getImplicitlyWaitTime() + "\n" + "pageLoadTimeout : "
 				+ TestInitializr.getPageLoadTimeout() + "\n" + "scriptTimeout : " + TestInitializr.getScriptTimeout()
 				+ "\n" + "######################################################################";

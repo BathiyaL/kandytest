@@ -56,6 +56,7 @@ public class TestRunner extends TestSession implements Runner{
 		
 		setTestPlanObj(testContext.getTestPlanObj());
 		setTestConfigObj(testContext.getTestConfigObj());
+		setSysConfigObj(testContext.getSysConfigObj());
 		setDryRunStatus(testContext.isDryrun());
 	}
 

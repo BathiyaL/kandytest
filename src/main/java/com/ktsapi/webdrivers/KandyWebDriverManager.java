@@ -21,6 +21,7 @@ import com.ktsapi.core.Const;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
+import com.ktsapi.exceptions.WebDriverNotFoundException;
 
 public abstract class KandyWebDriverManager implements WebDriverManager{
 	protected static final Logger WEB_DRIVER_PROVIDER_LOG = LogManager.getLogger(KandyWebDriverManager.class);
@@ -91,36 +92,29 @@ public abstract class KandyWebDriverManager implements WebDriverManager{
 		return false;
 	}
 	
-	String getOS() {
-		// TODO chekc for other os and return
-		String runningOS = System.getProperty("os.name");
-		if (runningOS.startsWith("Mac")) { // move this to config file or enum
-			return "mac";
-		}
-		return "win";
-	}
-	String getBitSystem() {
-		// TODO check bit system from the machine, for now mac 64 not handled
-		if(getOS().equals("mac")) {
-			return "arm64";
-		}
-		return "32";
-	}
-	
-	String getWebDriverPathOf(Browsers browser) throws UnsupportedEncodingException{
-		
+	File getWebDriverPathOf(Browsers browser) throws UnsupportedEncodingException{
+		String driverPath;
 		if(browser.equals(Browsers.CHROME_HEADLESS)) {
 			browser = Browsers.CHROME; // both chrome and chrome headless use same driver
 		}
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  : " + TestInitializr.getTestConfigObj().getWebDrivers().getChrome().getDriverPath());
-		String driverPath1 = TestInitializr.getTestConfigObj().getWebDrivers().getChrome().getDriverPath();
-		URL urlPath = KandyWebDriverManager.class.getResource(driverPath1);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>getPath  : " + urlPath.getPath());
+		switch(browser) {
+		  case CHROME:
+			  driverPath = TestInitializr.getTestConfigObj().getWebDrivers().getChrome().getDriverPath();
+		    break;
+		  case FIREFOX:
+			  driverPath = TestInitializr.getTestConfigObj().getWebDrivers().getFirefox().getDriverPath();
+		    break;
+		  default:
+			  driverPath = TestInitializr.getTestConfigObj().getWebDrivers().getChrome().getDriverPath();
+		}
+
+		URL urlPath = KandyWebDriverManager.class.getResource(driverPath);
 		
-		
-		URL driverPath = KandyWebDriverManager.class.getResource("/drivers/"+browser.getBrowserName()+ "/"+getOS() +"/_"+getBitSystem()); // TODO use more efficient way to handle path
-		String decodedDriverPath = URLDecoder.decode(driverPath.getPath(), "UTF-8");
-		return decodedDriverPath;
+		if(urlPath==null) {
+			throw new WebDriverNotFoundException("Cannot find Webdriver in given config path : " + driverPath);
+		}
+
+		return new File(URLDecoder.decode(urlPath.getPath(), "UTF-8"));
 	}
 	
 	File getConfigFile() {

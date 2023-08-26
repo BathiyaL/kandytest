@@ -21,6 +21,7 @@ import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.ExecutionMode;
 import com.ktsapi.enums.TestDriver;
 import com.ktsapi.exceptions.TestClassNotFoundException;
+import com.ktsapi.utils.sysconfig.SysConfig;
 import com.ktsapi.utils.testconfig.KTestConfig;
 
 public class TestngTestContext implements TestContext{
@@ -260,6 +261,11 @@ public class TestngTestContext implements TestContext{
 	@Override
 	public KTestConfig getTestConfigObj() {
 		return (KTestConfig)result.getTestContext().getSuite().getAttribute(TestInitializr.TEST_CONFIG_OBJ);
+	}
+	
+	@Override
+	public SysConfig getSysConfigObj() {
+		return (SysConfig)result.getTestContext().getSuite().getAttribute(TestInitializr.TEST_SYS_CONFIG_OBJ);
 	}
 
 	@Override

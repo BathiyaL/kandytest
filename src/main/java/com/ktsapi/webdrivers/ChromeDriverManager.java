@@ -14,6 +14,7 @@ import com.ktsapi.core.TestInitializr;
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.ExecutionMode;
 import com.ktsapi.exceptions.WebDriverProviderException;
+import com.ktsapi.utils.AvtomatUtils;
 public class ChromeDriverManager extends KandyWebDriverManager{
 	
 	
@@ -32,43 +33,30 @@ public class ChromeDriverManager extends KandyWebDriverManager{
 				throw new WebDriverProviderException(e.getMessage());
 			}
 		}		
-
 		return getMachineInstalledChromeBinary();
-
 	}
 	
 	private WebDriver getMachineInstalledChromeBinary() {
-		setSystemProperty();
-		
-		
+		setSystemProperty();				
 		return new ChromeDriver(getChromeOptions());
 	}
 
 	
 	protected void setSystemProperty() {
-		String chromeDriverPath = "";
+		File file = null;
 		try {
-			if(TestInitializr.getTestConfiguration().getBrowserVersion().equals(WebDriverDefaults.BUILT_IN_BROWSER_VERSION)) {
-				chromeDriverPath = getWebDriverPathOf(TestInitializr.getTestConfiguration().getBrowser());
-			}else {
-				// TODO : get from drivers folder
-			}
+			file = getWebDriverPathOf(TestInitializr.getTestConfiguration().getBrowser());
 			
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			throw new WebDriverProviderException(e.getMessage());
 		}
-		
-		File file = null;
-		//String runningOS = System.getProperty("os.name");
-		if (getOS().startsWith("mac")) { // move this to config file or enum
-			file =  new File(chromeDriverPath,WebDriverDefaults.BUILT_IN_CHROME_DRIVER_FILE_NAME_MAC);
+		if (AvtomatUtils.getOS().equals(TestInitializr.getSysConfigObj().getOs().getMac().getTagName())) {
 			System.setProperty("webdriver.http.factory", "jdk-http-client");
-		} else {  // TODO : if needed handle win and other os types
-			file =  new File(chromeDriverPath,WebDriverDefaults.BUILT_IN_CHROME_DRIVER_FILE_NAME_WIN);
-
 		}
 
-		System.setProperty("webdriver.chrome.driver",file.getPath());
+		if(file != null) {
+			System.setProperty("webdriver.chrome.driver",file.getPath());
+		}
 	}
 	private ChromeOptions getChromeOptions() {	
 		

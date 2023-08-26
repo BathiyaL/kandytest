@@ -23,7 +23,11 @@ public class Const {
 	public static final String TEST_API_CONFIG_FOLDER_NAME = "config";
 	public static final String TEST_API_CONFIG_MOBILE_FOLDER_NAME = "mobile";
 	public static final String TEST_API_CONFIG_PROPERTY_FILE_NAME = "ktestconfig.properties";
-	public static final String TEST_API_JSON_PROPERTY_FILE_NAME = "ktestconfig.json";
+	public static final String TEST_API_CONFIG_JSON_FILE_NAME = "ktestconfig.json";
+	
+	//Sys config
+	public static final String SYS_CONFIG_JSON_FILE_NAME = "sysconfig.json";
+
 
 	
 	// ktestconfig.properties keys

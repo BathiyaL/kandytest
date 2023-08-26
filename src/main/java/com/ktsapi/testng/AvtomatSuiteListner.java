@@ -25,6 +25,7 @@ import com.ktsapi.enums.TestDriver;
 import com.ktsapi.exceptions.TestSuiteValidationException;
 import com.ktsapi.kclient.KandyClientApiCaller;
 import com.ktsapi.utils.AvtomatUtils;
+import com.ktsapi.utils.sysconfig.SysConfig;
 import com.ktsapi.utils.testconfig.KTestConfig;
 
 public class AvtomatSuiteListner implements ISuiteListener  {
@@ -47,10 +48,12 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	@Override
 	public void onStart(ISuite suite) {
 		
-		//KTestConfig ktestConfig = AvtomatUtils.validateAndGetKTestConfig();
 		KTestConfig ktestConfig = AvtomatUtils.validateAndGetKTestConfig();
+		SysConfig sysConfig = AvtomatUtils.validateAndGetSysConfig();
 
-		suite.setAttribute(TestInitializr.TEST_CONFIG_OBJ, ktestConfig);  
+		suite.setAttribute(TestInitializr.TEST_CONFIG_OBJ, ktestConfig);
+		suite.setAttribute(TestInitializr.TEST_SYS_CONFIG_OBJ, sysConfig);  
+		
 		isDryRun = getIsDryRunForTestInstance(ktestConfig, suite);
 
 		 testMethods  = suite.getAllMethods();

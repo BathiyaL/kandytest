@@ -4,11 +4,11 @@
   "webDrivers": {
     "chrome": {
       "isDownload": false,
-      "driverPath": "/drivers/chrome/mac/_arm64"
+      "driverPath": "/drivers/chrome/mac/_arm64/chromedriver"
     },
     "firefox": {
       "isDownload": false,
-      "driverPath": "//drivers//firefox//mac//_arm64"
+      "driverPath": "/drivers/firefox/mac/_arm64/geckodriver"
     }
   }
 }

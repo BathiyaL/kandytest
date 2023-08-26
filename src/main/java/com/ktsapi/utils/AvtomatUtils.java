@@ -18,11 +18,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.core.Const;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.exceptions.AndriodDriverManagerException;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
 import com.ktsapi.mobile.AndriodDriverManagerObject;
+import com.ktsapi.utils.sysconfig.SysConfig;
 import com.ktsapi.utils.testconfig.KTestConfig;
 public class AvtomatUtils {
 	
@@ -105,34 +107,12 @@ public class AvtomatUtils {
         	throw new AndriodDriverManagerException("Error occur whild fetching mobile capabilities json file -> " + e.getMessage());
         }
 	}
-	
-//	public static KTestConfig validateAndGetKTestConfig() {
-//		String errorMessage = "Invalid value \"%s\" for %s, please fix config value and try again";
-//		
-//		KTestConfig config = new KTestConfig();
-//		Properties property = AvtomatUtils.getConfigPropertyFile();
-//		
-//		config.setApplicationId(property.getProperty(Const.ktestconfig_ApplicationId));
-//		
-//		String isDryrun = property.getProperty(Const.ktestconfig_IsDryRun);
-//		if(isDryrun.toLowerCase().equals("true") || isDryrun.toLowerCase().equals("false")) {
-//			config.setDryRun(Boolean.parseBoolean(isDryrun));
-//		}else {
-//			throw new TestConfigValidationException(String.format(errorMessage, isDryrun,Const.ktestconfig_IsDryRun));
-//		}
-//		
-//		// Webdriver
-//		String chromeDriverPath = property.getProperty(Const.ktestconfig_ChromeDriverPath);
-//
-//		
-//		return config;
-//	}
-	
-	public static File getConfigJsonFile(){
+
+	public static File getConfigJsonFile(String fileName){
 		File file;
 		
 		try {
-			file = new File(getConfigFolderPath().resolve(Const.TEST_API_JSON_PROPERTY_FILE_NAME).toString());
+			file = new File(getConfigFolderPath().resolve(fileName).toString());
 		} catch (NullPointerException e) {
 			throw new ConfigFileNotFoundException(configFileNotFoundExceptionMessage);
 		}	    
@@ -140,26 +120,46 @@ public class AvtomatUtils {
 	}
 	
 	public static KTestConfig validateAndGetKTestConfig() {
-		//String jsonString = "{\"isDryRun\":true,\"applicationId\":\"d5b0cef8-396d-11eb-adc1-0242ac120002\",\"webDrivers\":{\"chrome\":{\"isDownload\":false,\"driverPath\":\"//drivers//chrome//mac//_arm64\"},\"firefox\":{\"isDownload\":false,\"driverPath\":\"//drivers//firefox//mac//_arm64\"}}}";
-
         ObjectMapper objectMapper = new ObjectMapper();
         KTestConfig config = new KTestConfig();
-
         try {
-            // Deserialize JSON to a custom Java object
-            config = objectMapper.readValue(getConfigJsonFile(), KTestConfig.class);
-            
-            System.out.println("ApplicationID: " + config.getApplicationId());
-            System.out.println("Driver Path: " + config.getWebDrivers().getChrome().getDriverPath());
-
+            config = objectMapper.readValue(getConfigJsonFile(Const.TEST_API_CONFIG_JSON_FILE_NAME), KTestConfig.class);
             return config;
         } catch (IOException e) {
         	throw new ConfigFileNotFoundException(configFileNotFoundExceptionMessage);
         }
 	}
 	
-	public static void main(String[] args) {
-		validateAndGetKTestConfig();
+	public static SysConfig validateAndGetSysConfig() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SysConfig config = new SysConfig();
+        try {
+            config = objectMapper.readValue(getConfigJsonFile(Const.SYS_CONFIG_JSON_FILE_NAME), SysConfig.class);
+            return config;
+        } catch (IOException e) {
+        	throw new ConfigFileNotFoundException(e.getMessage());
+        }
+	}
+	
+	public static String getOS() {
+		// TODO check for other os and return
+		
+		try {
+			String osNameProperty = TestInitializr.getSysConfigObj().getSystemProperties().getOsName();
+			String[] supportOSList = TestInitializr.getSysConfigObj().getOs().getSupportTypes();
+			
+			String runningOS = System.getProperty(osNameProperty); // e.g. os.name
+			for(String osType : supportOSList) {
+				if(runningOS!=null && runningOS.toLowerCase().contains(osType)) {
+					return osType;
+				}
+			}
+		} catch (Exception e) {
+			ConfigLogger.logError("Error when fetching OS from system property, return OS=UNDEFINED");
+			return "UNDEFINED";
+		}
+
+		return "win"; // TODO: for now default is win
 	}
 
 }

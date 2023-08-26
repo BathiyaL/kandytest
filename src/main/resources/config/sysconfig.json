@@ -1,0 +1,19 @@
+{
+  "systemProperties": {
+    "osName": "os.name"
+  },
+  "os": {
+    "supportTypes": [
+      "mac",
+      "win"
+    ],
+    "mac": {
+      "tagName": "mac",
+      "osNameValue": "Mac OS X"
+    },
+    "win": {
+      "tagName": "win",
+      "osNameValue": "Windows"
+    }
+  }
+}
