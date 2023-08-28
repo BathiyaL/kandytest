@@ -22,4 +22,11 @@
       </classes>
    </test>
    
-</suite>	
+   <test name = "ChromeHeadlessTest">
+	   <parameter name="browser" value="chrome_headless" />
+      <classes>
+         <class name="com.katf.tests.TestKandyWebElementActionsWithPageObject" />
+      </classes>
+   </test>
+   
+</suite>

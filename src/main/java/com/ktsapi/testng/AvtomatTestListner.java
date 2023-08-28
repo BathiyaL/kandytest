@@ -93,6 +93,8 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	@Override
 	public void onTestSkipped(ITestResult result) {
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has skipped");
+		// TODO: if there is a validation ERROR in test tag in suite (means before test start) no need to tearDown or do we need to log 
+		// result with validation ERROR
 		tearDownContext(result, TestResultStatus.Skipped);
 	}
 
@@ -147,6 +149,8 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	}
 
 	private void setXmlTestLevelParametersToMap(ITestContext testContext) {
+		TestSuiteValidator testSuiteValidator = new TestSuiteValidator(testContext);
+		
 		xmlTestLevelParameterMap = new HashMap<String, String>();
 		xmlTestLevelParameterMap.put(TestSuiteParameters.BASE_URL,
 				testContext.getCurrentXmlTest().getParameter(TestSuiteParameters.BASE_URL));
@@ -156,8 +160,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 				testContext.getCurrentXmlTest().getParameter(TestSuiteParameters.SCRIPT_TIMEOUT));
 		xmlTestLevelParameterMap.put(TestSuiteParameters.PAGE_LOAD_TIMEOUT,
 				testContext.getCurrentXmlTest().getParameter(TestSuiteParameters.PAGE_LOAD_TIMEOUT));
-		xmlTestLevelParameterMap.put(TestSuiteParameters.BROWSER,
-				testContext.getCurrentXmlTest().getParameter(TestSuiteParameters.BROWSER));
+		xmlTestLevelParameterMap.put(TestSuiteParameters.BROWSER, testSuiteValidator.validateAndGetBrowserParameterValue());
 
 	}
 

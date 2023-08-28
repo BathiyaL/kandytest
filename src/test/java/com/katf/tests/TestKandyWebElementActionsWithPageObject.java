@@ -22,7 +22,7 @@ import com.ktsapi.enums.TestDriver;
 
 @TestConfiguration(
 		testDriver = TestDriver.WEB, // Mandatory
-		browser=Browsers.SAFARI
+		browser=Browsers.CHROME_HEADLESS
 )
 public class TestKandyWebElementActionsWithPageObject {
 	

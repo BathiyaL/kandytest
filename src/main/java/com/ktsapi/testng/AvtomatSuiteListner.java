@@ -19,7 +19,6 @@ import com.ktsapi.contexts.TestSuiteParameters;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.dto.TestPlanRequest;
 import com.ktsapi.dto.Testplan;
-import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.ExecutionMode;
 import com.ktsapi.enums.TestDriver;
 import com.ktsapi.exceptions.TestSuiteValidationException;
@@ -50,6 +49,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		
 		KTestConfig ktestConfig = AvtomatUtils.validateAndGetKTestConfig();
 		SysConfig sysConfig = AvtomatUtils.validateAndGetSysConfig();
+		TestSuiteValidator testSuiteValidator = new TestSuiteValidator(suite);
 
 		suite.setAttribute(TestInitializr.TEST_CONFIG_OBJ, ktestConfig);
 		suite.setAttribute(TestInitializr.TEST_SYS_CONFIG_OBJ, sysConfig);  
@@ -85,7 +85,8 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	     testPlan.setParm_scriptTimeout(validateNumericParameterValueOf(TestSuiteParameters.SCRIPT_TIMEOUT,suite));
 	     testPlan.setParm_pageLoadTimeout(validateNumericParameterValueOf(TestSuiteParameters.PAGE_LOAD_TIMEOUT,suite));	     
 	     
-	     testPlan.setBrowser(validateBrowserParameterValue(suite));
+	     //testPlan.setBrowser(validateBrowserParameterValue(suite));
+	     testPlan.setBrowser(testSuiteValidator.validateAndGetBrowserParameterValue());
 	     testPlan.setParm_baseUrl(validateBaseUrlParameterValue(suite));
 	     testPlan.setTestDriver(validateTestDriverParameterValue(suite));
 	     testPlan.setExecutionMode(validateExecutionModeParameterValue(suite));
@@ -303,26 +304,6 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		}
 		
 		return baseUrl;
-	}
-	
-	private String validateBrowserParameterValue(ISuite suite) {
-		String browserParmValue = suite.getXmlSuite().getParameter(TestSuiteParameters.BROWSER);
-		// TODO : Write generic validation, to validate all values of Browser enum instead one by one
-		if(browserParmValue!=null) {
-			
-			try {
-				Browsers.valueOf(browserParmValue.toUpperCase());
-			}catch(IllegalArgumentException e) {
-				String errMsg = "Invalid value for \"browser\" parameter. Value Should be one of " + Arrays.asList(Browsers.values()) ; // get list form Browser enum
-				ConfigLogger.logError(errMsg);
-				throw new TestSuiteValidationException(errMsg);
-			}
-
-		}else {
-			return Browsers.UNDEFINED.name();
-		}
-		
-		return browserParmValue.toUpperCase();
 	}
 
 	@Override
