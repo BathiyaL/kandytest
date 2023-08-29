@@ -2,26 +2,19 @@ package com.ktsapi.testng;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
 import org.testng.ITestNGMethod;
-
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.contexts.TestSuiteParameters;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.dto.TestPlanRequest;
 import com.ktsapi.dto.Testplan;
-import com.ktsapi.enums.ExecutionMode;
-import com.ktsapi.enums.TestDriver;
-import com.ktsapi.exceptions.TestSuiteValidationException;
 import com.ktsapi.kclient.KandyClientApiCaller;
 import com.ktsapi.utils.AvtomatUtils;
 import com.ktsapi.utils.sysconfig.SysConfig;
@@ -35,6 +28,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	private String kandyTestPlanAutmatedRunID;
 	private boolean isDryRun;
 	private Long workspaceId = 101L;
+    private long startTime;
 
 	 public void setTestCount(int testCount){
 	      this.testCount = testCount;
@@ -80,34 +74,20 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	     testPlan.setExecutedBy(AvtomatUtils.getWindowsLoggedInUser());
 	     testPlan.setTotalTestsInTEPXml(this.testCount);
 	     
-	     testPlan.setParm_sutVersionNumber(validateNumericParameterValueOf(TestSuiteParameters.SUT_VERSION_NUMBER,suite));
-	     testPlan.setParm_implicitlyWaitTime(validateNumericParameterValueOf(TestSuiteParameters.IMPLICITLY_WAIT_TIME,suite));
-	     testPlan.setParm_scriptTimeout(validateNumericParameterValueOf(TestSuiteParameters.SCRIPT_TIMEOUT,suite));
-	     testPlan.setParm_pageLoadTimeout(validateNumericParameterValueOf(TestSuiteParameters.PAGE_LOAD_TIMEOUT,suite));	     
-	     
-	     //testPlan.setBrowser(validateBrowserParameterValue(suite));
+	     testPlan.setParm_sutVersionNumber(testSuiteValidator.validateNumericParameterValueOf(TestSuiteParameters.SUT_VERSION_NUMBER));
+	     testPlan.setParm_implicitlyWaitTime(testSuiteValidator.validateNumericParameterValueOf(TestSuiteParameters.IMPLICITLY_WAIT_TIME));
+	     testPlan.setParm_scriptTimeout(testSuiteValidator.validateNumericParameterValueOf(TestSuiteParameters.SCRIPT_TIMEOUT));
+	     testPlan.setParm_pageLoadTimeout(testSuiteValidator.validateNumericParameterValueOf(TestSuiteParameters.PAGE_LOAD_TIMEOUT));	     
+
 	     testPlan.setBrowser(testSuiteValidator.validateAndGetBrowserParameterValue());
-	     testPlan.setParm_baseUrl(validateBaseUrlParameterValue(suite));
-	     testPlan.setTestDriver(validateTestDriverParameterValue(suite));
-	     testPlan.setExecutionMode(validateExecutionModeParameterValue(suite));
+	     testPlan.setParm_baseUrl(testSuiteValidator.validateBaseUrlParameterValue());
+	     testPlan.setTestDriver(testSuiteValidator.validateTestDriverParameterValue());
+	     testPlan.setExecutionMode(testSuiteValidator.validateExecutionModeParameterValue());
 	     
-	     testPlan.setTestPlanRunId(validateNumericParameterValueOf(TestSuiteParameters.TEST_PLAN_RUN_ID,suite));
-	     testPlan.setTestPlanTemplateId(validateNumericParameterValueOf(TestSuiteParameters.TEST_PLAN_TEMPLATE_ID,suite));
-	     
-	     
-	     String overrideTestParameters = suite.getXmlSuite().getParameter(TestSuiteParameters.OVERRIDE_TEST_PARAMETERS);
-	     
-	     if(overrideTestParameters==null) {
-	    	 testPlan.setParm_overrideTestParameters(Boolean.parseBoolean("false"));; // Not define in suite or no run on default suite	    	 
-	     }else {
-	    	 if(StringUtils.equalsIgnoreCase(overrideTestParameters, "true") || StringUtils.equalsIgnoreCase(overrideTestParameters, "false")) {
-	    		 testPlan.setParm_overrideTestParameters(Boolean.parseBoolean(StringUtils.lowerCase(overrideTestParameters)));
-	    	 }else {
-	    		 // TODO : should fail the script since invalid parameters
-	    	 }
-	    	 
-	     }
-	    
+	     testPlan.setTestPlanRunId(testSuiteValidator.validateNumericParameterValueOf(TestSuiteParameters.TEST_PLAN_RUN_ID));
+	     testPlan.setTestPlanTemplateId(testSuiteValidator.validateNumericParameterValueOf(TestSuiteParameters.TEST_PLAN_TEMPLATE_ID));	     
+	     testPlan.setParm_overrideTestParameters(testSuiteValidator.validateOverrideTestParameterValue());
+
 	     ConfigLogger.logInfo("@TestSuite{"+suite.getXmlSuite().getFileName()+"} is starting.....");
 	        
 	     suite.setAttribute(TestInitializr.TEST_EXECUTED_BY, AvtomatUtils.getWindowsLoggedInUser());   
@@ -240,71 +220,6 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 			return tepParameterValue ;
 		}
 	} 
-	
-	
-	private String validateNumericParameterValueOf(String parameter,ISuite suite) {	
-		String parameterValue = suite.getXmlSuite().getParameter(parameter);
-	
-		try {
-			if(parameterValue!=null) {
-				Long.parseLong(parameterValue);
-			}
-		} catch (NumberFormatException e) {
-			String errMsg = suite.getXmlSuite().getFileName() + " contains invalid numieric value \""+parameterValue+"\" for " + parameter + " paramter. Correct it and re-run";
-			ConfigLogger.logError(errMsg);
-			throw new TestSuiteValidationException(errMsg);
-		}
-		
-		return parameterValue;
-	}
-	
-	private String validateExecutionModeParameterValue(ISuite suite) {
-		String executionModeValue = suite.getXmlSuite().getParameter(TestSuiteParameters.EXECUTION_MODE);
-		if(executionModeValue!=null) {
-			
-			try {
-				ExecutionMode.valueOf(executionModeValue.toUpperCase());
-			}catch(IllegalArgumentException e) {
-				String errMsg = "Invalid value for \"executionMode\" parameter. Value Should be one of " + Arrays.asList(TestDriver.values()) ;
-				ConfigLogger.logError(errMsg);
-				throw new TestSuiteValidationException(errMsg);
-			}
-
-		}else {
-			return ExecutionMode.UNDEFINED.name();
-		}
-		
-		return executionModeValue.toUpperCase();
-	}
-	
-	private String validateTestDriverParameterValue(ISuite suite) {
-		String testDriverValue = suite.getXmlSuite().getParameter(TestSuiteParameters.TEST_DRIVER);
-		if(testDriverValue!=null) {
-			
-			try {
-				TestDriver.valueOf(testDriverValue.toUpperCase());
-			}catch(IllegalArgumentException e) {
-				String errMsg = "Invalid value for \"testDriver\" parameter. Value Should be one of " + Arrays.asList(TestDriver.values()) ;
-				ConfigLogger.logError(errMsg);
-				throw new TestSuiteValidationException(errMsg);
-			}
-
-		}else {
-			return TestDriver.UNDEFINED.name();
-		}
-		
-		return testDriverValue.toUpperCase();
-	}
-	
-	private String validateBaseUrlParameterValue(ISuite suite) {
-		String baseUrl = suite.getXmlSuite().getParameter(TestSuiteParameters.BASE_URL);
-		// TODO :: validate for valid url format
-		if(baseUrl==null) {
-			return "UNDEFINED";
-		}
-		
-		return baseUrl;
-	}
 
 	@Override
 	public void onFinish(ISuite suite) {
@@ -330,5 +245,4 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		}
 		
 	}
-    private long startTime;
 }
