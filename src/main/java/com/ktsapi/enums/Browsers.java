@@ -14,6 +14,7 @@ import com.ktsapi.webdrivers.SafariDriverProvider;
 public enum Browsers {
 	CHROME("chrome",ChromeDriverManager.class),
 	FIREFOX("firefox",FirefoxDriverProvider.class),
+	FIREFOX_HEADLESS("firefox-headless",FirefoxDriverProvider.class),
 	CHROME_HEADLESS("chrome-headless",ChromeDriverManager.class),
 	SAFARI("safari",SafariDriverProvider.class),
 	UNDEFINED("undefined",ChromeDriverManager.class); // TODO : need to check this better remove this class parameter
@@ -52,13 +53,12 @@ public enum Browsers {
 		
 		switch (TestInitializr.getTestConfiguration().getBrowser()) {
 		case CHROME:
+		case CHROME_HEADLESS:
 			driver = new ChromeDriverManager().get();
 			break;
 		case FIREFOX:
+		case FIREFOX_HEADLESS:
 			driver = new FirefoxDriverProvider().get();
-			break;
-		case CHROME_HEADLESS:
-			driver = new ChromeDriverManager().get();
 			break;
 		case SAFARI:
 			driver = new SafariDriverProvider().get();

@@ -4,8 +4,13 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+
+import com.ktsapi.contexts.WebDriverDefaults;
 import com.ktsapi.core.TestInitializr;
+import com.ktsapi.enums.Browsers;
 import com.ktsapi.exceptions.WebDriverProviderException;
 
 public class FirefoxDriverProvider extends KandyWebDriverManager {
@@ -33,8 +38,7 @@ public class FirefoxDriverProvider extends KandyWebDriverManager {
 
 	private WebDriver getMachineInstalledFirefoxBinary() {
 		setSystemProperty();
-		// TODO : need to pass Firefox options
-		return new FirefoxDriver();
+		return new FirefoxDriver(getFirefoxOptions());
 	}
 	
 	private void setSystemProperty() {
@@ -46,6 +50,23 @@ public class FirefoxDriverProvider extends KandyWebDriverManager {
 			throw new WebDriverProviderException(e.getMessage());
 		}
 		System.setProperty("webdriver.gecko.driver",file.getPath());
+	}
+	
+	private FirefoxOptions getHeadlessOptions() {
+		FirefoxOptions options = new FirefoxOptions();
+		options.addArguments("-headless");
+		return options;
+	}
+	
+	private FirefoxOptions getFirefoxOptions() {	
+		
+		if(TestInitializr.getTestConfiguration().getBrowser().equals(Browsers.FIREFOX_HEADLESS)) {
+			return getHeadlessOptions();
+		}
+		FirefoxOptions options = new FirefoxOptions();
+		// TODO : get from test config , or shall we move to app config
+		
+		return options;
 	}
 
 }

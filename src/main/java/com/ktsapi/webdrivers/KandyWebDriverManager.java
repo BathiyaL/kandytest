@@ -94,14 +94,13 @@ public abstract class KandyWebDriverManager implements WebDriverManager{
 	
 	File getWebDriverPathOf(Browsers browser) throws UnsupportedEncodingException{
 		String driverPath;
-		if(browser.equals(Browsers.CHROME_HEADLESS)) {
-			browser = Browsers.CHROME; // both chrome and chrome headless use same driver
-		}
 		switch(browser) {
 		  case CHROME:
+		  case CHROME_HEADLESS:
 			  driverPath = TestInitializr.getTestConfigObj().getWebDrivers().getChrome().getDriverPath();
 		    break;
 		  case FIREFOX:
+		  case FIREFOX_HEADLESS:
 			  driverPath = TestInitializr.getTestConfigObj().getWebDrivers().getFirefox().getDriverPath();
 		    break;
 		  default:
