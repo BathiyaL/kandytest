@@ -151,6 +151,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	private void setXmlTestLevelParametersToMap(ITestContext testContext) {
 		TestSuiteValidator testSuiteValidator = new TestSuiteValidator(testContext);
 		
+		// TODO : Need to validate other parm like browser
 		xmlTestLevelParameterMap = new HashMap<String, String>();
 		xmlTestLevelParameterMap.put(TestSuiteParameters.BASE_URL,
 				testContext.getCurrentXmlTest().getParameter(TestSuiteParameters.BASE_URL));

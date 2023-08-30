@@ -159,7 +159,7 @@ public class TestngTestContext implements TestContext{
 			}
 		}
 		
-		if (suiteLevelParameterValue != null && !suiteLevelParameterValue.equals("UNDEFINED")) { // if not defined in suite level it will set as "UNDEFINED"
+		if (suiteLevelParameterValue != null && !suiteLevelParameterValue.toUpperCase().equals(TestSuiteParameters.UNDEFINED)) { // if not defined in suite level it will set as "UNDEFINED"
 			if (!suiteLevelParameterValue.equals(testLevelParameterValue)) {
 				/*
 				 * different means it gives priority to test level parameter
@@ -169,7 +169,7 @@ public class TestngTestContext implements TestContext{
 				ConfigLogger.logInfo("Setting " + parameter + " " + returnParameterValue + " from suite parameters");
 			}
 		}else {			
-			if(testLevelParameterValue == null) {				
+			if(testLevelParameterValue == null || testLevelParameterValue.toUpperCase() == TestSuiteParameters.UNDEFINED) { // if not defined in test level it will set as "UNDEFINED" or NULL		
 				
 				switch(parameter) {
 				case TestSuiteParameters.BASE_URL : {
