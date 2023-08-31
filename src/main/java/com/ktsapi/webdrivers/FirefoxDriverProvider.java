@@ -2,12 +2,9 @@ package com.ktsapi.webdrivers;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-
 import com.ktsapi.contexts.WebDriverDefaults;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.enums.Browsers;
@@ -38,7 +35,9 @@ public class FirefoxDriverProvider extends KandyWebDriverManager {
 
 	private WebDriver getMachineInstalledFirefoxBinary() {
 		setSystemProperty();
-		return new FirefoxDriver(getFirefoxOptions());
+		WebDriver driver  = new FirefoxDriver(getFirefoxOptions());
+		driver.manage().window().maximize();
+		return driver;
 	}
 	
 	private void setSystemProperty() {
@@ -59,12 +58,12 @@ public class FirefoxDriverProvider extends KandyWebDriverManager {
 	}
 	
 	private FirefoxOptions getFirefoxOptions() {	
-		
+		FirefoxOptions options = new FirefoxOptions();
 		if(TestInitializr.getTestConfiguration().getBrowser().equals(Browsers.FIREFOX_HEADLESS)) {
+			options.addArguments(WebDriverDefaults.FIREFOX_HEADLESS_OPTIONS);
 			return getHeadlessOptions();
 		}
-		FirefoxOptions options = new FirefoxOptions();
-		// TODO : get from test config , or shall we move to app config
+		// TODO : custom config get from test config , or shall we move to app config
 		
 		return options;
 	}

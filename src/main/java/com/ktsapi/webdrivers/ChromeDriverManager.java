@@ -40,7 +40,6 @@ public class ChromeDriverManager extends KandyWebDriverManager{
 		setSystemProperty();				
 		return new ChromeDriver(getChromeOptions());
 	}
-
 	
 	protected void setSystemProperty() {
 		File file = null;
@@ -59,28 +58,17 @@ public class ChromeDriverManager extends KandyWebDriverManager{
 		}
 	}
 	private ChromeOptions getChromeOptions() {	
-		
-		if(TestInitializr.getTestConfiguration().getBrowser().equals(Browsers.CHROME_HEADLESS)) {
-			return getHeadlessOptions();
-		}
 		ChromeOptions options = new ChromeOptions();
+
+		if(TestInitializr.getTestConfiguration().getBrowser().equals(Browsers.CHROME_HEADLESS)) {
+			options.addArguments(WebDriverDefaults.CHROME_HEADLESS_OPTIONS);
+		}
 		String[] optionsFromTestConfig = TestInitializr.getTestConfiguration().getChromeOptions();		
 		if(optionsFromTestConfig.length==1 && optionsFromTestConfig[0].equals("UNDEFINED")) {
 			options.addArguments(WebDriverDefaults.CHROME_OPTIONS);//default chrome options			
 		}else {
 			options.addArguments(optionsFromTestConfig);			
 		}
-		
-		return options;
-	}
-		
-	private ChromeOptions getHeadlessOptions() {
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--no-sandbox");
-		options.addArguments("--disable-dev-shm-usage");
-		options.addArguments("--headless");
-		
-		//options.addArguments("--remote-allow-origins=*");
 		
 		return options;
 	}

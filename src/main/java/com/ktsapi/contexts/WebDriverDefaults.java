@@ -33,4 +33,8 @@ public class WebDriverDefaults {
 			.add("--disable-dev-shm-usage")
 			.add("--headless")
 			.build();
+	
+	public static final List<String> FIREFOX_HEADLESS_OPTIONS = ImmutableList.<String>builder()
+			.add("-headless")
+			.build();
 }

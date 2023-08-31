@@ -22,7 +22,8 @@ import com.ktsapi.enums.TestDriver;
 
 @TestConfiguration(
 		testDriver = TestDriver.WEB, // Mandatory
-		browser=Browsers.CHROME_HEADLESS
+		browser=Browsers.FIREFOX_HEADLESS,
+		implicitlyWaitTime = 15
 )
 public class TestKandyWebElementActionsWithPageObject {
 	
@@ -43,7 +44,7 @@ public class TestKandyWebElementActionsWithPageObject {
 		page.name.type("Test All The Things");
 		print(page.name.getAttribute("value")); // TOODO : get action getValue()
 		Assert.assertEquals(page.name.getAttribute("value"), typeValue,"Type action fail");
-//
+
 		page.button.click();
 		Assert.assertEquals(page.lbltipAddedComment.getText(), "you just clicked me!","Button click action Fail");
 
