@@ -19,7 +19,7 @@ import com.ktsapi.enums.TestDriver;
 		testDriver = TestDriver.WEB, // Mandatory
 		browser=Browsers.CHROME,
 		//browserVersion="74",
-		chromeOptions = {"--start-maximized","--ignore-certificate-errors"}
+		browserOptions = {"--start-maximized","--ignore-certificate-errors"}
 )
 
 public class WaitUntilTest {

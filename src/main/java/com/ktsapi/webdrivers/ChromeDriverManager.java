@@ -63,7 +63,7 @@ public class ChromeDriverManager extends KandyWebDriverManager{
 		if(TestInitializr.getTestConfiguration().getBrowser().equals(Browsers.CHROME_HEADLESS)) {
 			options.addArguments(WebDriverDefaults.CHROME_HEADLESS_OPTIONS);
 		}
-		String[] optionsFromTestConfig = TestInitializr.getTestConfiguration().getChromeOptions();		
+		String[] optionsFromTestConfig = TestInitializr.getTestConfiguration().getBrowserOptions();		
 		if(optionsFromTestConfig.length==1 && optionsFromTestConfig[0].equals("UNDEFINED")) {
 			options.addArguments(WebDriverDefaults.CHROME_OPTIONS);//default chrome options			
 		}else {

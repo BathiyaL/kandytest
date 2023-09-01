@@ -29,4 +29,11 @@
       </classes>
    </test>
    
+   <test name = "FirefoxHeadlessTest">
+	   <parameter name="browser" value="firefox_headless" />
+      <classes>
+         <class name="com.katf.tests.TestKandyWebElementActionsWithPageObject" />
+      </classes>
+   </test>
+   
 </suite>

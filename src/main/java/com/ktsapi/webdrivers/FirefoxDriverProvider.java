@@ -50,20 +50,20 @@ public class FirefoxDriverProvider extends KandyWebDriverManager {
 		}
 		System.setProperty("webdriver.gecko.driver",file.getPath());
 	}
-	
-	private FirefoxOptions getHeadlessOptions() {
-		FirefoxOptions options = new FirefoxOptions();
-		options.addArguments("-headless");
-		return options;
-	}
-	
+
 	private FirefoxOptions getFirefoxOptions() {	
 		FirefoxOptions options = new FirefoxOptions();
 		if(TestInitializr.getTestConfiguration().getBrowser().equals(Browsers.FIREFOX_HEADLESS)) {
 			options.addArguments(WebDriverDefaults.FIREFOX_HEADLESS_OPTIONS);
-			return getHeadlessOptions();
 		}
 		// TODO : custom config get from test config , or shall we move to app config
+		// Currently default Firefox options are not defined
+//		String[] optionsFromTestConfig = TestInitializr.getTestConfiguration().getBrowserOptions();		
+//		if(optionsFromTestConfig.length==1 && optionsFromTestConfig[0].equals("UNDEFINED")) {
+//			options.addArguments(WebDriverDefaults.FIREFOX_OPTIONS);//default chrome options			
+//		}else {
+//			options.addArguments(optionsFromTestConfig);			
+//		}
 		
 		return options;
 	}

@@ -10,7 +10,7 @@ public class TestConfigurationContext {
 	String browserVersion;
 	private String baseUrl;
 	TestDriver testDriver;
-	String[] chromeOptions;
+	String[] browserOptions;
 	ExecutionMode executionMode;
 	String gridHubURL;
 	long implicitlyWaitTime;
@@ -56,13 +56,13 @@ public class TestConfigurationContext {
 		return testDriver;
 	}
 	
-	public void setChromeOptions(String[] chromeOptions)
+	public void setBrowserOptions(String[] chromeOptions)
 	{
-		this.chromeOptions = chromeOptions;
+		this.browserOptions = chromeOptions;
 	}
-	public String[] getChromeOptions()
+	public String[] getBrowserOptions()
 	{
-		return chromeOptions;
+		return browserOptions;
 	}
 	public void setExecutionMode(ExecutionMode executionMode)
 	{

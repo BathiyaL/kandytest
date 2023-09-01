@@ -88,7 +88,7 @@ public class TestngTestContext implements TestContext{
 		// TODO : following need to add to Test suite parameters
 		browserversion = testConfig.browserVersion();
 		testDriver = testConfig.testDriver();
-		chromeOptions = testConfig.chromeOptions();
+		chromeOptions = testConfig.browserOptions();
 		executionMode = testConfig.executionMode();
 		gridHubURL=testConfig.gridHubURL();
 		if(testConfig.browserVersion().equals("UNDEFINED")) {
@@ -97,7 +97,7 @@ public class TestngTestContext implements TestContext{
 			browserversion = testConfig.browserVersion();
 		}
 		
-		chromeOptions = testConfig.chromeOptions();
+		chromeOptions = testConfig.browserOptions();
 		
 
 		implicitlyWaitTime=Long.parseLong(getValueOfStandardParameter(TestSuiteParameters.IMPLICITLY_WAIT_TIME, testPlan,testConfig)); //testConfig.implicitlyWaitTime();
@@ -117,7 +117,7 @@ public class TestngTestContext implements TestContext{
 		
 		testConfigurationContext.setTestDriver(testDriver);
 		testConfigurationContext.setBrowserVersion(browserversion);
-		testConfigurationContext.setChromeOptions(chromeOptions);
+		testConfigurationContext.setBrowserOptions(chromeOptions);
 		testConfigurationContext.setExecutionMode(executionMode);
 		testConfigurationContext.setGridHubURL(gridHubURL);
 		testConfigurationContext.setImplicitlyWaitTime(implicitlyWaitTime);

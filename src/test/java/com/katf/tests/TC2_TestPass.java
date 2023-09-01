@@ -22,7 +22,7 @@ import com.ktsapi.enums.TestDriver;
 		//browserVersion="76",
 		//executionMode = ExecutionMode.GRID,
 		//gridHubURL = "http://localhost:4445",
-		chromeOptions = {"--start-maximized","--ignore-certificate-errors"}
+		browserOptions = {"--start-maximized","--ignore-certificate-errors"}
 )
 public class TC2_TestPass {
 	

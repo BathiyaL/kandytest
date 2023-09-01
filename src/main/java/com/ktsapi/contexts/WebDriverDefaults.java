@@ -37,4 +37,8 @@ public class WebDriverDefaults {
 	public static final List<String> FIREFOX_HEADLESS_OPTIONS = ImmutableList.<String>builder()
 			.add("-headless")
 			.build();
+	
+	public static final List<String> FIREFOX_OPTIONS = ImmutableList.<String>builder()
+			.add("-dummy-option")
+			.build();
 }

@@ -22,7 +22,7 @@ public @interface TestConfiguration {
 	Browsers browser() default Browsers.CHROME;
 	String browserVersion() default WebDriverDefaults.UNDEFINED;
 	TestDriver testDriver();
-	String[] chromeOptions() default {WebDriverDefaults.UNDEFINED};
+	String[] browserOptions() default {WebDriverDefaults.UNDEFINED};
 	ExecutionMode executionMode() default ExecutionMode.DEFAULT;
 	String gridHubURL() default "http://localhost:4444";
 	long implicitlyWaitTime() default DriverTimeOuts.DEFAULT_IMPLICITLY_WAIT_TIME;
