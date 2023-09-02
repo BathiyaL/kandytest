@@ -15,8 +15,6 @@ import java.nio.file.Paths;
 import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.ktsapi.contexts.WebDriverDefaults;
 import com.ktsapi.core.Const;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.enums.Browsers;

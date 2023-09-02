@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name = "IntegrationTestPlan" parallel="false" thread-count="1" verbose="1">
+	
+    <parameter name="browser" value="chrome" />
+    <parameter name="isDryRun" value="true" />
+    
+    <parameter name="testPlanTemplateId" value="1" />  
+	<!-- <parameter name="testPlanRunId" value="12" /> -->
+
+   <test name = "ChromeHeadlessTest">
+	   <parameter name="browser" value="chrome_headless" />
+      <classes>
+         <class name="com.katf.tests.TestKandyWebElementActionsWithPageObject" />
+      </classes>
+   </test>
+
+</suite>
