@@ -17,7 +17,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.contexts.TestSuiteParameters;
-import com.ktsapi.contexts.WebDriverDefaults;
 import com.ktsapi.core.Runner;
 import com.ktsapi.core.TestContext;
 import com.ktsapi.core.TestInitializr;
