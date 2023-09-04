@@ -27,7 +27,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	private String kandyTestPlanID;
 	private String kandyTestPlanAutmatedRunID;
 	private boolean isDryRun;
-	private Long workspaceId = 101L;
+	private Long workspaceId = 1L;
     private long startTime;
 
 	 public void setTestCount(int testCount){
@@ -134,25 +134,26 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		if(!isDryRun) {
 			try {
 				TestPlanRequest testPlanAutomatedRunResponse=null;
+				testPlanAutomatedRunResponse = KandyClientApiCaller.postTestPlanAutomatedRun(testPlanRequest);
 				
-				// TODO : handle use case when runid is not provided , to initiate new Run
-				// 	TODO : when run id is provided , no use of template id,
-				// Logic : if both the ids are provided we can give priority to the the run id	
-
-				if(isTestPlanRunIdIsProvided(testPlan.getTestPlanRunId())) {
-					testPlanAutomatedRunResponse = KandyClientApiCaller.postTestPlanAutomatedRun(testPlanRequest);
-				} else if(isTestPlanTemplateIdProvided(testPlan.getTestPlanTemplateId())) {
-					
-					// TODO : instead for invoking two endpoints from here we can come up with single endpoint to handle from client backend
-					TestPlanRequest testPlanRunResponse = KandyClientApiCaller.postTestPlanRun(testPlanRequest);
-					if(testPlanRunResponse != null) {
-						testPlanRequest.setTestPlanRunId(testPlanRunResponse.getTestPlanRunId());
-						testPlanAutomatedRunResponse = KandyClientApiCaller.postTestPlanAutomatedRun(testPlanRequest);
-					}
- 					
-				} else {
-					ConfigLogger.logInfo("@TestSuite{ TestPlanTemplateId or TestPlanTemplateId parameters are not provided }");
-				}
+//				// TODO : handle use case when runid is not provided , to initiate new Run
+//				// 	TODO : when run id is provided , no use of template id,
+//				// Logic : if both the ids are provided we can give priority to the the run id	
+//
+//				if(isTestPlanRunIdIsProvided(testPlan.getTestPlanRunId())) {
+//					testPlanAutomatedRunResponse = KandyClientApiCaller.postTestPlanAutomatedRun(testPlanRequest);
+//				} else if(isTestPlanTemplateIdProvided(testPlan.getTestPlanTemplateId())) {
+//					
+//					// TODO : instead for invoking two endpoints from here we can come up with single endpoint to handle from client backend
+//					TestPlanRequest testPlanRunResponse = KandyClientApiCaller.postTestPlanRun(testPlanRequest);
+//					if(testPlanRunResponse != null) {
+//						testPlanRequest.setTestPlanRunId(testPlanRunResponse.getTestPlanRunId());
+//						testPlanAutomatedRunResponse = KandyClientApiCaller.postTestPlanAutomatedRun(testPlanRequest);
+//					}
+// 					
+//				} else {
+//					ConfigLogger.logInfo("@TestSuite{ TestPlanTemplateId or TestPlanTemplateId parameters are not provided }");
+//				}
 				
 				
 				if(testPlanAutomatedRunResponse!=null ) {

@@ -51,12 +51,12 @@ public class KandyClientApiCaller {
 	        responseTestPlan = gson2.fromJson(content, TestPlanRequest.class);
 	       	        
 	        if(responseTestPlan.getTestPlanRunId()==null) {	        	
-	        	ConfigLogger.logWarn("@TestSuite{ [KandyClient] Test Plan Initiate Error : "+ content +" }");
+	        	ConfigLogger.logWarn("@TestSuite{ [KandyClient] Test Plan Run Initiate Error : "+ content +" }");
 	        }
 	        
 	        return responseTestPlan;
 		}catch (Exception ex) {
-			ConfigLogger.logWarn("@TestSuite{ [KandyClient] :: Test Plan Initiate Error : "+ ex.getMessage() +" }");
+			ConfigLogger.logWarn("@TestSuite{ [KandyClient] :: Test Plan Run Initiate Error : "+ ex.getMessage() +" }");
 		}
         
         return null;	
@@ -88,12 +88,12 @@ public class KandyClientApiCaller {
 	        responseTestPlan = gson2.fromJson(content, TestPlanRequest.class);
 	       	        
 	        if(responseTestPlan.getTestPlanRunId()==null) {	        	
-	        	ConfigLogger.logWarn("@TestSuite{ [KandyClient] Test Plan Initiate Error : "+ content +" }");
+	        	ConfigLogger.logWarn("@TestSuite{ [KandyClient] Test Plan Automated Run Initiate Error : "+ content +" }");
 	        }
 	        
 	        return responseTestPlan;
 		}catch (Exception ex) {
-			ConfigLogger.logWarn("@TestSuite{ [KandyClient] :: Test Plan Initiate Error : "+ ex.getMessage() +" }");
+			ConfigLogger.logWarn("@TestSuite{ [KandyClient] :: Test Plan Automated Run Initiate Error : "+ ex.getMessage() +" }");
 		}
         
         return null;		
