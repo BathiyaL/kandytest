@@ -96,8 +96,14 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	     suite.setAttribute(TestInitializr.TEST_PLAN_OBJ, testPlan);
 	     suite.setAttribute(TestInitializr.IS_DRY_RUN, isDryRun);
 	     
-	     handleKandyClientAPI(suite,getTestPlanRequestForKandyclient(ktestConfig));
-
+	     if(!isDryRun && !testPlan.getTestPlanName().equals("Default suite")) {
+		     handleKandyClientAPI(suite,getTestPlanRequestForKandyclient(ktestConfig));
+	     }else {
+			suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_ID, "DRY_RUN");  
+			suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_AUTOMATED_RUN_ID, "DRY_RUN");
+			suite.setAttribute(TestInitializr.IS_DRY_RUN, true);
+			ConfigLogger.logInfo("@TestSuite{DryRun=True}"); 
+	     }
 	}
 	
 	private TestPlanRequest getTestPlanRequestForKandyclient(KTestConfig ktestConfig) {
@@ -131,30 +137,10 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	}
 	
 	private void handleKandyClientAPI(ISuite suite, TestPlanRequest testPlanRequest) {
-		if(!isDryRun) {
+		if(isTestPlanTemplateIdProvided(testPlanRequest.getTestPlanTemplateId()) || isTestPlanRunIdIsProvided(testPlanRequest.getTestPlanRunId())) {
 			try {
 				TestPlanRequest testPlanAutomatedRunResponse=null;
 				testPlanAutomatedRunResponse = KandyClientApiCaller.postTestPlanAutomatedRun(testPlanRequest);
-				
-//				// TODO : handle use case when runid is not provided , to initiate new Run
-//				// 	TODO : when run id is provided , no use of template id,
-//				// Logic : if both the ids are provided we can give priority to the the run id	
-//
-//				if(isTestPlanRunIdIsProvided(testPlan.getTestPlanRunId())) {
-//					testPlanAutomatedRunResponse = KandyClientApiCaller.postTestPlanAutomatedRun(testPlanRequest);
-//				} else if(isTestPlanTemplateIdProvided(testPlan.getTestPlanTemplateId())) {
-//					
-//					// TODO : instead for invoking two endpoints from here we can come up with single endpoint to handle from client backend
-//					TestPlanRequest testPlanRunResponse = KandyClientApiCaller.postTestPlanRun(testPlanRequest);
-//					if(testPlanRunResponse != null) {
-//						testPlanRequest.setTestPlanRunId(testPlanRunResponse.getTestPlanRunId());
-//						testPlanAutomatedRunResponse = KandyClientApiCaller.postTestPlanAutomatedRun(testPlanRequest);
-//					}
-// 					
-//				} else {
-//					ConfigLogger.logInfo("@TestSuite{ TestPlanTemplateId or TestPlanTemplateId parameters are not provided }");
-//				}
-				
 				
 				if(testPlanAutomatedRunResponse!=null ) {
 					if(testPlanAutomatedRunResponse.getTestPlanRunId()!=null && !testPlanAutomatedRunResponse.getTestPlanRunId().equals("")) {						
@@ -181,9 +167,8 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 				e.printStackTrace();
 			}
 		}else {
-			ConfigLogger.logInfo("@TestSuite{DryRun=True}"); 
-			suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_ID, "DRY_RUN");  
-			suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_AUTOMATED_RUN_ID, "DRY_RUN"); 
+			ConfigLogger.logError("Validation Error : DryRun=True but testPlanTemplateId or testPlanRunId parameters are not found in test suite xml"); 
+			System.exit(0);
 		}
 	}
 	

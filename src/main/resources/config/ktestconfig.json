@@ -1,5 +1,5 @@
 {
-  "isDryRun": true,
+  "isDryRun": false,
   "applicationId": "d5b0cef8-396d-11eb-adc1-0242ac120002",
   "webDrivers": {
     "chrome": {
