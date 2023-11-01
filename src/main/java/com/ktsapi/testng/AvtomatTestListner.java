@@ -328,37 +328,28 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	// ########################################################################################################3
 
-
-	//private static final Logger LOGGER = LoggerFactory.getLogger(CustomisedReports.class);
-	private static final String REPORT_NAME = "testreport.html";
+    String REPORT_NAME = "testreport.html";
 	private static final String REPORT_FOLDER= "kandyreports";
 
-	//private static final String ROW_TEMPLATE = "<tr class=\"%s\"><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>";
-	private static final String ROW_TEMPLATE = "<tr><td>%s</td><td>%s</td><td>%s</td><td class=\"%s\">%s</td><td style=\"text-align: center; vertical-align: middle;\">%s</td></tr>";
+	private static final String ROW_TEMPLATE = "<tr><td>%s</td><td>%s</td><td class=\"%s\">%s</td><td style=\"text-align: center; vertical-align: middle;\">%s</td></tr>";
 
 	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
-		String reportTemplate = initReportTemplate();
 		
 		String suiteName = suites.get(0).getName();	
     	int testsCount = 0;
         int passedTests = 0;
         int skippedTests = 0;
         int failedTests = 0;
+        String reportTemplate = initReportTemplate();
+        REPORT_NAME = suiteName.concat(".html");
 		
 		for(String key :  suites.get(0).getResults().keySet()) {
-			//System.out.println("=================================== :: " + key);
 	    	testsCount += suites.get(0).getResults().get(key).getTestContext().getPassedTests().size();
 	        passedTests += suites.get(0).getResults().get(key).getTestContext().getPassedTests().size();
 	        skippedTests += suites.get(0).getResults().get(key).getTestContext().getSkippedTests().size();
 	        failedTests += suites.get(0).getResults().get(key).getTestContext().getFailedTests().size();			
 		}
 		testsCount = passedTests + skippedTests + failedTests;
-		System.out.println("===================================passedTests :: " + passedTests);
-		System.out.println("===================================skippedTests :: " + skippedTests);
-		System.out.println("===================================failedTests :: " + failedTests);
-		
-		System.out.println("===================================suiteName :: " + suiteName);
-		
 		reportTemplate = reportTemplate.replace("$reportTitle", getReportTitle(suiteName));
 		reportTemplate = reportTemplate.replace("$passedTestCount", Integer.toString(passedTests));
 		reportTemplate = reportTemplate.replace("$failedTestCount", Integer.toString(failedTests));
@@ -366,7 +357,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		
 		
 		final String body = suites.stream().flatMap(suiteToResults()).collect(Collectors.joining());
-		//saveReportTemplate(outputDirectory, reportTemplate.replaceFirst("</tbody>", String.format("%s</tbody>", body)));
 		saveReportTemplate(outputDirectory, reportTemplate.replace("$testResults",body));
 	}
 	
@@ -384,10 +374,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 			Set<ITestResult> failedTests = testContext.getFailedTests().getAllResults();
 			Set<ITestResult> passedTests = testContext.getPassedTests().getAllResults();
-			Set<ITestResult> skippedTests = testContext.getSkippedTests().getAllResults();
-			
-			// testContext.getFailedTests().getAllMethods().getAllTestMethods()[0].getDescription();			
-
+			Set<ITestResult> skippedTests = testContext.getSkippedTests().getAllResults();		
 			String suiteName = suite.getName();
 
 			return Stream.of(failedTests, passedTests, skippedTests)
@@ -400,27 +387,23 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	}
 
 	private Function<ITestResult, String> testResultToResultRow(String testName, String suiteName) {
-		// testResult.getName() // test method name
-		// testResult.getMethod().getDescription() // test description
-		// testResult.getName() // test method name
 		return testResult -> {
 			
 			String fullyQualifiedName = testResult.getTestClass().getName();
 			String testClassName = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".")+1);
 			String testGroup = testName;
-			String testDescription = testResult.getMethod().getDescription();
+			//String testDescription = testResult.getMethod().getDescription(); // fetch description in @test annotation
 			
 			switch (testResult.getStatus()) {
 			case ITestResult.FAILURE:
-				return String.format(ROW_TEMPLATE, testGroup, testClassName, testDescription,"bg-danger", "FAILED", "NA");
+				return String.format(ROW_TEMPLATE, testGroup, testClassName, "bg-danger", "FAILED", "NA");
 
 			case ITestResult.SUCCESS:
-				return String.format(ROW_TEMPLATE, testGroup, testClassName, testDescription,"bg-success", "PASSED",
+				return String.format(ROW_TEMPLATE, testGroup, testClassName, "bg-success", "PASSED",
 						String.valueOf(testResult.getEndMillis() - testResult.getStartMillis()));
 
 			case ITestResult.SKIP:
-				return String.format(ROW_TEMPLATE,testGroup, testClassName,"bg-warning", testDescription, "SKIPPED",
-						"NA");
+				return String.format(ROW_TEMPLATE,testGroup, testClassName, "bg-warning", "SKIPPED","NA");
 
 			default:
 				return "";
@@ -433,11 +416,10 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		byte[] reportTemplate;
 		Path resourceDirectoryPath = Paths.get("src","test","resources","reportTemplateV4.html");
 		try {
-			//reportTemplate = Files.readAllBytes(Paths.get("src/test/resources/reportTemplateV4.html"));
 			reportTemplate = Files.readAllBytes(Paths.get(resourceDirectoryPath.toUri()));
 			template = new String(reportTemplate, "UTF-8");
 		} catch (IOException e) {
-			//LOGGER.error("Problem initializing template", e);
+			ConfigLogger.logInfo("Issue occuer while initializing custom report template");
 		}
 		return template;
 	}
@@ -454,7 +436,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 			reportWriter.flush();
 			reportWriter.close();
 		} catch (IOException e) {
-			//LOGGER.error("Problem saving template", e);
+			ConfigLogger.logInfo("Issue occuer while saving custom report template");
 		}
 	}
 	
