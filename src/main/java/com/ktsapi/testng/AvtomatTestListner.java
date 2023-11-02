@@ -326,7 +326,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		return this.testCount;
 	}
 
-	// ########################################################################################################3
+	// ############################################# Custom Report Generation ###########################################################
 
     String REPORT_NAME = "testreport.html";
 	private static final String REPORT_FOLDER= "kandyreports";
@@ -419,7 +419,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 			reportTemplate = Files.readAllBytes(Paths.get(resourceDirectoryPath.toUri()));
 			template = new String(reportTemplate, "UTF-8");
 		} catch (IOException e) {
-			ConfigLogger.logInfo("Issue occuer while initializing custom report template");
+			ConfigLogger.logInfo("Error occuer while initializing custom report template");
 		}
 		return template;
 	}
@@ -436,7 +436,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 			reportWriter.flush();
 			reportWriter.close();
 		} catch (IOException e) {
-			ConfigLogger.logInfo("Issue occuer while saving custom report template");
+			ConfigLogger.logInfo("Error occuer while saving custom report template");
 		}
 	}
 	
