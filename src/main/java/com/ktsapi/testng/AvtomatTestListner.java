@@ -51,7 +51,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	private Runner runner = null;
 	LocalDateTime testExecutionStartTime;
 
-	boolean postTestResult(TestResultStatus testResultStatus) {
+	boolean postTestResult(TestResultStatus testResultStatus,ITestResult result) {
 		
 		String ationLog = printAndGetActionLogger();
 		
@@ -78,7 +78,8 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 		testResultRequest.setTestPlanId(TestInitializr.getKandyClientTestPlanId());
 		testResultRequest.setTestPlanAutomatedRunId(TestInitializr.getKandyClientTestPlanAutomatedRunId());
-		String[] nampeSplit = TestInitializr.getTestClassName().split("\\.");
+		// getting testid from TEP is there better way to handle this
+		String[] nampeSplit = result.getTestContext().getName().split("\\."); //TestInitializr.getTestClassName().split("\\.");
 		String testClassName = nampeSplit[nampeSplit.length - 1];
 		String testID = null;
 		if (testClassName.contains("_") && testClassName.contains("TC")) {
@@ -96,7 +97,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 				KandyClientApiCaller.postTestResult(testResultRequest);
 				return true;
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace(); // TODO : Add custom exception
 			}		
 		return false;
@@ -104,7 +104,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	@Override
 	public void onTestFailure(ITestResult result) {
-
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has failed");
 		tearDownContext(result, TestResultStatus.Failed);
 	}
@@ -195,7 +194,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	private void tearDownContext(ITestResult result, TestResultStatus testResultStatus) {
 		if (runner != null) {
 			if(!TestInitializr.getDryRunStatus()) {
-				postTestResult(testResultStatus);
+				postTestResult(testResultStatus,result);
 			}else {
 				printAndGetActionLogger();
 			}
@@ -216,14 +215,8 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 		// Setting data to TestCache
 		runner = new TestRunner(testContext);
-
 		runner.start(); // Open/Init TestCache map in TestInitializr
 
-		//String browserVersionLog = " (driver should exist in the .drivers folder)"; // TODO : add correct path later
-//		if (TestInitializr.getTestConfiguration().getBrowserVersion()
-//				.equals(WebDriverDefaults.BUILT_IN_BROWSER_VERSION)) {
-//			browserVersionLog = " (execution will use the built-in driver)";
-//		}
 		String log = "\n#################### Test Startup Configuration #####################\n" + "Test Suite : "
 				+ TestInitializr.getTestPlanName() + "["
 				+ TestInitializr.getTestSuiteFilePath().getFileName().toString() + "]" + "\n" + "Test Name : "
@@ -240,10 +233,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	@Override
 	public void onFinish(ITestContext context) {
-
 		ConfigLogger.logInfo("@TestClass{" + context.getCurrentXmlTest().getName() + "} execution has finished. \n");
-		// ConfigLogger.logInfo("@TestClass{"+testClassName + "} execution has finished.
-		// \n");
 	}
 
 	/*
@@ -301,8 +291,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 				setupTestContext(tr);
 				testInstanceClass = tr.getTestClass();
 			} else {
-				if (!testInstanceClass.equals(tr.getTestClass())) { // go to different test class instance in the same
-																	// plan
+				if (!testInstanceClass.equals(tr.getTestClass())) { // go to different test class instance in the same plan
 					testInstanceClass = tr.getTestClass();
 					setupTestContext(tr);
 				}
@@ -315,7 +304,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 				+ result.getMethod().getMethodName() + "()}";
 		return testMethodLogStr;
 	}
-
 	private long testCount = 0;
 
 	public void setTestCount(long testCount) {

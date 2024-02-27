@@ -22,7 +22,7 @@ import com.ktsapi.enums.TestDriver;
 
 @TestConfiguration(
 		testDriver = TestDriver.WEB, // Mandatory
-		browser=Browsers.CHROME_HEADLESS,
+		browser=Browsers.FIREFOX,
 		implicitlyWaitTime = 15,
 		baseUrl = "src/test/resources/demoapp/web-elements-page-4.html"
 )

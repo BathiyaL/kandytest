@@ -2,6 +2,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="IntegrationTestSuite" parallel="false" thread-count="3" verbose="1">
 
+    <parameter name="browser" value="firefox" />
+    <parameter name="isDryRun" value="false" />
+    
+    <parameter name="testPlanTemplateId" value="1" />  
+    
 	<test name="TestKandyWebElementActionsWithPageObject">
 		<classes>
 			<class name="com.katf.tests.TestKandyWebElementActionsWithPageObject" />

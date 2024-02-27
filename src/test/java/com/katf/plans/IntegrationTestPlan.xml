@@ -3,7 +3,7 @@
 <suite name = "IntegrationTestPlan" parallel="false" thread-count="1" verbose="1">
 	
     <parameter name="browser" value="chrome" />
-    <parameter name="isDryRun" value="true" />
+    <parameter name="isDryRun" value="false" />
     
     <parameter name="testPlanTemplateId" value="1" />  
 	<!-- <parameter name="testPlanRunId" value="12" /> -->

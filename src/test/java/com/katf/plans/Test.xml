@@ -2,24 +2,19 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="SmokeTest" parallel="tests" thread-count="3" verbose="1">
 
-	<!-- <parameter name="testPlanTemplateId" value="1" />  -->
-	<parameter name="testPlanRunId" value="14" />
+    <parameter name="isDryRun" value="false" />
+    <parameter name="testPlanTemplateId" value="1" />
+<!--	<parameter name="testPlanRunId" value="14" />-->
 
 	<test name="TC1_TestFail">
 		<classes>
-			<class name="com.avtomat.tests.TC1_TestFail" />
+			<class name="com.katf.tests.TC11_TestFail" />
 		</classes>
 	</test>
 	<test name="TC2_TestPass">
 		<classes>
-			<class name="com.avtomat.tests.TC2_TestPass" />
+			<class name="com.katf.tests.TC2_TestPass" />
 		</classes>
 	</test>
-	<test name="TC3_DemoSiteRegistrationForm">
-		<classes>
-			<class name="com.avtomat.tests.TC3_DemoSiteRegistrationForm" />
-		</classes>
-	</test>
-
  
 </suite>
