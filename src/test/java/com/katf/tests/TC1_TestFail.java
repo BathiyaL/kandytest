@@ -18,7 +18,7 @@ import com.ktsapi.enums.TestDriver;
 
 @TestConfiguration(
 		testDriver = TestDriver.WEB, // Mandatory
-		browser=Browsers.CHROME,
+		browser=Browsers.CHROME_HEADLESS,
 		baseUrl = "https://www.facebook.com/",
 		//browserVersion="76",
 		//executionMode = ExecutionMode.GRID,

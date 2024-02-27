@@ -14,8 +14,8 @@ import com.ktsapi.webdrivers.SafariDriverProvider;
 public enum Browsers {
 	CHROME("chrome",ChromeDriverManager.class),
 	FIREFOX("firefox",FirefoxDriverProvider.class),
-	FIREFOX_HEADLESS("firefox-headless",FirefoxDriverProvider.class),
-	CHROME_HEADLESS("chrome-headless",ChromeDriverManager.class),
+	FIREFOX_HEADLESS("firefox_headless",FirefoxDriverProvider.class),
+	CHROME_HEADLESS("chrome_headless",ChromeDriverManager.class),
 	SAFARI("safari",SafariDriverProvider.class),
 	UNDEFINED("undefined",ChromeDriverManager.class); // TODO : need to check this better remove this class parameter
 //	IE("internet explorer");

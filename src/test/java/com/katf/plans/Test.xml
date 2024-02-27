@@ -8,7 +8,7 @@
 
 	<test name="TC1_TestFail">
 		<classes>
-			<class name="com.katf.tests.TC11_TestFail" />
+			<class name="com.katf.tests.TC1_TestFail" />
 		</classes>
 	</test>
 	<test name="TC2_TestPass">
