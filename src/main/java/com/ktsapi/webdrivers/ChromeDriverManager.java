@@ -49,9 +49,9 @@ public class ChromeDriverManager extends KandyWebDriverManager{
 		} catch (UnsupportedEncodingException e) {
 			throw new WebDriverProviderException(e.getMessage());
 		}
-		if (AvtomatUtils.getOS().equals(TestInitializr.getSysConfigObj().getOs().getMac().getTagName())) {
-			System.setProperty("webdriver.http.factory", "jdk-http-client");
-		}
+//		if (AvtomatUtils.getOS().equals(TestInitializr.getSysConfigObj().getOs().getMac().getTagName())) {
+//			System.setProperty("webdriver.http.factory", "jdk-http-client");
+//		}
 
 		if(file != null) {
 			System.setProperty("webdriver.chrome.driver",file.getPath());

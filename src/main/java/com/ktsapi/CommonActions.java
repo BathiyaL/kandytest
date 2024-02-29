@@ -5,7 +5,7 @@ import com.ktsapi.actions.CommonDriverAction;
 public class CommonActions {
 
 	public static CommonDriverAction newInstance(){
-		return ABotActonsHandler.commanDriverActionsInstance();
+		return KTestActonsHandler.commanDriverActionsInstance();
 	}
 	
 	/** 

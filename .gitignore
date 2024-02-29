@@ -10,6 +10,7 @@ gradle-app.setting
 
 **/target
 *.project
+*.factorypath
 *.classpath
 *.settings
 *bin

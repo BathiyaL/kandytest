@@ -16,7 +16,7 @@ public class MobileActions {
 	}
 	
 	public static KandyTestMobileDriverActions newInstance(){
-		return ABotActonsHandler.mobileDriverActionsInstance();
+		return KTestActonsHandler.mobileDriverActionsInstance();
 	}
 	
 	public static <C> C getAndroidPage(Class<C> page) {

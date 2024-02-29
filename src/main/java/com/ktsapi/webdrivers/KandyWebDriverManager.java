@@ -105,13 +105,18 @@ public abstract class KandyWebDriverManager implements WebDriverManager{
 			  driverPath = TestInitializr.getTestConfigObj().getWebDrivers().getChrome().getDriverPath();
 		}
 
-		URL urlPath = KandyWebDriverManager.class.getResource(driverPath);
+		/*
+		 * for now decided to get drivers outside the resource path, 
+		 * we may want to bundle this again if we wanted to run on a build pipeline.
+		 * */
+//		URL urlPath = KandyWebDriverManager.class.getResource(driverPath);
+//		
+//		if(urlPath==null) {
+//			throw new WebDriverNotFoundException("Cannot find Webdriver in given config path : " + driverPath);
+//		}
+//		return new File(URLDecoder.decode(urlPath.getPath(), "UTF-8"));
 		
-		if(urlPath==null) {
-			throw new WebDriverNotFoundException("Cannot find Webdriver in given config path : " + driverPath);
-		}
-
-		return new File(URLDecoder.decode(urlPath.getPath(), "UTF-8"));
+		return new File(URLDecoder.decode(driverPath, "UTF-8"));
 	}
 	
 	File getConfigFile() {

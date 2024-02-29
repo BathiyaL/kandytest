@@ -51,7 +51,7 @@ public class WebActons {
 	}
 	
 	public static KandyTestWebDriverActions newInstance(){
-		return ABotActonsHandler.webDriverActionsInstance();
+		return KTestActonsHandler.webDriverActionsInstance();
 	}
 	
 	

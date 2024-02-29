@@ -24,9 +24,9 @@
 
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>4.9.0</version>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-java</artifactId>
+		    <version>4.18.0</version>
 		</dependency>
 
 
@@ -125,12 +125,13 @@
 		    <scope>test</scope>
 		</dependency>
 
-	<!-- mac ox need this with system property -->
+<!--no longer needed in selenium v 4.14 as the jdk client is the default.-->
+<!--	 mac ox need this with system property 
 	<dependency>
 	    <groupId>org.seleniumhq.selenium</groupId>
 	    <artifactId>selenium-http-jdk-client</artifactId>
 	    <version>4.5.0</version>
-	</dependency>
+	</dependency>-->
 
 	</dependencies>
 
@@ -187,16 +188,18 @@
             </executions>
         </plugin>
         
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>3.0.1</version>
-        <configuration>
-          <nonFilteredFileExtensions>
-            <nonFilteredFileExtension>unix</nonFilteredFileExtension>
-          </nonFilteredFileExtensions>
-        </configuration>
-      </plugin>
+		<plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-jar-plugin</artifactId>
+		    <version>3.3.0</version>
+		    <configuration>
+		        <archive>
+		            <manifestEntries>
+		                <Multi-Release>true</Multi-Release>
+		            </manifestEntries>
+		        </archive>
+		    </configuration>
+		</plugin>
         
 		</plugins>
 
