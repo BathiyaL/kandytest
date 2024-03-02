@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -402,9 +403,10 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	private String initReportTemplate() {
 		String template = null;
 		byte[] reportTemplate;
-		Path resourceDirectoryPath = Paths.get("src","test","resources","reportTemplateV4.html");
+		//Path resourceDirectoryPath = Paths.get("src","test","resources","reportTemplateV4.html");
+		URL url = getClass().getResource("/reports/reportTemplateV4.html");
 		try {
-			reportTemplate = Files.readAllBytes(Paths.get(resourceDirectoryPath.toUri()));
+			reportTemplate = Files.readAllBytes(Paths.get(url.getPath()));
 			template = new String(reportTemplate, "UTF-8");
 		} catch (IOException e) {
 			ConfigLogger.logInfo("Error occuer while initializing custom report template");
