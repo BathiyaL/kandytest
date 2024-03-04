@@ -5,7 +5,7 @@
     <parameter name="browser" value="chrome" />
     <parameter name="isDryRun" value="false" />
     
-    <parameter name="testPlanTemplateId" value="39" />  
+    <parameter name="testPlanTemplateId" value="42" />  
 	<!-- <parameter name="testPlanRunId" value="12" /> -->
 	
    <test name = "TC1_FirefoxTest">
