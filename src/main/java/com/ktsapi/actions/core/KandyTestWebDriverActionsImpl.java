@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import javax.validation.constraints.Size;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -17,6 +20,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -603,21 +607,55 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		}
 	}
 	
+	private SearchContext getShadowRoot(BaseWebElement baseElement) {
+		if(baseElement==null) {
+			return null;
+		}
+		String[] shadowLocatores = baseElement.getEnhancedWebElementLocator().getShadowLocators();
+		if(shadowLocatores!=null && shadowLocatores.length>0) {			
+			String[] firstLocator = shadowLocatores[0].split("=");
+			SearchContext searchContext = getSearchContextByLocaotrType(firstLocator[0],firstLocator[1]);
+			for(int i=1; i<shadowLocatores.length; i++) {
+				String lcoatorElm = shadowLocatores[i];
+				String[] locator = lcoatorElm.split("=");
+				String key = locator[0];
+				String value = locator[1];
+				searchContext = getSearchContextByLocaotrType(key,value,searchContext);
+			}
+			return searchContext;
+		}
+		return null;
+	}
+	
+	private SearchContext getSearchContextByLocaotrType(String key, String value) {
+		switch (key) {
+		case "name":return driver().findElement(By.name(value)).getShadowRoot();		
+		case "id":return driver().findElement(By.id(value)).getShadowRoot();	
+		case "xpath": return driver().findElement(By.xpath(value)).getShadowRoot();
+		case "cssSelector":return driver().findElement(By.cssSelector(value)).getShadowRoot();
+		default:
+			// TODO: handle when invalid locator
+			break;
+		}
+		return null;
+	}
+	private SearchContext getSearchContextByLocaotrType(String key, String value,SearchContext parentSearchContext) {
+		switch (key) {
+		case "name":return parentSearchContext.findElement(By.name(value)).getShadowRoot();		
+		case "id":return parentSearchContext.findElement(By.id(value)).getShadowRoot();	
+		case "xpath": return parentSearchContext.findElement(By.xpath(value)).getShadowRoot();
+		case "cssSelector":return parentSearchContext.findElement(By.cssSelector(value)).getShadowRoot();
+		default:
+			// TODO: handle when invalid locator
+			break;
+		}
+		return null;
+	}
+	
 	private void autoSwitchToGivenFrames(BaseWebElement baseElement) {
 		boolean enableAutoSwitch = true; // TODO : should be change by config file
 		if(enableAutoSwitch) {
 			switchToFrames(baseElement);
-//			if(null!=baseElement && baseElement.getFieldName()!=null) { // if element comes from page object then only switch
-//				// If frame has defined under @LocateBy then only switch
-//				if(baseElement.getEnhancedWebElementLocator().getFrames()!=null && baseElement.getEnhancedWebElementLocator().getFrames().length>0) {
-//					switchToGivenFrames(baseElement.getEnhancedWebElementLocator().getFrames());
-//				}else {					
-//					// if element comes from page object and @LocateBy is there without frames defined then switch to default content
-//					if(baseElement.getEnhancedWebElementLocator().isLocateByExist()) {
-//						driver().switchTo().defaultContent();
-//					}					
-//				}				
-//			}
 		}
 	}
 	
@@ -632,6 +670,10 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		try {
 			for(int i=1 ; i<=noOfTries ; i++) {
 				try {
+					SearchContext shadowSearchContext =  getShadowRoot(baseElement);
+					if(shadowSearchContext!=null) {
+						return shadowSearchContext.findElement(seleniumSelector);
+					}
 					autoSwitchToGivenFrames(baseElement); // null baseElement will handle inside the method
 					return driver().findElement(seleniumSelector);
 				}
