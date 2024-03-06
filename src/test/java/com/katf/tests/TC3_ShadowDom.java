@@ -20,7 +20,7 @@ public class TC3_ShadowDom {
 		GoTo("http://watir.com/examples/shadow_dom.html");
 		ShadowDomTestPage shadowPage = getWebPage(ShadowDomTestPage.class);
 		String actualText = shadowPage.nestedText.getText();
-		assertThat(actualText).isEqualTo(actualText);
+		assertThat(actualText).isEqualTo("nested text");
 		pause(5);
 	}
 }
