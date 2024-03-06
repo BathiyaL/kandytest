@@ -35,7 +35,7 @@ public void testMothod() {
  mobileApp = "Demo.apk",
  mobileDeviceName = "Pixel_2_XL_API_33",
 )
-public class TC50_AndroidMobileTestDemo {
+public class TC50_AndroidMobileTest {
 
 @BeforeTest
 public void launchApp() {	
@@ -47,7 +47,7 @@ public void testMothod() {
   page.name.typeWithLocatorParms("x", "y","z");
   hideKeyboard();
   // more code
-}
+ }
 }
 
 ```
