@@ -12,18 +12,18 @@ Support test drivers : UI, Mobile
 )
 public class TestKandyWebElementActionsWithPageObject {
 	
-	@BeforeTest
-	public void goSite() {	 	 
-	      OpenBrowser();	      
-	      GoTo(baseUrl());
-	      print(GetTitle());
-	 }
+@BeforeTest
+public void goSite() {	 	 
+  OpenBrowser();	      
+  GoTo(baseUrl());
+  print(GetTitle());
+}
 	
-	@Test
-	public void testMothod() {
-		ShadowDomTestPage shadowPage = getWebPage(ShadowDomTestPage.class);
-		String actualText = shadowPage.nestedText.getText();
-		assertThat(actualText).isEqualTo("nested text");
+@Test
+public void testMothod() {
+  hadowDomTestPage shadowPage = getWebPage(ShadowDomTestPage.class);
+  String actualText = shadowPage.nestedText.getText();
+  assertThat(actualText).isEqualTo("nested text");
   }
 }
 ```
@@ -32,20 +32,22 @@ public class TestKandyWebElementActionsWithPageObject {
 ```
 @TestConfiguration(
  testDriver = TestDriver.MOBILE_ANDROID,
- mobileApp = "General-Store.apk",
+ mobileApp = "Demo.apk",
  mobileDeviceName = "Pixel_2_XL_API_33",
 )
-	@BeforeTest
-	public void launchApp() {	
-		OpenMobileApp();
-	 }
-	public void testMothod() {	
-		AndroidDemoPage page = getAndroidPage(AndroidDemoPage.class);
-		page.name.type("A", "B","C");
-		page.name.typeWithLocatorParms("x", "y","z");
-		hideKeyboard();
-    // more code
-  }
+public class TC50_AndroidMobileTestDemo {
+
+@BeforeTest
+public void launchApp() {	
+  OpenMobileApp();
+}
+public void testMothod() {	
+  AndroidDemoPage page = getAndroidPage(AndroidDemoPage.class);
+  page.name.type("A", "B","C");
+  page.name.typeWithLocatorParms("x", "y","z");
+  hideKeyboard();
+  // more code
+}
 }
 
 ```
