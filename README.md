@@ -1,26 +1,55 @@
 # Kandytest
-Support test driver : UI, Mobile
+Support test drivers : UI, Mobile
 
-## writing you first script
+## Writing Web UI test
 
-`@TestConfiguration(
-		testDriver = TestDriver.WEB, // Mandatory
-		browser=Browsers.CHROME,
-		implicitlyWaitTime = 15,
-		baseUrl = "https://example.com/"
+```
+@TestConfiguration(
+ testDriver = TestDriver.WEB,
+ browser=Browsers.CHROME,
+ implicitlyWaitTime = 15,
+ baseUrl = "http://watir.com/examples/shadow_dom.html"
 )
 public class TestKandyWebElementActionsWithPageObject {
 	
 	@BeforeTest
 	public void goSite() {	 	 
 	      OpenBrowser();	      
-	      File path =  new File(baseUrl());
-	      GoTo("https://example.com/");
+	      GoTo(baseUrl());
 	      print(GetTitle());
 	 }
 	
 	@Test
-	public void testMothod() {	}
- 
- }
-`
+	public void testMothod() {
+		ShadowDomTestPage shadowPage = getWebPage(ShadowDomTestPage.class);
+		String actualText = shadowPage.nestedText.getText();
+		assertThat(actualText).isEqualTo("nested text");
+  }
+}
+```
+
+## Writing mobile test
+```
+@TestConfiguration(
+ testDriver = TestDriver.MOBILE_ANDROID,
+ mobileApp = "General-Store.apk",
+ mobileDeviceName = "Pixel_2_XL_API_33",
+)
+	@BeforeTest
+	public void launchApp() {	
+		OpenMobileApp();
+	 }
+	public void testMothod() {	
+		AndroidDemoPage page = getAndroidPage(AndroidDemoPage.class);
+		page.name.type("A", "B","C");
+		page.name.typeWithLocatorParms("x", "y","z");
+		hideKeyboard();
+    // more code
+  }
+}
+
+```
+
+## Test result reporting
+<img width="1505" alt="Screenshot 2024-03-07 at 00 32 29" src="https://github.com/BathiyaL/kandytest/assets/15939220/92321760-b1f9-48e9-9a95-0a14dffb41a9">
+
