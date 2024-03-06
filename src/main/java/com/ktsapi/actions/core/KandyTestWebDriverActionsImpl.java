@@ -11,8 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.validation.constraints.Size;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ElementClickInterceptedException;

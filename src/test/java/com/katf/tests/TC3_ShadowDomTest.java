@@ -13,7 +13,7 @@ import com.ktsapi.enums.TestDriver;
 		browser = Browsers.CHROME,
 		baseUrl = "http://watir.com/examples/shadow_dom.html",
 		browserOptions = { "--start-maximized", "--ignore-certificate-errors" })
-public class TC3_ShadowDom {
+public class TC3_ShadowDomTest {
 
 	@Test
 	public void testMethod() {
