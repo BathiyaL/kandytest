@@ -14,5 +14,7 @@ public @interface LocateBy {
 	String[] frames() default {};
 
 	String[] targets() default {};
+	
+	String[] shadowLocators() default {};
 
 }

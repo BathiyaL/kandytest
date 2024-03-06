@@ -57,6 +57,7 @@ public class AvtomatSeleniumDecorator extends DefaultFieldDecorator {
 			locator.setFrames(lBy.frames());
 			locator.setTargets(lBy.targets());	
 			locator.setLocateByExist(true);
+			locator.setShadowLocators(lBy.shadowLocators());
 		}else {
 			locator.setLocateByExist(false);
 		}

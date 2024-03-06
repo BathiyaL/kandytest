@@ -6,14 +6,20 @@ public class EnhancedWebElementLocator {
 	
 	String fieldName;
 	By target; // target locator defined under FindBy annotation
+	boolean isLocateByExist;
 	
 	String[] windowHandles;
 	String[] frames;	
 	String[] targets;
+	String[] shadowLocators;
 	
-	boolean isLocateByExist;
-	
-	
+	public String[] getShadowLocators() {
+		return shadowLocators;
+	}
+	public void setShadowLocators(String[] shadowLocators) {
+		this.shadowLocators = shadowLocators;
+	}
+
 	public String getFieldName() {
 		return fieldName;
 	}
