@@ -607,17 +607,19 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		}
 	}
 	
+	/*
+	 * NOTE: currently there is a limitation in selenium that locators other than css not working in nested shadow dom
+	 */
 	private SearchContext getShadowRoot(BaseWebElement baseElement) {
 		if(baseElement==null) {
 			return null;
 		}
 		String[] shadowLocatores = baseElement.getEnhancedWebElementLocator().getShadowLocators();
 		if(shadowLocatores!=null && shadowLocatores.length>0) {			
-			String[] firstLocator = shadowLocatores[0].split("=");
+			String[] firstLocator = vlidateElementLocator(shadowLocatores[0]);
 			SearchContext searchContext = getSearchContextByLocaotrType(firstLocator[0],firstLocator[1]);
 			for(int i=1; i<shadowLocatores.length; i++) {
-				String lcoatorElm = shadowLocatores[i];
-				String[] locator = lcoatorElm.split("=");
+				String[] locator = vlidateElementLocator(shadowLocatores[i]);
 				String key = locator[0];
 				String value = locator[1];
 				searchContext = getSearchContextByLocaotrType(key,value,searchContext);
@@ -632,24 +634,20 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		case "name":return driver().findElement(By.name(value)).getShadowRoot();		
 		case "id":return driver().findElement(By.id(value)).getShadowRoot();	
 		case "xpath": return driver().findElement(By.xpath(value)).getShadowRoot();
-		case "cssSelector":return driver().findElement(By.cssSelector(value)).getShadowRoot();
+		case "css":return driver().findElement(By.cssSelector(value)).getShadowRoot();
 		default:
-			// TODO: handle when invalid locator
-			break;
+			throw new InvalidLocatorException(ELEMENT_INVALID_LOCATOR_MSG + " ("+key+") defined in page object, shadowLocators strategy must be one of [name,id,xpath,css]");
 		}
-		return null;
 	}
 	private SearchContext getSearchContextByLocaotrType(String key, String value,SearchContext parentSearchContext) {
 		switch (key) {
 		case "name":return parentSearchContext.findElement(By.name(value)).getShadowRoot();		
 		case "id":return parentSearchContext.findElement(By.id(value)).getShadowRoot();	
 		case "xpath": return parentSearchContext.findElement(By.xpath(value)).getShadowRoot();
-		case "cssSelector":return parentSearchContext.findElement(By.cssSelector(value)).getShadowRoot();
+		case "css":return parentSearchContext.findElement(By.cssSelector(value)).getShadowRoot();
 		default:
-			// TODO: handle when invalid locator
-			break;
+			throw new InvalidLocatorException(ELEMENT_INVALID_LOCATOR_MSG + " ("+key+") defined in page object, shadowLocators strategy must be one of [name,id,xpath,css]");
 		}
-		return null;
 	}
 	
 	private void autoSwitchToGivenFrames(BaseWebElement baseElement) {
@@ -670,11 +668,11 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		try {
 			for(int i=1 ; i<=noOfTries ; i++) {
 				try {
-					SearchContext shadowSearchContext =  getShadowRoot(baseElement);
+					autoSwitchToGivenFrames(baseElement); // null baseElement will handle inside the method
+					SearchContext shadowSearchContext =  getShadowRoot(baseElement); // limitation:Iframes inside shadow dom is not supported
 					if(shadowSearchContext!=null) {
 						return shadowSearchContext.findElement(seleniumSelector);
 					}
-					autoSwitchToGivenFrames(baseElement); // null baseElement will handle inside the method
 					return driver().findElement(seleniumSelector);
 				}
 				catch(StaleElementReferenceException e) {

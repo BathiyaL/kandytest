@@ -14,8 +14,11 @@ public class ShadowDomTestPage extends KandyWebPageObject<FBPage> {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/*
+	 * NOTE: currently there is a limitation in selenium that locators other than css not working in nested shadow dom
+	 */
     @LocateBy(
-        	shadowLocators = {"id=shadow_host","cssSelector=#nested_shadow_host"}
+        	shadowLocators = {"id=shadow_host","css=#nested_shadow_host"}
         )
         @FindBy(css = "#nested_shadow_content > div")
         public EnhancedWebElement nestedText;
