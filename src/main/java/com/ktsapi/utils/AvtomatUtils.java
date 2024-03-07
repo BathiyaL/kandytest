@@ -62,7 +62,7 @@ public class AvtomatUtils {
 	}
 	
 	public static Properties getConfigPropertyFile(){
-		FileReader reader;
+		FileReader reader = null;
 		Properties configPropertyFile = new Properties(); 
 		
 		try {
@@ -74,7 +74,13 @@ public class AvtomatUtils {
 			}
 		} catch (FileNotFoundException e) {
 			throw new ConfigFileNotFoundException(configFileNotFoundExceptionMessage);
-		}	    
+		}finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				throw new ConfigFileNotFoundException(e.getMessage());
+			}
+		}
 	    return configPropertyFile;
 	}
 	

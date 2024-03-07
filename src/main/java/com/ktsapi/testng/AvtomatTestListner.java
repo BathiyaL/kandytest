@@ -9,7 +9,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -330,23 +329,27 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
         int skippedTests = 0;
         int failedTests = 0;
         String reportTemplate = initReportTemplate();
-        REPORT_NAME = suiteName.concat(".html");
-		
-		for(String key :  suites.get(0).getResults().keySet()) {
-	    	testsCount += suites.get(0).getResults().get(key).getTestContext().getPassedTests().size();
-	        passedTests += suites.get(0).getResults().get(key).getTestContext().getPassedTests().size();
-	        skippedTests += suites.get(0).getResults().get(key).getTestContext().getSkippedTests().size();
-	        failedTests += suites.get(0).getResults().get(key).getTestContext().getFailedTests().size();			
-		}
-		testsCount = passedTests + skippedTests + failedTests;
-		reportTemplate = reportTemplate.replace("$reportTitle", getReportTitle(suiteName));
-		reportTemplate = reportTemplate.replace("$passedTestCount", Integer.toString(passedTests));
-		reportTemplate = reportTemplate.replace("$failedTestCount", Integer.toString(failedTests));
-		reportTemplate = reportTemplate.replace("$skippedTestCount", Integer.toString(skippedTests));
-		
-		
-		final String body = suites.stream().flatMap(suiteToResults()).collect(Collectors.joining());
-		saveReportTemplate(outputDirectory, reportTemplate.replace("$testResults",body));
+        if(!(reportTemplate==null)) {
+            REPORT_NAME = suiteName.concat(".html");
+    		
+    		for(String key :  suites.get(0).getResults().keySet()) {
+    	    	testsCount += suites.get(0).getResults().get(key).getTestContext().getPassedTests().size();
+    	        passedTests += suites.get(0).getResults().get(key).getTestContext().getPassedTests().size();
+    	        skippedTests += suites.get(0).getResults().get(key).getTestContext().getSkippedTests().size();
+    	        failedTests += suites.get(0).getResults().get(key).getTestContext().getFailedTests().size();			
+    		}
+    		testsCount = passedTests + skippedTests + failedTests;
+    		reportTemplate = reportTemplate.replace("$reportTitle", getReportTitle(suiteName));
+    		reportTemplate = reportTemplate.replace("$passedTestCount", Integer.toString(passedTests));
+    		reportTemplate = reportTemplate.replace("$failedTestCount", Integer.toString(failedTests));
+    		reportTemplate = reportTemplate.replace("$skippedTestCount", Integer.toString(skippedTests));
+    		
+    		
+    		final String body = suites.stream().flatMap(suiteToResults()).collect(Collectors.joining());
+    		saveReportTemplate(outputDirectory, reportTemplate.replace("$testResults",body));
+        }else {
+        	ConfigLogger.logInfo("Error occuer while initializing custom report template");
+        }
 	}
 	
     protected String getReportTitle(String title) {
