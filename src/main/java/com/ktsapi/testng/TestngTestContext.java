@@ -169,7 +169,7 @@ public class TestngTestContext implements TestContext{
 				ConfigLogger.logInfo("Setting " + parameter + " " + returnParameterValue + " from suite parameters");
 			}
 		}else {			
-			if(testLevelParameterValue == null || testLevelParameterValue.toUpperCase().equals(TestSuiteParameters.UNDEFINED)) { // if not defined in test level it will set as "UNDEFINED" or NULL		
+			if(testLevelParameterValue == null || testLevelParameterValue.equalsIgnoreCase(TestSuiteParameters.UNDEFINED)) { // if not defined in test level it will set as "UNDEFINED" or NULL		
 				
 				switch(parameter) {
 				case TestSuiteParameters.BASE_URL : {
