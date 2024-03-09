@@ -329,7 +329,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
         int skippedTests = 0;
         int failedTests = 0;
         String reportTemplate = initReportTemplate();
-        if(!(reportTemplate==null)) {
+        if(reportTemplate!=null) {
             REPORT_NAME = suiteName.concat(".html");
     		
     		for(String key :  suites.get(0).getResults().keySet()) {

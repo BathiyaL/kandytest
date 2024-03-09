@@ -76,9 +76,11 @@ public class AvtomatUtils {
 			throw new ConfigFileNotFoundException(configFileNotFoundExceptionMessage);
 		}finally {
 			try {
-				reader.close();
+				if(reader!=null) {
+					reader.close();
+				}
 			} catch (IOException e) {
-				throw new ConfigFileNotFoundException(e.getMessage());
+				ConfigLogger.logError("Error occurred when closing template reader");
 			}
 		}
 	    return configPropertyFile;
