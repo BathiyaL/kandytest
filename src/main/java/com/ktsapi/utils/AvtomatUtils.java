@@ -62,7 +62,7 @@ public class AvtomatUtils {
 	}
 	
 	public static Properties getConfigPropertyFile(){
-		FileReader reader;
+		FileReader reader = null;
 		Properties configPropertyFile = new Properties(); 
 		
 		try {
@@ -74,7 +74,15 @@ public class AvtomatUtils {
 			}
 		} catch (FileNotFoundException e) {
 			throw new ConfigFileNotFoundException(configFileNotFoundExceptionMessage);
-		}	    
+		}finally {
+			try {
+				if(reader!=null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				ConfigLogger.logError("Error occurred when closing template reader");
+			}
+		}
 	    return configPropertyFile;
 	}
 	
