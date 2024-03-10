@@ -79,7 +79,7 @@ public class TestKandyWebElementActionsWithPageObject {
 			multiSelectValues.add(elm.getText());
 		}
 		Assert.assertEquals(multiSelectValues.size(), 2,"multi selected values count should be 2");
-		assertThat(multiSelectValues).containsExactly("Java","Python").describedAs("Multi selected values are not same");
+		assertThat(multiSelectValues).describedAs("Multi selected values are not same").containsExactly("Java","Python");
 		
 		page.multiSelect.toComboBox().deselectAll();
 		Assert.assertEquals(page.multiSelect.toComboBox().getAllSelectedOptions().size(), 0,"toComboBox().deselectAll() action fail");
