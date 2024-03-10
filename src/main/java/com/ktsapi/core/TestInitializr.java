@@ -253,10 +253,11 @@ public class TestInitializr {
     }
     
     public static boolean getDryRunStatus() {
-    	if(get(IS_DRY_RUN)==null) {
+    	Boolean dryRunStatus = get(IS_DRY_RUN);
+    	if(dryRunStatus==null) {
     		return true;
     	}
-    	return get(IS_DRY_RUN);
+    	return dryRunStatus;
     }
     
     public static void setDryRunStatus(boolean isDryRun) {
