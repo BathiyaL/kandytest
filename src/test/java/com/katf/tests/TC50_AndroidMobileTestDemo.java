@@ -20,8 +20,9 @@ import io.appium.java_client.AppiumBy;
 @TestConfiguration(
 		testDriver = TestDriver.MOBILE_ANDROID, // Mandatory
 		mobileApp = "General-Store.apk",
-		mobileDeviceName = "Pixel_2_XL_API_33",//"pixel_2_xl",
-		browser=Browsers.CHROME
+		mobileDeviceName = "Pixel_3a_API_33_arm64-v8a",//"pixel_2_xl",Pixel_2_XL_API_33
+		browser=Browsers.CHROME,
+		mobileCapabilitiesFileName = "General-Store.apk.json"
 )
 public class TC50_AndroidMobileTestDemo {
 	

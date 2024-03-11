@@ -35,17 +35,19 @@ public class AndroidDriverManager implements MobileDriverManager{
 		
 		System.out.println("Configuring Appium .......");
 		
-		launcEmulatorOnWindows(admObj);
+		// TODO : handle for OS
+//		launcEmulatorOnWindows(admObj);
 
 		System.out.println("Starting Appium server.......");
-		service = new AppiumServiceBuilder()
-				.withAppiumJS(admObj.getAppiumJS()) //"C:\\Users\\stz\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"
-				.usingDriverExecutable (admObj.getNodeJSExecutable())
-				.withIPAddress(admObj.ipAddress)
-				.usingPort(admObj.getPort())
-				.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
-				.build();
-		service.start();
+		// TODO : fix appium server start issue
+//		service = new AppiumServiceBuilder()
+//				.withAppiumJS(admObj.getAppiumJS()) //"C:\\Users\\stz\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"
+//				.usingDriverExecutable (admObj.getNodeJSExecutable())
+//				.withIPAddress(admObj.ipAddress)
+//				.usingPort(admObj.getPort())
+//				.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
+//				.build();
+//		service.start();
 
 		options = new UiAutomator2Options();
 		options.setDeviceName(TestInitializr.getTestConfiguration().getMobileDeviceName());
