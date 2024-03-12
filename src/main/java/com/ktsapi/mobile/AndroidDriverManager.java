@@ -6,9 +6,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.json.simple.JSONObject;
 
+import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.exceptions.AndriodDriverManagerException;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
+import com.ktsapi.exceptions.OSNotSupportException;
 import com.ktsapi.utils.AvtomatUtils;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -23,31 +25,26 @@ public class AndroidDriverManager implements MobileDriverManager{
 	@Override
 	public AndroidDriver get() {
 		
-		AppiumDriverLocalService service;
 		AndroidDriver driver;
 		UiAutomator2Options options;
 		AndriodDriverManagerObject admObj;
 		try {
-			admObj = AvtomatUtils.getAndriodDriverManagerObject();
+			admObj = AvtomatUtils.getAndriodDriverManagerObject();// TODO: currently getting from ktestconfig.properties need to move to a config json
 		} catch (Exception e1) {
 			throw new ConfigFileNotFoundException(e1.getMessage());
 		}
 		
-		System.out.println("Configuring Appium .......");
-		
-		// TODO : handle for OS
-//		launcEmulatorOnWindows(admObj);
+		ConfigLogger.logInfo("Configuring Appium .......");
+		String runningOS = AvtomatUtils.getOS();
+		if (runningOS.equals(TestInitializr.getSysConfigObj().getOs().getMac().getTagName())) {
+			launcEmulatorOnMac(admObj);
+		}else if(runningOS.equals(TestInitializr.getSysConfigObj().getOs().getWin().getTagName())) {
+			launcEmulatorOnWindows(admObj);
+		}else {
+			throw new OSNotSupportException(runningOS);
+		}
 
-		System.out.println("Starting Appium server.......");
-		// TODO : fix appium server start issue
-//		service = new AppiumServiceBuilder()
-//				.withAppiumJS(admObj.getAppiumJS()) //"C:\\Users\\stz\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"
-//				.usingDriverExecutable (admObj.getNodeJSExecutable())
-//				.withIPAddress(admObj.ipAddress)
-//				.usingPort(admObj.getPort())
-//				.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
-//				.build();
-//		service.start();
+		startAppimServer(admObj);
 
 		options = new UiAutomator2Options();
 		options.setDeviceName(TestInitializr.getTestConfiguration().getMobileDeviceName());
@@ -72,6 +69,27 @@ public class AndroidDriverManager implements MobileDriverManager{
 
 		return driver;
 
+	}
+	
+	private void startAppimServer(AndriodDriverManagerObject admObj) {
+		// TODO
+		ConfigLogger.logInfo("Starting Appium server.......");
+		try {
+			AppiumDriverLocalService service = new AppiumServiceBuilder()
+					.withAppiumJS(admObj.getAppiumJS()) //"C:\\Users\\stz\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"
+					.usingDriverExecutable (admObj.getNodeJSExecutable())
+					.withIPAddress(admObj.ipAddress)
+					.usingPort(admObj.getPort())
+					.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
+					.build();
+			service.start();
+		}catch(Exception ex) {
+			ConfigLogger.logError("Appium server starting error! If appium server is started manually script will run else script will fail.");
+		}
+	}
+	
+	private void launcEmulatorOnMac(AndriodDriverManagerObject admObj) {	
+		// TODO : To be implemented.
 	}
 	
 	private void launcEmulatorOnWindows(AndriodDriverManagerObject admObj) {		

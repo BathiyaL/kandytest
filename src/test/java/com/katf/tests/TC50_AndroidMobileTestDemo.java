@@ -49,7 +49,9 @@ public class TC50_AndroidMobileTestDemo {
 		//page.name.type("Don Bat", "AAA");
 		page.name.type("A", "B","C");
 		page.name.typeWithLocatorParms("x", "y","z");
-		hideKeyboard();
+		
+		
+		//hideKeyboard();
 		page.genderFemale.click();
 		page.countryDropdown.click();
 		
