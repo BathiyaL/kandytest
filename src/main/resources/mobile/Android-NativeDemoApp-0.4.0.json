@@ -1,0 +1,8 @@
+{
+"appium:app": "D:\\BTS\\devdesk\\code\\resources\\apks\\Android-NativeDemoApp-0.4.0.apk",
+"appium:deviceName": "pixel_2_xl",
+"platformName": "android",
+"appium:automationName": "UIAutomator2",
+"appium:appPackage": "com.wdiodemoapp",
+"appium:appActivity": "com.wdiodemoapp.SplashActivity"
+}

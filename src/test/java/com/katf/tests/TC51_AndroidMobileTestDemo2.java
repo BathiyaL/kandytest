@@ -21,7 +21,8 @@ import io.appium.java_client.AppiumBy;
 		testDriver = TestDriver.MOBILE_ANDROID, // Mandatory
 		mobileApp ="Android-NativeDemoApp-0.4.0.apk", //"Android.SauceLabs.Mobile.Sample.app.2.7.1.apk", //"Android-NativeDemoApp-0.4.0.apk",
 		mobileDeviceName = "Pixel_2_XL_API_33",//"pixel_2_xl",
-		browser=Browsers.CHROME
+		browser=Browsers.CHROME,
+		mobileCapabilitiesFileName = "Android-NativeDemoApp-0.4.0.json"
 )
 public class TC51_AndroidMobileTestDemo2 {
 	

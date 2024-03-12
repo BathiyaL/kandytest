@@ -1,0 +1,6 @@
+{
+  "appium:app": "/Users/bathiyaladduwahetty/code/poc/mobile-testing-playground/target/classes/mobile/resources/apks/General-Store.apk",
+  "appium:deviceName": "Pixel_3a_API_33_arm64-v8a",
+  "platformName": "android",
+  "appium:automationName": "UIAutomator2"
+}
