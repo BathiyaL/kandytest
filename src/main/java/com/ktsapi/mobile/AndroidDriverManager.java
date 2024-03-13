@@ -1,6 +1,11 @@
 package com.ktsapi.mobile;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
@@ -90,6 +95,8 @@ public class AndroidDriverManager implements MobileDriverManager{
 	
 	private void launcEmulatorOnMac(AndriodDriverManagerObject admObj) {	
 		// TODO : To be implemented.
+		System.out.println("###################>"+admObj.getEmulatorEXEPath().toString() + File.separator + "emulator");
+		System.out.println("###################>"+TestInitializr.getTestConfiguration().getMobileDeviceName());
 	}
 	
 	private void launcEmulatorOnWindows(AndriodDriverManagerObject admObj) {		
@@ -114,4 +121,46 @@ public class AndroidDriverManager implements MobileDriverManager{
 		}
 	}
 
+	public static void main(String[] args) throws Exception {
+		File location = new File("/Users/bathiyaladduwahetty/Library/Android/sdk/emulator");
+
+        runCommand(location, "./emulator -list-avds"); // for Mac(Linux based OS) users list files
+	}
+	public static void runCommand(File whereToRun, String command) throws Exception {
+        System.out.println("Running in: " + whereToRun);
+        System.out.println("Command: " + command);
+
+        ProcessBuilder builder = new ProcessBuilder();
+        builder.directory(whereToRun);
+
+        // TODO : Check Exception in thread "main" java.io.IOException: Cannot run program "emulator" (in directory "/Users/bathiyaladduwahetty/Library/Android/sdk/emulator"): error=2, No such file or directory
+        builder.command("emulator");
+        //builder.command("ls","-al");
+
+        Process process = builder.start();
+
+        OutputStream outputStream = process.getOutputStream();
+        InputStream inputStream = process.getInputStream();
+        InputStream errorStream = process.getErrorStream();
+
+        printStream(inputStream);
+        printStream(errorStream);
+
+        boolean isFinished = process.waitFor(30, TimeUnit.SECONDS);
+        outputStream.flush();
+        outputStream.close();
+
+        if(!isFinished) {
+            process.destroyForcibly();
+        }
+    }
+	private static void printStream(InputStream inputStream) throws IOException {
+        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+        }
+	}
 }
