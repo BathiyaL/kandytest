@@ -40,15 +40,7 @@ public class AndroidDriverManager implements MobileDriverManager{
 		}
 		
 		ConfigLogger.logInfo("Configuring Appium .......");
-		String runningOS = AvtomatUtils.getOS();
-		if (runningOS.equals(TestInitializr.getSysConfigObj().getOs().getMac().getTagName())) {
-			launcEmulatorOnMac(admObj);
-		}else if(runningOS.equals(TestInitializr.getSysConfigObj().getOs().getWin().getTagName())) {
-			launcEmulatorOnWindows(admObj);
-		}else {
-			throw new OSNotSupportException(runningOS);
-		}
-
+		//launchEmulator(admObj);
 		startAppimServer(admObj);
 
 		options = new UiAutomator2Options();
@@ -93,67 +85,56 @@ public class AndroidDriverManager implements MobileDriverManager{
 		}
 	}
 	
-	private void launcEmulatorOnMac(AndriodDriverManagerObject admObj) {	
-		// TODO : To be implemented.
-		System.out.println("###################>"+admObj.getEmulatorEXEPath().toString() + File.separator + "emulator");
-		System.out.println("###################>"+TestInitializr.getTestConfiguration().getMobileDeviceName());
-	}
-	
-	private void launcEmulatorOnWindows(AndriodDriverManagerObject admObj) {		
-		String emulatorPath = admObj.getEmulatorEXEPath().toString() + File.separator + "emulator";
+	private void launchEmulator(AndriodDriverManagerObject admObj) {		
+		String emulatorPath = admObj.getEmulatorEXEPath().toString();// + File.separator + "emulator";
 		String nameOfAVD = TestInitializr.getTestConfiguration().getMobileDeviceName(); // "Pixel_2_XL_API_33";
+		ProcessBuilder processBuilder = new ProcessBuilder();
 		System.out.println("Launching emulator '" + nameOfAVD + "' ...");
 		
-		String[] aCommand = new String[] { emulatorPath, "-avd",
-				TestInitializr.getTestConfiguration().getMobileDeviceName() };
+		//TODO : after started the emulator it should run in a separate process, otherwise script hang at this point, check this.
+		
+		String runningOS = AvtomatUtils.getOS();
+		if (runningOS.equals(TestInitializr.getSysConfigObj().getOs().getMac().getTagName())) {
+			processBuilder.directory(new File(emulatorPath));
+			processBuilder.command("emulator", "-avd", nameOfAVD);
+		}else if(runningOS.equals(TestInitializr.getSysConfigObj().getOs().getWin().getTagName())) {
+			String[] winCommand = new String[] { emulatorPath, "-avd",nameOfAVD};
+			processBuilder.command(winCommand);
+		}else {
+			throw new OSNotSupportException(runningOS);
+		}
+		
 		try {
-			Process process = new ProcessBuilder(aCommand).start();
-			boolean status = process.waitFor(admObj.emulatorStartingWaitTimeInSeconds, TimeUnit.SECONDS);
-			if (status) {
-				System.out.println(
-						"Failed to launch emulator " + nameOfAVD + " programmatically. It might already launched");
-			} else {
-				System.out.println("Emulator " + nameOfAVD + " launch successfully.");
-			}
+			Process process = processBuilder.start();
+	        OutputStream outputStream = process.getOutputStream();
+	        InputStream inputStream = process.getInputStream();
+	        InputStream errorStream = process.getErrorStream();
+
+	        printStream(inputStream);
+	        printStream(errorStream);
+
+//	        boolean isFinished = process.waitFor(30, TimeUnit.SECONDS);
+//	        System.out.println("#####################################>"+ isFinished);
+//	        outputStream.flush();
+//	        outputStream.close();
+//
+//	        if(!isFinished) {
+//	            process.destroyForcibly();
+//	        }
+	        
+//			boolean status = process.waitFor(admObj.emulatorStartingWaitTimeInSeconds, TimeUnit.SECONDS);
+//			if (status) {
+//				System.out.println(
+//						"Failed to launch emulator " + nameOfAVD + " programmatically. It might already launched");
+//			} else {
+//				System.out.println("Emulator " + nameOfAVD + " launch successfully.");
+//			}
 
 		} catch (Exception e) {
 			System.out.println("Error ouccer while launching the emulator " + nameOfAVD + " -> " + e.getMessage());
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
-		File location = new File("/Users/bathiyaladduwahetty/Library/Android/sdk/emulator");
-
-        runCommand(location, "./emulator -list-avds"); // for Mac(Linux based OS) users list files
-	}
-	public static void runCommand(File whereToRun, String command) throws Exception {
-        System.out.println("Running in: " + whereToRun);
-        System.out.println("Command: " + command);
-
-        ProcessBuilder builder = new ProcessBuilder();
-        builder.directory(whereToRun);
-
-        // TODO : Check Exception in thread "main" java.io.IOException: Cannot run program "emulator" (in directory "/Users/bathiyaladduwahetty/Library/Android/sdk/emulator"): error=2, No such file or directory
-        builder.command("emulator");
-        //builder.command("ls","-al");
-
-        Process process = builder.start();
-
-        OutputStream outputStream = process.getOutputStream();
-        InputStream inputStream = process.getInputStream();
-        InputStream errorStream = process.getErrorStream();
-
-        printStream(inputStream);
-        printStream(errorStream);
-
-        boolean isFinished = process.waitFor(30, TimeUnit.SECONDS);
-        outputStream.flush();
-        outputStream.close();
-
-        if(!isFinished) {
-            process.destroyForcibly();
-        }
-    }
 	private static void printStream(InputStream inputStream) throws IOException {
         try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
