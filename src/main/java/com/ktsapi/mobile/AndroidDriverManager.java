@@ -1,6 +1,11 @@
 package com.ktsapi.mobile;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
@@ -35,15 +40,7 @@ public class AndroidDriverManager implements MobileDriverManager{
 		}
 		
 		ConfigLogger.logInfo("Configuring Appium .......");
-		String runningOS = AvtomatUtils.getOS();
-		if (runningOS.equals(TestInitializr.getSysConfigObj().getOs().getMac().getTagName())) {
-			launcEmulatorOnMac(admObj);
-		}else if(runningOS.equals(TestInitializr.getSysConfigObj().getOs().getWin().getTagName())) {
-			launcEmulatorOnWindows(admObj);
-		}else {
-			throw new OSNotSupportException(runningOS);
-		}
-
+		//launchEmulator(admObj);
 		startAppimServer(admObj);
 
 		options = new UiAutomator2Options();
@@ -88,30 +85,63 @@ public class AndroidDriverManager implements MobileDriverManager{
 		}
 	}
 	
-	private void launcEmulatorOnMac(AndriodDriverManagerObject admObj) {	
-		// TODO : To be implemented.
-	}
-	
-	private void launcEmulatorOnWindows(AndriodDriverManagerObject admObj) {		
-		String emulatorPath = admObj.getEmulatorEXEPath().toString() + File.separator + "emulator";
+	private void launchEmulator(AndriodDriverManagerObject admObj) {		
+		String emulatorPath = admObj.getEmulatorEXEPath().toString();// + File.separator + "emulator";
 		String nameOfAVD = TestInitializr.getTestConfiguration().getMobileDeviceName(); // "Pixel_2_XL_API_33";
+		ProcessBuilder processBuilder = new ProcessBuilder();
 		System.out.println("Launching emulator '" + nameOfAVD + "' ...");
 		
-		String[] aCommand = new String[] { emulatorPath, "-avd",
-				TestInitializr.getTestConfiguration().getMobileDeviceName() };
+		//TODO : after started the emulator it should run in a separate process, otherwise script hang at this point, check this.
+		
+		String runningOS = AvtomatUtils.getOS();
+		if (runningOS.equals(TestInitializr.getSysConfigObj().getOs().getMac().getTagName())) {
+			processBuilder.directory(new File(emulatorPath));
+			processBuilder.command("emulator", "-avd", nameOfAVD);
+		}else if(runningOS.equals(TestInitializr.getSysConfigObj().getOs().getWin().getTagName())) {
+			String[] winCommand = new String[] { emulatorPath, "-avd",nameOfAVD};
+			processBuilder.command(winCommand);
+		}else {
+			throw new OSNotSupportException(runningOS);
+		}
+		
 		try {
-			Process process = new ProcessBuilder(aCommand).start();
-			boolean status = process.waitFor(admObj.emulatorStartingWaitTimeInSeconds, TimeUnit.SECONDS);
-			if (status) {
-				System.out.println(
-						"Failed to launch emulator " + nameOfAVD + " programmatically. It might already launched");
-			} else {
-				System.out.println("Emulator " + nameOfAVD + " launch successfully.");
-			}
+			Process process = processBuilder.start();
+	        OutputStream outputStream = process.getOutputStream();
+	        InputStream inputStream = process.getInputStream();
+	        InputStream errorStream = process.getErrorStream();
+
+	        printStream(inputStream);
+	        printStream(errorStream);
+
+//	        boolean isFinished = process.waitFor(30, TimeUnit.SECONDS);
+//	        System.out.println("#####################################>"+ isFinished);
+//	        outputStream.flush();
+//	        outputStream.close();
+//
+//	        if(!isFinished) {
+//	            process.destroyForcibly();
+//	        }
+	        
+//			boolean status = process.waitFor(admObj.emulatorStartingWaitTimeInSeconds, TimeUnit.SECONDS);
+//			if (status) {
+//				System.out.println(
+//						"Failed to launch emulator " + nameOfAVD + " programmatically. It might already launched");
+//			} else {
+//				System.out.println("Emulator " + nameOfAVD + " launch successfully.");
+//			}
 
 		} catch (Exception e) {
 			System.out.println("Error ouccer while launching the emulator " + nameOfAVD + " -> " + e.getMessage());
 		}
 	}
 
+	private static void printStream(InputStream inputStream) throws IOException {
+        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+        }
+	}
 }
