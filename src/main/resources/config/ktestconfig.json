@@ -1,14 +1,24 @@
 {
-  "isDryRun": false,
-  "applicationId": "d5b0cef8-396d-11eb-adc1-0242ac120002",
-  "webDrivers": {
-    "chrome": {
-      "isDownload": false,
-      "driverPath": "/Users/bathiyaladduwahetty/code/drivers/chromedriver"
+    "isDryRun": false,
+    "applicationId": "d5b0cef8-396d-11eb-adc1-0242ac120002",
+    "webDrivers": {
+        "chrome": {
+            "isDownload": false,
+            "driverPath": "/Users/bathiyaladduwahetty/code/drivers/chromedriver"
+        },
+        "firefox": {
+            "isDownload": false,
+            "driverPath": "/drivers/firefox/mac/_arm64/geckodriver"
+        }
     },
-    "firefox": {
-      "isDownload": false,
-      "driverPath": "/drivers/firefox/mac/_arm64/geckodriver"
+    "mobileDrivers": {
+        "appiumJSPath": "C:\\Users\\stz\\.kandytest\\resource\\npm\\node_modules\\appium\\build\\lib\\main.js",
+        "nodeJSPath": "C:\\Users\\stz\\.kandytest\\resource\\nodejs\\node.exe",
+        "appiumServerIPAddress": "127.0.0.1",
+        "appiumServerIPort": 4723,
+        "mobileAppsPath": "D:\\BTS\\devdesk\\code\\resources\\apks\\",
+        "mobileChromeDriverPath": "D: \\BTS\\devdesk\\workspaces\\appium-automation-demo\\appium-automation-demo\\src\\test\\java\\resources\\",
+        "emulatorsPath": "/Users/bathiyaladduwahetty/Library/Android/sdk/emulator",
+        "emulatorStartingWaitTimeInSeconds": 10
     }
-  }
 }

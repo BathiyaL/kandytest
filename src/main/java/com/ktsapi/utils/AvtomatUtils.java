@@ -26,6 +26,7 @@ import com.ktsapi.exceptions.ConfigFileNotFoundException;
 import com.ktsapi.mobile.AndriodDriverManagerObject;
 import com.ktsapi.utils.sysconfig.SysConfig;
 import com.ktsapi.utils.testconfig.KTestConfig;
+import com.ktsapi.utils.testconfig.MobileDrivers;
 public class AvtomatUtils {
 	
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
@@ -87,18 +88,20 @@ public class AvtomatUtils {
 	}
 	
 	public static AndriodDriverManagerObject getAndriodDriverManagerObject(){
-		Properties ktestconfig = AvtomatUtils.getConfigPropertyFile();
+
 		AndriodDriverManagerObject admObje = new AndriodDriverManagerObject();
-		admObje.setAppiumJS(new File(ktestconfig.getProperty(Const.ktestconfig_AppiumJSPath)));
-		admObje.setNodeJSExecutable(new File(ktestconfig.getProperty(Const.ktestconfig_NodeJSPath)));
-		admObje.setIpAddress(ktestconfig.getProperty(Const.ktestconfig_AppiumServerIPAddress));
-		admObje.setPort(Integer.valueOf(ktestconfig.getProperty(Const.ktestconfig_AppiumServerIPort)));
-		admObje.setMobileAppsPath(Path.of(ktestconfig.getProperty(Const.ktestconfig_MobileAppsPath)));
-		admObje.setMobileChromeDriverPath(Path.of(ktestconfig.getProperty(Const.ktestconfig_MobileChromeDriverPath)));
-		admObje.setEmulatorEXEPath(Path.of(ktestconfig.getProperty(Const.ktestconfig_EmulatorEXEPath)));
-		admObje.setEmulatorStartingWaitTimeInSeconds(Integer.valueOf(ktestconfig.getProperty(Const.ktestconfig_EmulatorStartingWaitTimeInSeconds)));
+		MobileDrivers mobileConfig = TestInitializr.getTestConfigObj().getMobileDrivers();
+		admObje.setAppiumJS(new File(mobileConfig.getAppiumJSPath()));
+		admObje.setNodeJSExecutable(new File(mobileConfig.getNodeJSPath()));
+		admObje.setIpAddress(mobileConfig.getAppiumServerIPAddress());
+		admObje.setPort(mobileConfig.getAppiumServerIPort());
+		admObje.setMobileAppsPath(Path.of(mobileConfig.getMobileAppsPath()));
+		admObje.setMobileChromeDriverPath(Path.of(mobileConfig.getMobileChromeDriverPath()));
+		admObje.setEmulatorPath(Path.of(mobileConfig.getEmulatorsPath()));
+		admObje.setEmulatorStartingWaitTimeInSeconds(mobileConfig.getEmulatorStartingWaitTimeInSeconds());
+
 		try {
-			admObje.setAppiumServerRemoteAddress(new URL("http://"+ktestconfig.getProperty(Const.ktestconfig_AppiumServerIPAddress)+":"+ktestconfig.getProperty(Const.ktestconfig_AppiumServerIPort)));
+			admObje.setAppiumServerRemoteAddress(new URL("http://"+admObje.getIpAddress()+":"+admObje.getPort()));
 		} catch (MalformedURLException e) {
 			throw new AndriodDriverManagerException("Error occur whild construct remote address -> " + e.getMessage());
 		}

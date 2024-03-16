@@ -37,7 +37,7 @@ public class Const {
 	public static final String ktestconfig_AppiumServerIPort = "AppiumServerIPort";
 	public static final String ktestconfig_MobileAppsPath = "MobileAppsPath";
 	public static final String ktestconfig_MobileChromeDriverPath = "MobileChromeDriverPath";
-	public static final String ktestconfig_EmulatorEXEPath = "EmulatorEXEPath";
+	public static final String ktestconfig_EmulatorsPath = "EmulatorsPath";
 	public static final String ktestconfig_EmulatorStartingWaitTimeInSeconds = "EmulatorStartingWaitTimeInSeconds";
 	
 	public static final String ktestconfig_IsDryRun = "IsDryRun";

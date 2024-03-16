@@ -26,7 +26,7 @@ public class AndroidDriverManager implements MobileDriverManager{
 		UiAutomator2Options options;
 		AndriodDriverManagerObject admObj;
 		try {
-			admObj = AvtomatUtils.getAndriodDriverManagerObject();// TODO: currently getting from ktestconfig.properties need to move to a config json
+			admObj = AvtomatUtils.getAndriodDriverManagerObject();
 		} catch (Exception e1) {
 			throw new ConfigFileNotFoundException(e1.getMessage());
 		}
@@ -64,7 +64,7 @@ public class AndroidDriverManager implements MobileDriverManager{
 		ConfigLogger.logInfo("Starting Appium server.......");
 		try {
 			AppiumDriverLocalService service = new AppiumServiceBuilder()
-					.withAppiumJS(admObj.getAppiumJS()) //"C:\\Users\\stz\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"
+					.withAppiumJS(admObj.getAppiumJS())
 					.usingDriverExecutable (admObj.getNodeJSExecutable())
 					.withIPAddress(admObj.ipAddress)
 					.usingPort(admObj.getPort())
@@ -77,8 +77,8 @@ public class AndroidDriverManager implements MobileDriverManager{
 	}
 	
 	private void launchEmulator(AndriodDriverManagerObject admObj) {		
-		String emulatorPath = admObj.getEmulatorEXEPath().toString();// + File.separator + "emulator";
-		String nameOfAVD = TestInitializr.getTestConfiguration().getMobileDeviceName(); // "Pixel_2_XL_API_33";
+		String emulatorPath = admObj.getEmulatorPath().toString();
+		String nameOfAVD = TestInitializr.getTestConfiguration().getMobileDeviceName();
 		ProcessBuilder processBuilder = new ProcessBuilder();
 		ConfigLogger.logInfo("Launching emulator '" + nameOfAVD + "' ...");
 		
