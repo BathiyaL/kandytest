@@ -7,7 +7,7 @@ public class AndriodDriverManagerObject extends AppiumServiceBuilderObject{
 	
 	Path mobileAppsPath;
 	Path mobileChromeDriverPath;
-	Path emulatorEXEPath;
+	Path emulatorPath;
 	URL appiumServerRemoteAddress;
 	int emulatorStartingWaitTimeInSeconds;
 	
@@ -17,11 +17,11 @@ public class AndriodDriverManagerObject extends AppiumServiceBuilderObject{
 	public void setEmulatorStartingWaitTimeInSeconds(int emulatorStartingWaitTimeInSeconds) {
 		this.emulatorStartingWaitTimeInSeconds = emulatorStartingWaitTimeInSeconds;
 	}
-	public Path getEmulatorEXEPath() {
-		return emulatorEXEPath;
+	public Path getEmulatorPath() {
+		return emulatorPath;
 	}
-	public void setEmulatorEXEPath(Path emulatorEXEPath) {
-		this.emulatorEXEPath = emulatorEXEPath;
+	public void setEmulatorPath(Path emulatorEXEPath) {
+		this.emulatorPath = emulatorEXEPath;
 	}	
 	public URL getAppiumServerRemoteAddress() {
 		return appiumServerRemoteAddress;

@@ -4,7 +4,14 @@ public class KTestConfig {
 	private boolean isDryRun;
 	private String applicationId;
 	private WebDrivers webDrivers;
+	private MobileDrivers mobileDrivers;
 	
+	public MobileDrivers getMobileDrivers() {
+		return mobileDrivers;
+	}
+	public void setMobileDrivers(MobileDrivers mobileDrivers) {
+		this.mobileDrivers = mobileDrivers;
+	}
 	public WebDrivers getWebDrivers() {
 		return webDrivers;
 	}
