@@ -110,8 +110,12 @@ public class AndroidDriverManager implements MobileDriverManager{
 	        if(!isFinished) {
 	            process.destroyForcibly();
 	        }
-
-		} catch (Exception e) {
+		}catch (InterruptedException e) {
+			ConfigLogger.logError("Error ouccered while launching the emulator " + nameOfAVD + " -> " + e.getMessage());
+			 Thread.currentThread().interrupt();
+			
+		}
+		catch (Exception e) {
 			ConfigLogger.logError("Error ouccered while launching the emulator " + nameOfAVD + " -> " + e.getMessage());
 			ConfigLogger.logInfo("If emulator is launched manually script will run on it");
 		}
