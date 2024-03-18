@@ -12,11 +12,11 @@
         }
     },
     "mobileDrivers": {
-        "appiumJSPath": "C:\\Users\\stz\\.kandytest\\resource\\npm\\node_modules\\appium\\build\\lib\\main.js",
-        "nodeJSPath": "C:\\Users\\stz\\.kandytest\\resource\\nodejs\\node.exe",
+        "appiumJSPath": "/usr/local/lib/node_modules/appium/build/lib/main.js",
+        "nodeJSPath": "/usr/local/bin/node",
         "appiumServerIPAddress": "127.0.0.1",
         "appiumServerIPort": 4723,
-        "mobileAppsPath": "D:\\BTS\\devdesk\\code\\resources\\apks\\",
+        "mobileAppsPath": "/Users/bathiyaladduwahetty/code/poc/mobile-testing-playground/target/classes/mobile/resources/apks/",
         "mobileChromeDriverPath": "D: \\BTS\\devdesk\\workspaces\\appium-automation-demo\\appium-automation-demo\\src\\test\\java\\resources\\",
         "emulatorsPath": "/Users/bathiyaladduwahetty/Library/Android/sdk/emulator",
         "emulatorStartingWaitTimeInSeconds": 10

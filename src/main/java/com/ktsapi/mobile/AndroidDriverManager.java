@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.SessionNotCreatedException;
 
 import com.ktsapi.actions.core.ConfigLogger;
+import com.ktsapi.contexts.MobileDriverDefaults;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.exceptions.AndriodDriverManagerException;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
@@ -14,6 +15,7 @@ import com.ktsapi.exceptions.OSNotSupportException;
 import com.ktsapi.utils.AvtomatUtils;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.internal.Config;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
@@ -22,44 +24,19 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 public class AndroidDriverManager implements MobileDriverManager{
 
 	@Override
-	public AndroidDriver get() {
-		
+	public AndroidDriver get() {	
 		AndroidDriver driver;
-		UiAutomator2Options options;
-		AndriodDriverManagerObject admObj;
-		try {
-			admObj = AvtomatUtils.getAndriodDriverManagerObject();
-		} catch (Exception e1) {
-			throw new ConfigFileNotFoundException(e1.getMessage());
-		}
-		
+		AndriodDriverManagerObject admObj = getAndriodDriverManagerObject();
+		UiAutomator2Options options = getUiAutomator2Options(admObj);
 		launchEmulator(admObj);
 		startAppimServer(admObj);
-
-		options = new UiAutomator2Options();
-		options.setDeviceName(TestInitializr.getTestConfiguration().getMobileDeviceName());
-		options.setChromedriverExecutable(admObj.getMobileChromeDriverPath().toString());
-		options.setApp(admObj.getMobileAppsPath().resolve(TestInitializr.getTestConfiguration().getMobileApp()).toString());
-
-		JSONObject jObj2;
-		try {
-			jObj2 = AvtomatUtils.getMobileCapabilitiesFile();
-			for(Object key : jObj2.keySet()) {
-				Object valueObj = jObj2.get(key);
-				options.setCapability(String.valueOf(key).trim(), valueObj);
-			}
-		} catch (AndriodDriverManagerException e) {
-			throw new AndriodDriverManagerException("Error occurred while fetching mobile capabilities json file -> " + e.getMessage());
-		} catch (Exception e) {
-			throw new AndriodDriverManagerException("Error occurred while setting mobile capabilities -> " + e.getMessage());
-		}
 		
 		try {
 			driver = new AndroidDriver(admObj.getAppiumServerRemoteAddress(), options);
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		}catch (SessionNotCreatedException e) {
 			if(e.getMessage().contains("Could not find a connected Android device")) {
-				ConfigLogger.logError("Error occurred while launching emulator make sure you have enough ritghts(e.g. admin rights) to launch emulator from the code");
+				ConfigLogger.logError("Error occurred while launching emulator make sure you have enough rights(e.g. admin rights) to launch emulator from the code");
 			}
 			if(e.getMessage().contains("Could not start a new session")) {
 				ConfigLogger.logError("Error occurred while launching Android driver, make sure appium server is up and running");
@@ -68,9 +45,36 @@ public class AndroidDriverManager implements MobileDriverManager{
 		}
 		return driver;
 	}
-	
+	private UiAutomator2Options getUiAutomator2Options(AndriodDriverManagerObject admObj) {
+		UiAutomator2Options options = new UiAutomator2Options();
+		options.setDeviceName(TestInitializr.getTestConfiguration().getMobileDeviceName());
+		options.setChromedriverExecutable(admObj.getMobileChromeDriverPath().toString());
+		options.setApp(admObj.getMobileAppsPath().resolve(TestInitializr.getTestConfiguration().getMobileApp()).toString());
+
+		if(!(TestInitializr.getTestConfiguration().getMobileCapabilitiesFileName().equals(MobileDriverDefaults.UNDEFINED))){
+			JSONObject jObj2;
+			try {
+				jObj2 = AvtomatUtils.getMobileCapabilitiesFile();
+				for(Object key : jObj2.keySet()) {
+					Object valueObj = jObj2.get(key);
+					options.setCapability(String.valueOf(key).trim(), valueObj);
+				}
+			} catch (AndriodDriverManagerException e) {
+				throw new AndriodDriverManagerException("Error occurred while fetching mobile capabilities json file -> " + e.getMessage());
+			} catch (Exception e) {
+				throw new AndriodDriverManagerException("Error occurred while setting mobile capabilities -> " + e.getMessage());
+			}
+		}
+		return options;
+	}
+	private AndriodDriverManagerObject getAndriodDriverManagerObject() {
+		try {
+			return AvtomatUtils.getAndriodDriverManagerObject();
+		} catch (Exception e1) {
+			throw new ConfigFileNotFoundException(e1.getMessage());
+		}
+	}
 	private void startAppimServer(AndriodDriverManagerObject admObj) {
-		// TODO : need to fix
 		ConfigLogger.logInfo("Starting Appium server.......");
 		try {
 			AppiumDriverLocalService service = new AppiumServiceBuilder()
@@ -82,12 +86,12 @@ public class AndroidDriverManager implements MobileDriverManager{
 					.build();
 			service.start();
 		}catch(Exception ex) {
-			ConfigLogger.logError("Appium server starting error! If appium server is started manually script will run else script will fail.");
+			ConfigLogger.logError("Appium server starting error! If appium server is started manually script can run else script will fail.");
+			ConfigLogger.logError("Error Message : "+ ex.getMessage());
 		}
 	}
 	
 	private void launchEmulator(AndriodDriverManagerObject admObj) {
-		ConfigLogger.logInfo("Launching emulator .......");
 		String emulatorPath = admObj.getEmulatorPath().toString();
 		String nameOfAVD = TestInitializr.getTestConfiguration().getMobileDeviceName();
 		ProcessBuilder processBuilder = new ProcessBuilder();
@@ -117,7 +121,7 @@ public class AndroidDriverManager implements MobileDriverManager{
 		}
 		catch (Exception e) {
 			ConfigLogger.logError("Error ouccered while launching the emulator " + nameOfAVD + " -> " + e.getMessage());
-			ConfigLogger.logInfo("If emulator is launched manually script will run on it");
+			ConfigLogger.logInfo("If emulator is launched manually script can run on it");
 		}
 	}
 
