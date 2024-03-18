@@ -57,6 +57,6 @@ public class MobileDrivers {
 		return emulatorStartingWaitTimeInSeconds;
 	}
 	public void setEmulatorStartingWaitTimeInSeconds(int emulatorStartingWaitTimeInSeconds) {
-		emulatorStartingWaitTimeInSeconds = emulatorStartingWaitTimeInSeconds;
+		this.emulatorStartingWaitTimeInSeconds = emulatorStartingWaitTimeInSeconds;
 	}
 }
