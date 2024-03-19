@@ -1,6 +1,7 @@
 package com.ktsapi.utils.testconfig;
 
 public class MobileDrivers {
+	private boolean isAppiumServerStartFromCode;
 	private String appiumJSPath;
 	private String nodeJSPath;
 	private String appiumServerIPAddress;
@@ -10,7 +11,12 @@ public class MobileDrivers {
 	private String emulatorsPath;
 	private int emulatorStartingWaitTimeInSeconds;
 	
-	
+	public boolean getIsAppiumServerStartFromCode() {
+		return isAppiumServerStartFromCode;
+	}
+	public void setAppiumServerStartFromCode(boolean isAppiumServerStartFromCode) {
+		this.isAppiumServerStartFromCode = isAppiumServerStartFromCode;
+	}
 	public String getMobileChromeDriverPath() {
 		return mobileChromeDriverPath;
 	}

@@ -12,6 +12,7 @@
         }
     },
     "mobileDrivers": {
+        "isAppiumServerStartFromCode":true,
         "appiumJSPath": "/usr/local/lib/node_modules/appium/build/lib/main.js",
         "nodeJSPath": "/usr/local/bin/node",
         "appiumServerIPAddress": "127.0.0.1",

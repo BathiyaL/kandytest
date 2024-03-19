@@ -8,6 +8,7 @@ import org.openqa.selenium.SessionNotCreatedException;
 
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.contexts.MobileDriverDefaults;
+import com.ktsapi.core.Const;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.exceptions.AndriodDriverManagerException;
 import com.ktsapi.exceptions.ConfigFileNotFoundException;
@@ -40,7 +41,7 @@ public class AndroidDriverManager implements MobileDriverManager{
 			if(e.getMessage().contains("Could not start a new session")) {
 				ConfigLogger.logError("Error occurred while launching Android driver, make sure appium server is up and running");
 			}
-			throw new AndriodDriverManagerException("Error occurred while launching Android driver -> " + e.getMessage());
+			throw new AndriodDriverManagerException("Error occurred while launching Android driver, (Make sure Appium is running) -> " + e.getMessage());
 		}
 		return driver;
 	}
@@ -74,19 +75,23 @@ public class AndroidDriverManager implements MobileDriverManager{
 		}
 	}
 	private void startAppimServer(AndriodDriverManagerObject admObj) {
-		ConfigLogger.logInfo("Starting Appium server.......");
-		try {
-			AppiumDriverLocalService service = new AppiumServiceBuilder()
-					.withAppiumJS(admObj.getAppiumJS())
-					.usingDriverExecutable (admObj.getNodeJSExecutable())
-					.withIPAddress(admObj.ipAddress)
-					.usingPort(admObj.getPort())
-					.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
-					.build();
-			service.start();
-		}catch(Exception ex) {
-			ConfigLogger.logError("Appium server starting error! If appium server is started manually script can run else script will fail.");
-			ConfigLogger.logError("Error Message : "+ ex.getMessage());
+		if(TestInitializr.getTestConfigObj().getMobileDrivers().getIsAppiumServerStartFromCode()) {
+			ConfigLogger.logInfo("Starting Appium server.......");
+			try {
+				AppiumDriverLocalService service = new AppiumServiceBuilder()
+						.withAppiumJS(admObj.getAppiumJS())
+						.usingDriverExecutable (admObj.getNodeJSExecutable())
+						.withIPAddress(admObj.ipAddress)
+						.usingPort(admObj.getPort())
+						.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
+						.build();
+				service.start();
+			}catch(Exception ex) {
+				ConfigLogger.logError("Appium server starting error! If appium server is started manually script can run else script will fail.");
+				ConfigLogger.logError("Error Message : "+ ex.getMessage());
+			}
+		}else {
+			ConfigLogger.logInfo("Appium server has not set to start from code. "+ "Check " + Const.TEST_API_CONFIG_JSON_FILE_NAME + " for configuration");
 		}
 	}
 	

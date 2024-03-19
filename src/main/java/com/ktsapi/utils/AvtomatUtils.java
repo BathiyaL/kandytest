@@ -137,6 +137,7 @@ public class AvtomatUtils {
             config = objectMapper.readValue(getConfigJsonFile(Const.TEST_API_CONFIG_JSON_FILE_NAME), KTestConfig.class);
             return config;
         } catch (IOException e) {
+        	ConfigLogger.logError("#############=>"+e.getMessage());
         	throw new ConfigFileNotFoundException(configFileNotFoundExceptionMessage);
         }
 	}
