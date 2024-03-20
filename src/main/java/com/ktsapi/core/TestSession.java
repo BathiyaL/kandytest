@@ -47,8 +47,8 @@ public class TestSession extends TestInitializr{
 			if (getWebDriver() != null) {
 				getWebDriver().quit();
 			}
-		} catch (Throwable ignore_dont_care) {
-			ConfigLogger.logInfo("[TestSession]-> Error occurred while quitting web-driver: " +ignore_dont_care.getMessage());
+		} catch (Throwable ex) {
+			ConfigLogger.logInfo("[TestSession]-> Error occurred while quitting web-driver: " + ex.getMessage());
 		}
 	}
 	private static void quiteMobileDriverGracefully() {
@@ -56,8 +56,8 @@ public class TestSession extends TestInitializr{
 			if (getMobileDriver() != null) {
 				getMobileDriver().quit();
 			}
-		} catch (Throwable ignore_dont_care) {
-			ConfigLogger.logInfo("[TestSession]-> Error occurred while quitting mobile-driver : " +ignore_dont_care.getMessage());
+		} catch (Throwable ex) {
+			ConfigLogger.logInfo("[TestSession]-> Error occurred while quitting mobile-driver : " + ex.getMessage());
 		}
 	}
 }
