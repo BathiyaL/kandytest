@@ -1,10 +1,8 @@
 package com.ktsapi.core;
 
 import java.util.Map;
-
-import org.openqa.selenium.WebDriver;
-
 import com.google.common.collect.Maps;
+import com.ktsapi.actions.core.ConfigLogger;
 
 public class TestSession extends TestInitializr{
 	
@@ -24,6 +22,7 @@ public class TestSession extends TestInitializr{
 	public static void close() {
 		try {
 			closeWebdriver();
+			closeMobileDriver();
 
 		}catch (Exception ex) {
 			
@@ -33,20 +32,32 @@ public class TestSession extends TestInitializr{
 	}
 	
 	private static void closeWebdriver() {
-		if(isDriverUse()) {
+		if(isWebDriverUse()) {
 			quiteWebDriverGracefully();
+		}
+	}
+	private static void closeMobileDriver() {
+		if(isMobileDriverUse()) {
+			quiteMobileDriverGracefully();
 		}
 	}
 	
 	private static void quiteWebDriverGracefully() {
 		try {
 			if (getWebDriver() != null) {
-				//System.out.println("################## : TestSession.clsoeDriver");
 				getWebDriver().quit();
 			}
 		} catch (Throwable ignore_dont_care) {
-			// e.printStackTrace();
-			// no-op
+			ConfigLogger.logInfo("[TestSession]-> Error occurred while quitting web-driver: " +ignore_dont_care.getMessage());
+		}
+	}
+	private static void quiteMobileDriverGracefully() {
+		try {
+			if (getMobileDriver() != null) {
+				getMobileDriver().quit();
+			}
+		} catch (Throwable ignore_dont_care) {
+			ConfigLogger.logInfo("[TestSession]-> Error occurred while quitting mobile-driver : " +ignore_dont_care.getMessage());
 		}
 	}
 }
