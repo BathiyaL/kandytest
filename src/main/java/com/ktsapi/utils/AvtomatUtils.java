@@ -31,7 +31,7 @@ public class AvtomatUtils {
 	
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 	
-	public static final String configFileNotFoundExceptionMessage = "Cannot find "+Const.RESOURCE_FOLDER_LOCATION+Const.TEST_API_CONFIG_FOLDER_NAME+"/"+Const.TEST_API_CONFIG_PROPERTY_FILE_NAME+ ". If file not exist please create.";
+	public static final String configFileNotFoundExceptionMessage = "Cannot find or deserialize "+Const.RESOURCE_FOLDER_LOCATION+Const.TEST_API_CONFIG_FOLDER_NAME+"/"+Const.TEST_API_CONFIG_PROPERTY_FILE_NAME+ ". If file not exist please create.";
 	
 	public static String getWindowsLoggedInUser() {
 		return System.getProperty("user.name");
@@ -137,6 +137,7 @@ public class AvtomatUtils {
             config = objectMapper.readValue(getConfigJsonFile(Const.TEST_API_CONFIG_JSON_FILE_NAME), KTestConfig.class);
             return config;
         } catch (IOException e) {
+
         	throw new ConfigFileNotFoundException(configFileNotFoundExceptionMessage);
         }
 	}
@@ -148,6 +149,7 @@ public class AvtomatUtils {
             config = objectMapper.readValue(getConfigJsonFile(Const.SYS_CONFIG_JSON_FILE_NAME), SysConfig.class);
             return config;
         } catch (IOException e) {
+        	ConfigLogger.logError("Error message -> "  + e.getMessage());
         	throw new ConfigFileNotFoundException(e.getMessage());
         }
 	}

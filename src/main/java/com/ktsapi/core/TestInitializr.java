@@ -13,7 +13,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.dto.Testplan;
-import com.ktsapi.mobile.AndroidDriverManager;
 import com.ktsapi.utils.sysconfig.SysConfig;
 import com.ktsapi.utils.testconfig.KTestConfig;
 
@@ -35,6 +34,7 @@ public class TestInitializr {
 	public static final String MOBILE_DRIVER = "_mobile.driver";
 	public static final String RUNNING_BROWSER_VERSION = "_running.browser.version";
 	public static final String WEB_DRIVER_IN_USE = "_web.driver.in.use"; 
+	public static final String MOBILE_DRIVER_IN_USE = "_mobile.driver.in.use"; 
 	public static final String TEST_LOG = "__test.logger"; //logger for the test life cycle
 	public static final String TEST_ACTION_LIST = "__test.action.list"; 
 	
@@ -206,7 +206,7 @@ public class TestInitializr {
         	setParentWindowHandle(webDriver.getWindowHandle());
         	setWebDriver(webDriver);
         	setRunningBrowserVersion(webDriver);
-        	setDriverInUse();
+        	setWebDriverInUse();
         	return getWebDriver();
     	}
 
@@ -218,6 +218,7 @@ public class TestInitializr {
     	if(mobileDriver==null) {
     		mobileDriver =  TestDriverProvider.getMobileDriver();
     		setMobileDriver(mobileDriver);
+    		setMobileDriverInUse();
     		return getMobileDriver();
     	}
     	return mobileDriver;
@@ -233,11 +234,17 @@ public class TestInitializr {
     private static void setWebDriver(WebDriver webDriver) {
     	set(WEB_DRIVER,webDriver);
     }
-    private static void setDriverInUse() {
+    private static void setWebDriverInUse() {
     	set(WEB_DRIVER_IN_USE, Boolean.TRUE);
     }
-	public static boolean isDriverUse() {
+    private static void setMobileDriverInUse() {
+    	set(MOBILE_DRIVER_IN_USE, Boolean.TRUE);
+    }
+	public static boolean isWebDriverUse() {
 		return (boolean) (get(WEB_DRIVER_IN_USE) != null ? get(WEB_DRIVER_IN_USE) : Boolean.FALSE.booleanValue());
+	}
+	public static boolean isMobileDriverUse() {
+		return (boolean) (get(MOBILE_DRIVER_IN_USE) != null ? get(MOBILE_DRIVER_IN_USE) : Boolean.FALSE.booleanValue());
 	}
     
     private static void setRunningBrowserVersion(WebDriver webDriver) {
