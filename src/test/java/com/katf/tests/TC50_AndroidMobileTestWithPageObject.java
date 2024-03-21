@@ -1,55 +1,43 @@
 package com.katf.tests;
 
-import static com.ktsapi.CommonActions.print;
 import static com.ktsapi.MobileActions.*;
-import static com.ktsapi.MobileActions.mobileDriver;
-
-
-import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
 import com.katf.pageobjects.AndroidDemoPage;
 import com.ktsapi.annotation.TestConfiguration;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.TestDriver;
 
-import io.appium.java_client.AppiumBy;
-
 @TestConfiguration(
-		testDriver = TestDriver.MOBILE_ANDROID, // Mandatory
-		mobileApp = "General-Store.apk",
-		mobileDeviceName = "Pixel_3a_API_33_arm64-v8a",//"pixel_2_xl",Pixel_2_XL_API_33
-		browser=Browsers.CHROME,
-		mobileCapabilitiesFileName = "General-Store.apk.json"
+	testDriver = TestDriver.MOBILE_ANDROID, // Mandatory
+	mobileApp = "General-Store.apk",
+	mobileDeviceName = "Pixel_3a_API_33_arm64-v8a",//"pixel_2_xl",Pixel_2_XL_API_33
+	browser=Browsers.CHROME
+	//mobileCapabilitiesFileName = "General-Store.apk.json"
 )
-public class TC50_AndroidMobileTestDemo {
+public class TC50_AndroidMobileTestWithPageObject {
 	
 	final String PRODUCT_NAME = "Jordan 6 Rings";
 	
 	@BeforeTest
 	public void goSite() {	
-		
 		OpenMobileApp();
-		print(TestInitializr.getTestConfiguration().getMobileApp());
-		print(TestInitializr.getTestConfiguration().getMobileDeviceName());
-//	      OpenBrowser();
-//	      
-//	      GoTo(TestInitializr.getTestConfiguration().getBaseUrl());
-//	      print(GetTitle());
+		Assert.assertEquals(TestInitializr.getTestConfiguration().getMobileApp(), "General-Store.apk","App Name mismatch");
+		Assert.assertEquals(TestInitializr.getTestConfiguration().getMobileDeviceName(), "Pixel_3a_API_33_arm64-v8a","Device Name(Emulator) mismatch");
 	 }
 
 	@Test
 	public void testMothod() {	
 		
 		AndroidDemoPage page = getAndroidPage(AndroidDemoPage.class);
-		print(">>>>>>>>>>>>>>>>>>>>>>>>" + page.name.getByLocator());
-		//page.name.type("Don Bat");
-		//page.name.type("Don Bat", "AAA");
-		page.name.type("A", "B","C");
-		page.name.typeWithLocatorParms("x", "y","z");
-		
+		page.name.type("T", "o","m");
+		String name = mobileDriver().findElement(page.name.getByLocator()).getText();
+		Assert.assertEquals(name, "Tom","Name mismatch");
+		page.name.typeWithLocatorParms("Sam");
+		name = mobileDriver().findElement(page.name.getByLocator()).getText();
+		Assert.assertEquals(name, "Sam","Name mismatch");
 		
 		//hideKeyboard();
 		page.genderFemale.click();
@@ -60,6 +48,7 @@ public class TC50_AndroidMobileTestDemo {
 		
 		page.letsShop.click();
 		page.dynamicProduct.click(PRODUCT_NAME);
+
 		
 		//mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\""+PRODUCT_NAME+"\"));"));
 		
@@ -81,11 +70,7 @@ public class TC50_AndroidMobileTestDemo {
 		
 		// dynamic elements
 		// page.element.setLocatorPrameters().click();
-		
 
-
-
-		
 	}
 
 }
