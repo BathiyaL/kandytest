@@ -5,6 +5,7 @@ public interface EnhancedMobileElement extends BaseMobileElement{
 	public void type(CharSequence... keysToSend);
 	//public void click();
 	public void scrollToElement();
+	public String getText();
 	
 	// parameterize elements
 	public void click(String... locatorParams);

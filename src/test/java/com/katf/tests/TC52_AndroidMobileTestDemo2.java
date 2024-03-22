@@ -24,7 +24,7 @@ import io.appium.java_client.AppiumBy;
 		browser=Browsers.CHROME,
 		mobileCapabilitiesFileName = "Android-NativeDemoApp-0.4.0.json"
 )
-public class TC51_AndroidMobileTestDemo2 {
+public class TC52_AndroidMobileTestDemo2 {
 	
 	final String EXPECTEDLOGGED_IN_MSG = "You are logged in!";
 	
