@@ -31,7 +31,6 @@ public class TC50_AndroidMobileTestWithPageObject {
 
 	@Test
 	public void testMothod() {	
-		
 		AndroidDemoPage page = getAndroidPage(AndroidDemoPage.class);
 		page.name.type("T", "o","m");
 		String name = mobileDriver().findElement(page.name.getByLocator()).getText();
@@ -51,8 +50,5 @@ public class TC50_AndroidMobileTestWithPageObject {
 		page.dynamicProduct.click(PRODUCT_NAME);
 		
 		pause(15);
-
-
 	}
-
 }

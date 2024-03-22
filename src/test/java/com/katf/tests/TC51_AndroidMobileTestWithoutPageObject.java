@@ -43,8 +43,5 @@ public class TC51_AndroidMobileTestWithoutPageObject {
 		
 		mobileDriver().findElement(By.id("com.androidsample.generalstore:id/btnLetsShop")).click();
 		mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\""+PRODUCT_NAME+"\"));"));
-
 	}
-
 }
-
