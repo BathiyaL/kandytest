@@ -1,6 +1,7 @@
 package com.katf.tests;
 
 import static com.ktsapi.MobileActions.*;
+import static com.ktsapi.CommonActions.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -36,40 +37,21 @@ public class TC50_AndroidMobileTestWithPageObject {
 		String name = mobileDriver().findElement(page.name.getByLocator()).getText();
 		Assert.assertEquals(name, "Tom","Name mismatch");
 		page.name.typeWithLocatorParms("Sam");
-		name = mobileDriver().findElement(page.name.getByLocator()).getText();
+		name = page.name.getText();
 		Assert.assertEquals(name, "Sam","Name mismatch");
 		
 		//hideKeyboard();
 		page.genderFemale.click();
 		page.countryDropdown.click();
-		
 		//page.argentina.scrollToElement();
 		page.argentina.click(); // we have used uiautomator selector with scrollIntoView, hence this will scroll to the element and click
+		Assert.assertEquals(page.countryDropdown.getText(), "Argentina","scroll not worked as expected");
 		
 		page.letsShop.click();
 		page.dynamicProduct.click(PRODUCT_NAME);
+		
+		pause(15);
 
-		
-		//mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\""+PRODUCT_NAME+"\"));"));
-		
-		
-//		mobileDriver().findElement(By.id("com.androidsample.generalstore:id/nameField")).sendKeys("Don Bat");
-//		mobileDriver().hideKeyboard();
-//		mobileDriver().findElement(By.xpath("//android.widget.RadioButton[@text='Female']")).click();
-//		mobileDriver().findElement(By.id("android:id/text1")).click();
-//		mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));"));
-//		mobileDriver().findElement(By.xpath("//android.widget.TextView[@text='Argentina']")).click();
-		
-		//mobileDriver().findElement(By.id("com.androidsample.generalstore:id/btnLetsShop")).click();
-		//mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\""+PRODUCT_NAME+"\"));"));
-		//print("Test Pass"); 
-//
-//		By by = AppiumBy.id(""); 
-//		AndroidFindBy
-		
-		
-		// dynamic elements
-		// page.element.setLocatorPrameters().click();
 
 	}
 

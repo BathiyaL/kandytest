@@ -1,7 +1,7 @@
 package com.katf.tests;
 
 import static com.ktsapi.MobileActions.*;
-
+import static com.ktsapi.CommonActions.*;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
@@ -34,7 +34,8 @@ public class TC51_AndroidMobileTestWithoutPageObject {
 	@Test
 	public void testMothod() {	
 		mobileDriver().findElement(By.id("com.androidsample.generalstore:id/nameField")).sendKeys("Don Bat");
-		mobileDriver().hideKeyboard();
+		pause(15);
+		//mobileDriver().hideKeyboard();
 		mobileDriver().findElement(By.xpath("//android.widget.RadioButton[@text='Female']")).click();
 		mobileDriver().findElement(By.id("android:id/text1")).click();
 		mobileDriver().findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));"));

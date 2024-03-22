@@ -86,4 +86,9 @@ public class EnhancedMobileElementImpl extends BaseMobileElementImpl implements 
 		
 	}
 
+	@Override
+	public String getText() {
+		return mobileDriver().findElement(getByLocator()).getText();
+	}
+
 }
