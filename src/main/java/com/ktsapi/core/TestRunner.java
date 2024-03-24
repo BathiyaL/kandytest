@@ -40,6 +40,7 @@ public class TestRunner extends TestSession implements Runner{
 		setTestConfigObj(testContext.getTestConfigObj());
 		setSysConfigObj(testContext.getSysConfigObj());
 		setDryRunStatus(testContext.isDryrun());
+		setTestNGConfigObj(testContext.getTestNGConfig());
 	}
 
 	@Override

@@ -296,4 +296,9 @@ public class TestngTestContext implements TestContext{
 		return (Boolean)result.getTestContext().getSuite().getAttribute(TestInitializr.IS_DRY_RUN);
 	}
 
+	@Override
+	public TestNGConfig getTestNGConfig() {
+		return (TestNGConfig)result.getTestContext().getSuite().getAttribute(TestInitializr.TESTNG_CONFIG_OBJ);
+	}
+
 }

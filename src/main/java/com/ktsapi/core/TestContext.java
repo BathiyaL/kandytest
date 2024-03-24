@@ -7,6 +7,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.dto.Testplan;
+import com.ktsapi.testng.TestNGConfig;
 import com.ktsapi.utils.sysconfig.SysConfig;
 import com.ktsapi.utils.testconfig.KTestConfig;
 
@@ -36,7 +37,8 @@ public interface TestContext {
 	Testplan getTestPlanObj();
 	KTestConfig getTestConfigObj();
 	SysConfig getSysConfigObj();
-	
+	TestNGConfig getTestNGConfig();
+
 	boolean isDryrun();
 
 	
