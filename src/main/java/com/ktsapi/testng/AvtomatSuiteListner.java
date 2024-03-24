@@ -106,7 +106,6 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 			suite.setAttribute(TestInitializr.IS_DRY_RUN, true);
 			ConfigLogger.logInfo("@TestSuite{DryRun=True}"); 
 	     }
-	     System.out.println("####################################################### -------> "+ suite.getOutputDirectory());
 	}
 	
 	private TestNGConfig getTestNGConfig(ISuite suite) {
