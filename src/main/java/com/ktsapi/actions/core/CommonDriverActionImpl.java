@@ -2,16 +2,11 @@ package com.ktsapi.actions.core;
 
 import static com.ktsapi.WebActons.driver;
 import static com.ktsapi.actions.core.ActionsLogger.*;
-
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-
 import com.ktsapi.actions.CommonDriverAction;
 import com.ktsapi.actions.log.ActionLog;
 import com.ktsapi.contexts.TestConfigurationDefaults;
@@ -54,9 +49,9 @@ public class CommonDriverActionImpl implements CommonDriverAction {
 			Path path = AvtomatUtils.getRunningTestPlanOutputFolder().resolve(TestInitializr.getTestConfiguration().getTestClassName()).resolve(name+".png");
 			if(driver() != null) {
 				TakesScreenshot scrShot =((TakesScreenshot)driver());
-				File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
-				File DestFile=new File(path.toString());
-				FileUtils.copyFile(SrcFile, DestFile);
+				File srcFile=scrShot.getScreenshotAs(OutputType.FILE);
+				File destFile=new File(path.toString());
+				FileUtils.copyFile(srcFile, destFile);
 			}
 		} catch (Exception e) {
 			ConfigLogger.logError("Error occured while saving screensho");

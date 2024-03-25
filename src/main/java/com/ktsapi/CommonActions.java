@@ -29,6 +29,6 @@ public class CommonActions {
 	}
 	
 	public static void saveScreenshot(String name) {
-		newInstance().saveScreenshot(name);;
+		newInstance().saveScreenshot(name);
 	}
 }
