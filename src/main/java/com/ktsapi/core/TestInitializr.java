@@ -13,6 +13,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.ktsapi.contexts.TestConfigurationContext;
 import com.ktsapi.dto.Testplan;
+import com.ktsapi.testng.TestNGConfig;
 import com.ktsapi.utils.sysconfig.SysConfig;
 import com.ktsapi.utils.testconfig.KTestConfig;
 
@@ -41,6 +42,7 @@ public class TestInitializr {
 	public static final String TEST_PLAN_OBJ = "__test.plan.obj"; 
 	public static final String TEST_CONFIG_OBJ = "__test.config.obj"; 
 	public static final String TEST_SYS_CONFIG_OBJ = "__test.sys.config.obj"; 
+	public static final String TESTNG_CONFIG_OBJ = "__testng.config.obj"; 
 
 
 	
@@ -115,6 +117,9 @@ public class TestInitializr {
     public static void setSysConfigObj(SysConfig sysConfig) {
     	set(TEST_SYS_CONFIG_OBJ, sysConfig);
     }
+    public static void setTestNGConfigObj(TestNGConfig testNGConfig) {
+    	set(TESTNG_CONFIG_OBJ, testNGConfig);
+    }
     
     // These wait times can set by user within script life cycle
     public static void setImplicitlyWaitTime(long implicitlyWaitTime) {
@@ -158,6 +163,9 @@ public class TestInitializr {
     
     public static SysConfig getSysConfigObj() {
     	return (SysConfig)get(TEST_SYS_CONFIG_OBJ);
+    }
+    public static TestNGConfig getTestNGConfigObj() {
+    	return (TestNGConfig)get(TESTNG_CONFIG_OBJ);
     }
     
     public static Long getImplicitlyWaitTime() {

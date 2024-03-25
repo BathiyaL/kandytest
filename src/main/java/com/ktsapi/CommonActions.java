@@ -28,4 +28,7 @@ public class CommonActions {
 		return newInstance().baseUrl();
 	}
 	
+	public static void saveScreenshot(String name) {
+		newInstance().saveScreenshot(name);
+	}
 }

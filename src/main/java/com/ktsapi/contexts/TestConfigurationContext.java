@@ -22,7 +22,22 @@ public class TestConfigurationContext {
 	String mobileDeviceName;
 	String mobileCapabilitiesFileName;
 	
+	//TestNG attributes
+	String testName;
+	String testClassName;
 	
+	public String getTestName() {
+		return testName;
+	}
+	public void setTestName(String testName) {
+		this.testName = testName;
+	}
+	public String getTestClassName() {
+		return testClassName;
+	}
+	public void setTestClassName(String testClassName) {
+		this.testClassName = testClassName;
+	}
 	public String getMobileCapabilitiesFileName() {
 		return mobileCapabilitiesFileName;
 	}

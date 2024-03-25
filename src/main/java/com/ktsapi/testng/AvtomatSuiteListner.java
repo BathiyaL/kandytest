@@ -43,10 +43,12 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		
 		KTestConfig ktestConfig = AvtomatUtils.validateAndGetKTestConfig();
 		SysConfig sysConfig = AvtomatUtils.validateAndGetSysConfig();
+		TestNGConfig testNGConfig = getTestNGConfig(suite);
 		TestSuiteValidator testSuiteValidator = new TestSuiteValidator(suite);
 
 		suite.setAttribute(TestInitializr.TEST_CONFIG_OBJ, ktestConfig);
-		suite.setAttribute(TestInitializr.TEST_SYS_CONFIG_OBJ, sysConfig);  
+		suite.setAttribute(TestInitializr.TEST_SYS_CONFIG_OBJ, sysConfig); 
+		suite.setAttribute(TestInitializr.TESTNG_CONFIG_OBJ, testNGConfig);  
 		
 		isDryRun = getIsDryRunForTestInstance(ktestConfig, suite);
 
@@ -104,6 +106,12 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 			suite.setAttribute(TestInitializr.IS_DRY_RUN, true);
 			ConfigLogger.logInfo("@TestSuite{DryRun=True}"); 
 	     }
+	}
+	
+	private TestNGConfig getTestNGConfig(ISuite suite) {
+		TestNGConfig testNGConfig = new TestNGConfig();
+		testNGConfig.setTestPlanOutputDirectory(suite.getOutputDirectory());
+		return testNGConfig;
 	}
 	
 	private TestPlanRequest getTestPlanRequestForKandyclient(KTestConfig ktestConfig) {

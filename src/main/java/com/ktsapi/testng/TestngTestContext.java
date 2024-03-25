@@ -57,7 +57,7 @@ public class TestngTestContext implements TestContext{
 	String mobileCapabilitiesFileName;
 	
 	boolean isDryRun;
-	
+
 	TestConfigurationContext testConfigurationContext ;
 	
 	@Override
@@ -127,6 +127,9 @@ public class TestngTestContext implements TestContext{
 		testConfigurationContext.setMobileApp(mobileApp);
 		testConfigurationContext.setMobileDeviceName(mobileDeviceName);
 		testConfigurationContext.setMobileCapabilitiesFileName(mobileCapabilitiesFileName);
+
+		String testInstanceName = result.getInstanceName();
+		testConfigurationContext.setTestClassName(testInstanceName.substring(testInstanceName.lastIndexOf('.') + 1));
 	}
 	
 	// if suite level parameter is undefined get from test config
@@ -294,6 +297,11 @@ public class TestngTestContext implements TestContext{
 	@Override
 	public boolean isDryrun() {
 		return (Boolean)result.getTestContext().getSuite().getAttribute(TestInitializr.IS_DRY_RUN);
+	}
+
+	@Override
+	public TestNGConfig getTestNGConfig() {
+		return (TestNGConfig)result.getTestContext().getSuite().getAttribute(TestInitializr.TESTNG_CONFIG_OBJ);
 	}
 
 }
