@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
@@ -173,6 +174,11 @@ public class AvtomatUtils {
 		}
 
 		return "win"; // TODO: for now default is win
+	}
+	
+	public static Path getRunningTestPlanOutputFolder() {
+		String testPlanFolder = TestInitializr.getTestNGConfigObj().getTestPlanOutputDirectory();
+		return Paths.get(testPlanFolder).resolve("screenshots");
 	}
 
 }

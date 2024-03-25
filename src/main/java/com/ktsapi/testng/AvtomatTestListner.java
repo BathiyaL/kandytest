@@ -45,6 +45,7 @@ import com.ktsapi.dto.TestResultRequest;
 import com.ktsapi.enums.TestResultStatus;
 import com.ktsapi.kclient.KandyClientApiCaller;
 import com.ktsapi.utils.AvtomatUtils;
+import static com.ktsapi.CommonActions.saveScreenshot;;
 
 public class AvtomatTestListner implements ITestListener, IConfigurationListener2, IReporter {
 
@@ -105,7 +106,12 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	@Override
 	public void onTestFailure(ITestResult result) {
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has failed");
+		saveFailureScreenshot();
 		tearDownContext(result, TestResultStatus.Failed);
+	}
+	
+	private void saveFailureScreenshot() {
+		saveScreenshot("FailPoint");
 	}
 
 	@Override

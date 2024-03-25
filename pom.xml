@@ -124,6 +124,13 @@
 		    <version>3.24.2</version>
 		    <scope>test</scope>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.15.1</version>
+		</dependency>
 
 <!--no longer needed in selenium v 4.14 as the jdk client is the default.-->
 <!--	 mac ox need this with system property 
