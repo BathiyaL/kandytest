@@ -46,7 +46,7 @@ public class CommonDriverActionImpl implements CommonDriverAction {
 	@Override
 	public void saveScreenshot(String name) {
 		try {
-			Path path = AvtomatUtils.getRunningTestPlanOutputFolder().resolve(TestInitializr.getTestConfiguration().getTestClassName()).resolve(name+".png");
+			Path path = AvtomatUtils.getRunningTestNGTestInstanceFolder().resolve(name+".png");
 			if(driver() != null) {
 				TakesScreenshot scrShot =((TakesScreenshot)driver());
 				File srcFile=scrShot.getScreenshotAs(OutputType.FILE);

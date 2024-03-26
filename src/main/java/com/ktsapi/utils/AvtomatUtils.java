@@ -176,9 +176,13 @@ public class AvtomatUtils {
 		return "win"; // TODO: for now default is win
 	}
 	
-	public static Path getRunningTestPlanOutputFolder() {
+	public static Path getRunningTestNGTestPlanOutputFolder() {
 		String testPlanFolder = TestInitializr.getTestNGConfigObj().getTestPlanOutputDirectory();
 		return Paths.get(testPlanFolder).resolve("screenshots");
+	}
+	
+	public static Path getRunningTestNGTestInstanceFolder() {
+		return AvtomatUtils.getRunningTestNGTestPlanOutputFolder().resolve(TestInitializr.getTestConfiguration().getTestClassName());
 	}
 
 }
