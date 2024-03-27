@@ -43,8 +43,6 @@ public class TestInitializr {
 	public static final String TEST_CONFIG_OBJ = "__test.config.obj"; 
 	public static final String TEST_SYS_CONFIG_OBJ = "__test.sys.config.obj"; 
 	public static final String TESTNG_CONFIG_OBJ = "__testng.config.obj"; 
-
-
 	
 	public static final String IMPLICITLY_WAIT_TIME = "__implicitly.wait.time";
 	public static final String SCRIPT_TIMEOUT = "__script.timeout";
@@ -57,11 +55,6 @@ public class TestInitializr {
 	
 	public static final String IS_DRY_RUN = "__is.dry.run"; 
 	
-	
-	
-	
-	//private static final Logger TEST_LOGGER = LoggerFactory.getLogger("");
-	
 	protected static final ThreadLocal<Map<String, Object>> TEST_CACHE = new ThreadLocal<>();
 	
 	
@@ -70,18 +63,6 @@ public class TestInitializr {
     	set(DESIRED_CAPABILITIES, capabilities);
     }    
     public static void setTestConfiguration(TestConfigurationContext testConfigurationContext) {
-    	
-		/*
-		 * String log =
-		 * "\n#################### Test Configuration #####################\n" +
-		 * "baseUrl :: " + testConfigurationContext.getBaseUrl() + "\n" +
-		 * "testDriver :: " + testConfigurationContext.getTestDriver() + "\n" +
-		 * "browser :: " + testConfigurationContext.getBrowser() + "\n" +
-		 * "browserVersion :: " + testConfigurationContext.getBrowserVersion() + "\n" +
-		 * "browserVersion :: " + testConfigurationContext.getBrowserVersion() + "\n" +
-		 * "#############################################################";
-		 * ConfigLogger.logInfo(log);
-		 */
     	set(TEST_CONFIGURATION, testConfigurationContext);
     }
     public static void setTestClassName(String testClassName) {

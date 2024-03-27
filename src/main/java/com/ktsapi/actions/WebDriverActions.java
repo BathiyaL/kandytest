@@ -1,12 +1,8 @@
 package com.ktsapi.actions;
 
 import java.util.Set;
-
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
 import com.ktsapi.actions.core.DriverTimeOuts;
 import com.ktsapi.annotation.ActionImplements;
 import com.ktsapi.annotation.OverrideAction;
@@ -45,7 +41,7 @@ public interface WebDriverActions{
 	@OverrideAction(name="quit()")
 	void CloseBrowser();
 	
-	WebDriver driver();
+	WebDriver WebDriver();
 
 	@OverrideAction(name="getWindowHandle")
 	String CurrentWindowHandle();

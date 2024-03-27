@@ -46,7 +46,7 @@ public class IFrameTest {
 		
 		//GoTo("http://play.krypton.infor.com/demopage.html");
 		GoTo(baseUrl());
-		WebElementPage1 page = getWebPage(WebElementPage1.class);
+		WebElementPage1 page = GetWebPage(WebElementPage1.class);
 		
 		page.playEmailTextBoxElm.type("ABCDEFGHI");
 		page.playSizeElm2.type("555");

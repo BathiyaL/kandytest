@@ -1,6 +1,6 @@
 package com.katf.pageobjects;
 
-import static com.ktsapi.WebActons.driver;
+import static com.ktsapi.WebActons.WebDriver;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

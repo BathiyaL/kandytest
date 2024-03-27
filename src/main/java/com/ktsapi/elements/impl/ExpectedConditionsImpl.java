@@ -29,7 +29,7 @@ public class ExpectedConditionsImpl extends BaseWebElementImpl implements Expect
 		//selectElement = new Select(WebActons.$$(baseWebElement.getByLocator()));		
 		//selectElement = new Select(actionImpl.$$(baseWebElement));
 		
-		webDriverWait = new WebDriverWait(actionImpl.driver(), Duration.ofSeconds(waitTime));		
+		webDriverWait = new WebDriverWait(actionImpl.WebDriver(), Duration.ofSeconds(waitTime));		
 		actionImpl.switchToFrames(baseWebElement);
 	}
 

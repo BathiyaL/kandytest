@@ -4,18 +4,9 @@ import static com.ktsapi.CommonActions.*;
 import static com.ktsapi.WebActons.GetTitle;
 import static com.ktsapi.WebActons.GoTo;
 import static com.ktsapi.WebActons.OpenBrowser;
-import static com.ktsapi.WebActons.getWebPage;
-import static com.ktsapi.WebActons.*;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.openqa.selenium.By;
-import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import com.katf.pageobjects.FBPage;
 import com.ktsapi.annotation.TestConfiguration;
-import com.ktsapi.core.TestInitializr;
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.TestDriver;
 

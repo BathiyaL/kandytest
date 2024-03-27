@@ -1,9 +1,6 @@
 package com.ktsapi;
 
-import java.lang.reflect.UndeclaredThrowableException;
-import java.util.List;
 import java.util.Set;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,12 +8,9 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WebDriver.TargetLocator;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-
 import com.ktsapi.actions.KandyTestWebDriverActions;
 import com.ktsapi.actions.core.DriverTimeOuts;
-import com.ktsapi.elements.AvtomatWebDriverWait;
 import com.ktsapi.elements.BaseWebElement;
 import com.ktsapi.elements.BrowserNavigation;
 import com.ktsapi.elements.BrowserWindow;
@@ -25,10 +19,7 @@ import com.ktsapi.elements.EnhancedWebElement;
 import com.ktsapi.elements.ExpectedConditions;
 import com.ktsapi.elements.FrameElement;
 import com.ktsapi.elements.TargetLocatorFrame;
-import com.ktsapi.elements.impl.BrowserNavigationImpl;
-import com.ktsapi.exceptions.TestClassNotFoundException;
 import com.ktsapi.exceptions.WebActionsExceptions;
-import com.ktsapi.pagefactory.AvtomatPageFactory;
 
 /**
  * 
@@ -46,19 +37,13 @@ public class WebActons {
 		newInstance().OpenBrowser();		
 	}
 	
-	public static WebDriver driver(){
-		return newInstance().driver();
+	public static WebDriver WebDriver(){
+		return newInstance().WebDriver();
 	}
 	
-	public static KandyTestWebDriverActions newInstance(){
+	private static KandyTestWebDriverActions newInstance(){
 		return KTestActonsHandler.webDriverActionsInstance();
 	}
-	
-	
-	public static <C> C getWebPage(Class<C> page) {		
-		return newInstance().GetWebPage(page);
-	}
-	
 	
 
 // SeleniumCaller Define WebDriverActions --------------------------------------------------------------------------
@@ -199,9 +184,6 @@ public class WebActons {
 		public static String GetText(BaseWebElement element){
 			return newInstance().GetText(element);
 		}
-//		public static EnhancedWebElement FindElement(BaseWebElement element, By by) {	
-//			return newInstance().FindElement(element,by);
-//		}
 		public static boolean IsDisplayed(BaseWebElement element){
 			return newInstance().IsDisplayed(element);
 		}
@@ -223,20 +205,11 @@ public class WebActons {
 		}
 // End of Selenium WebElement Define Actions ---------------------------------------------------------------
 
-
-
-
-	
 	
 
 // SeleniumCaller Define WebElementActions ------------------------------------------------------------------
 
-	public static void Type(BaseWebElement element, CharSequence... keysToSend){
-//		try {
-//			newInstance().Type(element, keysToSend);
-//		}catch(Exception e) {
-//			throw new WebActionsExceptions(e.getMessage());
-//		}		
+	public static void Type(BaseWebElement element, CharSequence... keysToSend){	
 		newInstance().Type(element, keysToSend);
 	}
 	
@@ -300,29 +273,23 @@ public class WebActons {
 	
 	// SeleniumCaller Define Actions --------------------------------------------------------------------------
 	
-		public static <T> void WaitUntil(ExpectedCondition<T> condition,long timeOutInSeconds){
+	public static <T> void WaitUntil(ExpectedCondition<T> condition,long timeOutInSeconds){
 			newInstance().WaitUntil(condition,timeOutInSeconds);
-		}
+	}
+
 		
-//		public static <C> C getPage(Class<C> page) {
-//			//BasePage obj = new BasePage(driver);
-//			return newInstance().GetPage(page);
-//			
-//			//return Object;
-//		}
-		
-		public static void HandleBrowserWindow(BrowserWindow browserWindow,long timeOutInSeconds) {
-			newInstance().HandleBrowserWindow(browserWindow,timeOutInSeconds);
+	public static void HandleBrowserWindow(BrowserWindow browserWindow,long timeOutInSeconds) {
+		newInstance().HandleBrowserWindow(browserWindow,timeOutInSeconds);
 			
-		}
+	}
 		
-		public static DriverTimeOuts ManageTimeouts() {
-			return newInstance().ManageTimeouts();
-		}
+	public static DriverTimeOuts ManageTimeouts() {
+		return newInstance().ManageTimeouts();
+	}
 		
-		public static org.openqa.selenium.Alert Alert() {
-			return newInstance().Alert();
-		}
+	public static org.openqa.selenium.Alert Alert() {
+		return newInstance().Alert();
+	}
 
 	// End of SeleniumCaller Define Actions -------------------------------------------------------------------
 

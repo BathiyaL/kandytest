@@ -18,7 +18,7 @@ public class TC3_ShadowDomTest {
 	@Test
 	public void testMethod() {
 		GoTo("http://watir.com/examples/shadow_dom.html");
-		ShadowDomTestPage shadowPage = getWebPage(ShadowDomTestPage.class);
+		ShadowDomTestPage shadowPage = GetWebPage(ShadowDomTestPage.class);
 		String actualText = shadowPage.nestedText.getText();
 		assertThat(actualText).isEqualTo("nested text");
 		pause(5);

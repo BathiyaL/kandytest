@@ -44,13 +44,13 @@ public class NewBrowserWindowTab {
 	public void clickActionTest() {
 	
 		GoTo(baseUrl());
-		System.out.println("#####################  ::: " + driver().getWindowHandle());
+		System.out.println("#####################  ::: " + WebDriver().getWindowHandle());
 		GetNewTab("https://twitter.com/");	
 //		System.out.println("#####################  ::: " + driver().getWindowHandle());
 //		CloseBrowser();
 		
 //		OpenBrowser();
-		WebElementPage1 page = getWebPage(WebElementPage1.class);
+		WebElementPage1 page = GetWebPage(WebElementPage1.class);
 		page.TwitterElm.click();
 		
 		SwitchToWindowOrTab(ParentWindowHandle());
@@ -58,7 +58,7 @@ public class NewBrowserWindowTab {
 		page.playSizeElm2.type("555");
 		
 		GetNewWindow("https://www.youtube.com/");
-		System.out.println("#####################  ::: " + driver().getWindowHandle());
+		System.out.println("#####################  ::: " + WebDriver().getWindowHandle());
 		
 		System.out.println("#####################ParentWindowHandle  ::: " + ParentWindowHandle());
 
