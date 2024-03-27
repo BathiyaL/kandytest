@@ -4,7 +4,7 @@ import static com.ktsapi.CommonActions.print;
 import static com.ktsapi.WebActons.GetTitle;
 import static com.ktsapi.WebActons.GoTo;
 import static com.ktsapi.WebActons.OpenBrowser;
-import static com.ktsapi.WebActons.getWebPage;
+import static com.ktsapi.WebActons.GetWebPage;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -36,7 +36,7 @@ public class TC2_TestPass {
 	
 	@BeforeTest(dependsOnMethods = {"goSite"})
 	public void login() {	      
-		FBPage fbPage = getWebPage(FBPage.class);
+		FBPage fbPage = GetWebPage(FBPage.class);
 		fbPage.username.type("invalid_username");
 		fbPage.password.type("invalid_password");
 		fbPage.submit.click();		

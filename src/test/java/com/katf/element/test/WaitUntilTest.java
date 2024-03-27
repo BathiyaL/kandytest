@@ -2,15 +2,10 @@ package com.katf.element.test;
 
 import static com.ktsapi.CommonActions.*;
 import static com.ktsapi.WebActons.*;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
-
 import com.katf.pageobjects.WebElementPage1;
-import com.ktsapi.WebActons;
 import com.ktsapi.annotation.TestConfiguration;
 import com.ktsapi.enums.Browsers;
 import com.ktsapi.enums.TestDriver;
@@ -29,7 +24,7 @@ public class WaitUntilTest {
     	OpenBrowser();
     	GoTo("http://www.softwareautomationengineer.com/demo-site/web-elements-page-1.html");
     	GetTitle();
-    	WebElementPage1 page = getWebPage(WebElementPage1.class);
+    	WebElementPage1 page = GetWebPage(WebElementPage1.class);
     	
     	//FindElement(page.noElement.getByLocator());
     	

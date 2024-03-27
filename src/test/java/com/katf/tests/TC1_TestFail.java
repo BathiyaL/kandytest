@@ -4,7 +4,7 @@ import static com.ktsapi.CommonActions.print;
 import static com.ktsapi.WebActons.GetTitle;
 import static com.ktsapi.WebActons.GoTo;
 import static com.ktsapi.WebActons.OpenBrowser;
-import static com.ktsapi.WebActons.getWebPage;
+import static com.ktsapi.WebActons.GetWebPage;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.testng.annotations.BeforeTest;
@@ -37,7 +37,7 @@ public class TC1_TestFail {
 	
 	@BeforeTest(dependsOnMethods = {"goSite"})
 	public void login() {	      
-		FBPage fbPage = getWebPage(FBPage.class);
+		FBPage fbPage = GetWebPage(FBPage.class);
 		fbPage.username.type("invalid_username");
 		fbPage.password.type("invalid_password");
 		fbPage.submit.click();		

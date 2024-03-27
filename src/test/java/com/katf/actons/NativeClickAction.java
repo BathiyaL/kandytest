@@ -30,7 +30,7 @@ public class NativeClickAction {
 	@Test
 	public void clickActionTest() {
 		GoTo("http://www.softwareautomationengineer.com/demo-site/web-elements-page-1.html");
-		WebElementPage1 webElementPage1 = getWebPage(WebElementPage1.class);
+		WebElementPage1 webElementPage1 = GetWebPage(WebElementPage1.class);
 		webElementPage1.clickMe1.nativeClick();
 		assertThat(Alert().getText()).describedAs("page.element.click()").isEqualTo(ALERT_TEXT);
 		Alert().accept();

@@ -1,6 +1,6 @@
 package com.ktsapi.actions.core;
 
-import static com.ktsapi.WebActons.driver;
+import static com.ktsapi.WebActons.WebDriver;
 import static com.ktsapi.actions.core.ActionsLogger.*;
 import java.io.File;
 import java.nio.file.Path;
@@ -47,8 +47,8 @@ public class CommonDriverActionImpl implements CommonDriverAction {
 	public void saveScreenshot(String name) {
 		try {
 			Path path = AvtomatUtils.getRunningTestNGTestInstanceFolder().resolve(name+".png");
-			if(driver() != null) {
-				TakesScreenshot scrShot =((TakesScreenshot)driver());
+			if(WebDriver() != null) {
+				TakesScreenshot scrShot =((TakesScreenshot)WebDriver());
 				File srcFile=scrShot.getScreenshotAs(OutputType.FILE);
 				File destFile=new File(path.toString());
 				FileUtils.copyFile(srcFile, destFile);

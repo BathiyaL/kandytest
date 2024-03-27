@@ -61,7 +61,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	//public static WebDriver driver;
 	private static Class<?> LAST_RUNNING_PAGE_OBJECT = null;
 
-	public WebDriver driver(){			
+	public WebDriver WebDriver(){			
 		return TestInitializr.getWebDriver();
 	}
 	
@@ -69,7 +69,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public void OpenBrowser() {
 		String launchedBrowser = TestInitializr.getDesiredCapabilities().getBrowserName();
 		try {
-			driver();
+			WebDriver();
 			launchedBrowser = launchedBrowser + " " + TestInitializr.getRunningBrowserVersion();
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.OpenBrowser, launchedBrowser, null));		
 		} catch (Exception e) {
@@ -84,8 +84,8 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		String logMessage2 = " " + url;
 		String windowHandle = null;
 		try {
-			driver().get(url);
-			windowHandle =  driver().getWindowHandle();
+			WebDriver().get(url);
+			windowHandle =  WebDriver().getWindowHandle();
 			logAction(ActionLog.actionLogWithDirectMesageOnly(ABotActions.GoTo,logMessage,null));	
 		}catch(Exception e) {			
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.GoTo,logMessage2,e));
@@ -101,9 +101,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		String logMessage2 = " " + url;
 		String windowHandle = null;
 		try {
-			driver().switchTo().newWindow(WindowType.WINDOW);
-			driver().get(url);
-			windowHandle =  driver().getWindowHandle();	
+			WebDriver().switchTo().newWindow(WindowType.WINDOW);
+			WebDriver().get(url);
+			windowHandle =  WebDriver().getWindowHandle();	
 			logAction(ActionLog.actionLogWithDirectMesageOnly(ABotActions.GetNewWindow,logMessage,null));	
 		}catch(Exception e) {			
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.GetNewWindow,logMessage2,e));
@@ -119,9 +119,9 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		String logMessage2 = " " + url;
 		String windowHandle = null;
 		try {
-			driver().switchTo().newWindow(WindowType.TAB);
-			driver().get(url);
-			windowHandle =  driver().getWindowHandle();
+			WebDriver().switchTo().newWindow(WindowType.TAB);
+			WebDriver().get(url);
+			windowHandle =  WebDriver().getWindowHandle();
 			logAction(ActionLog.actionLogWithDirectMesageOnly(ABotActions.GetNewTab,logMessage,null));	
 		}catch(Exception e) {			
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.GetNewTab,logMessage2,e));
@@ -414,7 +414,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	private void jsClick(WebElement element) {
-		JavascriptExecutor js = (JavascriptExecutor)driver();
+		JavascriptExecutor js = (JavascriptExecutor)WebDriver();
 		js.executeScript("arguments[0].click();", element);
 	}
 	
@@ -487,14 +487,14 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 						String key = locator[0];
 						String value = locator[1];
 						switch (key) {					
-						case "name": return driver().findElement(By.name(value));
-						case "id": return driver().findElement(By.id(value));
-						case "xpath": return driver().findElement(By.xpath(value));
-						case "className": return driver().findElement(By.className(value));
-						case "css": return driver().findElement(By.cssSelector(value));
-						case "linkText": return driver().findElement(By.linkText(value));
-						case "partialLinkText": return driver().findElement(By.partialLinkText(value));
-						case "tagName": return driver().findElement(By.tagName(value));
+						case "name": return WebDriver().findElement(By.name(value));
+						case "id": return WebDriver().findElement(By.id(value));
+						case "xpath": return WebDriver().findElement(By.xpath(value));
+						case "className": return WebDriver().findElement(By.className(value));
+						case "css": return WebDriver().findElement(By.cssSelector(value));
+						case "linkText": return WebDriver().findElement(By.linkText(value));
+						case "partialLinkText": return WebDriver().findElement(By.partialLinkText(value));
+						case "tagName": return WebDriver().findElement(By.tagName(value));
 						default:
 							break;
 						}
@@ -578,7 +578,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		
 		String currentFrame = "";
 		try{
-			driver().switchTo().defaultContent(); // Always starting to search from the default content
+			WebDriver().switchTo().defaultContent(); // Always starting to search from the default content
 			for(String s : frames) {
 				String[] locator = vlidateFrameLocator(s);
 				String key = locator[0];
@@ -586,13 +586,13 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 				currentFrame = s;	
 				
 				switch (key) {
-					case "name":driver().switchTo().frame(value);					
+					case "name":WebDriver().switchTo().frame(value);					
 						break;
-					case "id":driver().switchTo().frame(value);	
+					case "id":WebDriver().switchTo().frame(value);	
 						break;
-					case "xpath":driver().switchTo().frame(driver().findElement(By.xpath(value)));
+					case "xpath":WebDriver().switchTo().frame(WebDriver().findElement(By.xpath(value)));
 						break;
-					case "index":driver().switchTo().frame(Integer.parseInt(value.trim()));	
+					case "index":WebDriver().switchTo().frame(Integer.parseInt(value.trim()));	
 					default:
 						break;
 				}
@@ -629,10 +629,10 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	private SearchContext getSearchContextByLocaotrType(String key, String value) {
 		switch (key) {
-		case "name":return driver().findElement(By.name(value)).getShadowRoot();		
-		case "id":return driver().findElement(By.id(value)).getShadowRoot();	
-		case "xpath": return driver().findElement(By.xpath(value)).getShadowRoot();
-		case "css":return driver().findElement(By.cssSelector(value)).getShadowRoot();
+		case "name":return WebDriver().findElement(By.name(value)).getShadowRoot();		
+		case "id":return WebDriver().findElement(By.id(value)).getShadowRoot();	
+		case "xpath": return WebDriver().findElement(By.xpath(value)).getShadowRoot();
+		case "css":return WebDriver().findElement(By.cssSelector(value)).getShadowRoot();
 		default:
 			throw new InvalidLocatorException(ELEMENT_INVALID_LOCATOR_MSG + " ("+key+") defined in page object, shadowLocators strategy must be one of [name,id,xpath,css]");
 		}
@@ -671,7 +671,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 					if(shadowSearchContext!=null) {
 						return shadowSearchContext.findElement(seleniumSelector);
 					}
-					return driver().findElement(seleniumSelector);
+					return WebDriver().findElement(seleniumSelector);
 				}
 				catch(StaleElementReferenceException e) {
 					systemLogsWarn("[Try-"+i+" : "+seleniumSelector+"] " + "Finding element failed with StaleElementReferenceException" );
@@ -711,11 +711,11 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		 * there is no possibility to reach below return
 		 * 
 		 */		
-		return driver().findElement(seleniumSelector);
+		return WebDriver().findElement(seleniumSelector);
 	}	
 	
 	private void getAllIframes() {
-		final List<WebElement> iframes = driver().findElements(By.tagName("iframe"));
+		final List<WebElement> iframes = WebDriver().findElements(By.tagName("iframe"));
 	}
 
 	
@@ -743,7 +743,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		
 		try {
 			//WebDriverWait wait = new WebDriverWait(driver(), timeOutInSeconds);
-			WebDriverWait wait = new WebDriverWait(driver(), Duration.ofSeconds(timeOutInSeconds));
+			WebDriverWait wait = new WebDriverWait(WebDriver(), Duration.ofSeconds(timeOutInSeconds));
 			wait.until(condition);	
 			msg = condition.toString();
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.WaitUntil,msg,null));		
@@ -768,14 +768,14 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 
 	public String GetUrl() {
 		String url = null;
-		url = driver().getCurrentUrl();
+		url = WebDriver().getCurrentUrl();
 		//getActionsLoggerMsg("GoTo",url);
 		return url;
 	}
 
 	public String GetTitle() {
 		String title = null;
-		title = driver().getTitle();
+		title = WebDriver().getTitle();
 		String logMessage = "returns "+title;
 		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.GetTitle,logMessage,null,title));	
 		return title;
@@ -783,19 +783,19 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 
 	public String GetPageSource() {
 		String pageSource = null;
-		pageSource = driver().getPageSource();
+		pageSource = WebDriver().getPageSource();
 		//getActionsLoggerMsg("GetPageSource",pageSource);
 		return pageSource;
 	}
 
 	public void CloseBrowserWindow() {
-		driver().close();
+		WebDriver().close();
 		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.CloseBrowserTab, TestInitializr.getDesiredCapabilities().getBrowserName(), null));
 	}
 
 	public void CloseBrowser() {	
 		try {
-			driver().quit();
+			WebDriver().quit();
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.CloseBrowser, TestInitializr.getDesiredCapabilities().getBrowserName(), null));
 		}catch(Exception ex2) {
 			// firefox gives exception when try to quite browser even a session id is exist after close the last tab
@@ -809,14 +809,14 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	@Override
 	public String CurrentWindowHandle() {
-		String handle = driver().getWindowHandle();
+		String handle = WebDriver().getWindowHandle();
 		//getActionsLoggerMsg("CurrentWindowHandle",handle);
 		return handle;
 	}
 	
 	@Override
 	public Set<String> AllWindowHandles() {
-		Set<String> handles = driver().getWindowHandles();
+		Set<String> handles = WebDriver().getWindowHandles();
 		//getActionsLoggerMsg("AllWindowHandles",handles.toString());
 		return handles;
 	}
@@ -943,18 +943,18 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	@Override
 	public BrowserNavigation BrowserNavigate() {
-		return new BrowserNavigationImpl(driver());
+		return new BrowserNavigationImpl(WebDriver());
 	}
 	
 	@Override
 	public TargetLocatorFrame SwitchTo() {
-		return new TargetLocatorImpl(driver());
+		return new TargetLocatorImpl(WebDriver());
 	}
 	
 	@Override
 	public void SwitchToWindowOrTab(String windowHandle) {
 		String logMessage = "Switch To Window Or Tab by handle " + windowHandle;
-		driver().switchTo().window(windowHandle);
+		WebDriver().switchTo().window(windowHandle);
 		logAction(ActionLog.actionLogWithDirectMesageOnly(ABotActions.SwitchToWindowOrTab,logMessage,null));
 	}
 	
@@ -969,7 +969,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 				}else {					
 					// if element comes from page object and @LocateBy is there without frames defined then switch to default content
 					if(baseElement.getEnhancedWebElementLocator().isLocateByExist()) {
-						driver().switchTo().defaultContent();
+						WebDriver().switchTo().defaultContent();
 					}					
 				}				
 			}
@@ -979,7 +979,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	@Override
 	public FrameElement ToFrameElement(BaseWebElement element) {
 		try {
-			return new FrameElementImpl(element,driver());
+			return new FrameElementImpl(element,WebDriver());
 		}catch(Exception e ) {
 			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.ToFrameElement,getElementLog(element,e.getMessage()),null,e,null));
 			throw e;
@@ -996,7 +996,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 				}
 			};
 			//WebDriverWait wait = new WebDriverWait(driver(), timeOutInSeconds);
-			WebDriverWait wait = new WebDriverWait(driver(), Duration.ofSeconds(timeOutInSeconds));
+			WebDriverWait wait = new WebDriverWait(WebDriver(), Duration.ofSeconds(timeOutInSeconds));
 			wait.until(mutipleWindowsToPresent);
 		} catch (TimeoutException e) {			
 			String errMsg = "Timed out after "+timeOutInSeconds + " seconds waiting for a child window(popup,tab..) to be present";
@@ -1006,7 +1006,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			throw temuoutExp;
 		}
 		String parentWindow = CurrentWindowHandle();
-		String parentWindowTitle = driver().getTitle();
+		String parentWindowTitle = WebDriver().getTitle();
 
 		Set<String> s1 = AllWindowHandles();
 
@@ -1018,23 +1018,23 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 				break;
 			}
 		}
-		driver().switchTo().window(childWindow);
-		String childWindowTitle = driver().getTitle();
+		WebDriver().switchTo().window(childWindow);
+		String childWindowTitle = WebDriver().getTitle();
 		String msg1 = "Switched to [" + childWindowTitle + "] from [" + parentWindowTitle + "]";
 		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.HandleBrowserWindow,msg1,null));		
 		browserWindow.handle();
-		driver().switchTo().window(parentWindow);
+		WebDriver().switchTo().window(parentWindow);
 		String msg2 = "Switched back to parent window [" + parentWindowTitle + "]";
 		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.HandleBrowserWindow,msg2,null));
 	}
 	
 	@Override
 	public DriverTimeOuts ManageTimeouts() {		
-		return new DriverTimeOutsImpl(driver());
+		return new DriverTimeOutsImpl(WebDriver());
 	}
 	@Override
 	public org.openqa.selenium.Alert Alert() {
-		return new AlertImpl(driver());
+		return new AlertImpl(WebDriver());
 	}
 	@Override
 	public void DragAndDropTo(BaseWebElement fromElement,BaseWebElement toElement) {
@@ -1043,7 +1043,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			WebElement from_element = $$(fromElement); // this will invoke kandy find element strategy
 			WebElement to_element = $$(toElement);
 			
-			Actions builder = new Actions(driver());
+			Actions builder = new Actions(WebDriver());
 			Action dragAndDrop = builder.clickAndHold(from_element)
 			.moveToElement(to_element)
 			.release(to_element)
@@ -1060,7 +1060,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		int elementCount = 0;
 		try {		
 			switchToFrames(element);
-			elementCount = driver().findElements(element.getByLocator()).size();
+			elementCount = WebDriver().findElements(element.getByLocator()).size();
 			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetElementCount,getElementLog(element,null),null,null,String.valueOf(elementCount),null));
 		}catch (NoSuchElementException e) {
 			elementCount = 0;

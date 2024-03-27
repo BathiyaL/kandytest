@@ -3,7 +3,7 @@ package com.katf.tests;
 import static com.ktsapi.WebActons.FindElement;
 import static com.ktsapi.WebActons.GoTo;
 import static com.ktsapi.WebActons.OpenBrowser;
-import static com.ktsapi.WebActons.driver;
+import static com.ktsapi.WebActons.WebDriver;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
@@ -30,7 +30,7 @@ public class SeleniumHacks {
 		OpenBrowser();
 		GoTo("https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_button_disabled"); // this page is time out need to manually stop, good to test page loading
 		
-		driver().switchTo().frame("iframeResult"); // not highlvele action for switchTo frame
+		WebDriver().switchTo().frame("iframeResult"); // not highlvele action for switchTo frame
 		
 		
 		// <button type="button" disabled="">Click Me!</button>
