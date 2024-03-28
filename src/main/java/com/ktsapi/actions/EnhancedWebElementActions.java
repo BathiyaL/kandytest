@@ -35,6 +35,6 @@ public interface EnhancedWebElementActions extends SeleniumWebElementActions{
 	
 	ExpectedConditions waitUntil(BaseWebElement element, long timeOutInSeconds);
 
-	<T> void WaitUntil(ExpectedCondition<T> condition,long timeOutInSeconds);	
+	<T> void waitUntil(ExpectedCondition<T> condition,long timeOutInSeconds);	
 	
 }

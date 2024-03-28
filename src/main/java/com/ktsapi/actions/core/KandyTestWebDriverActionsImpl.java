@@ -738,7 +738,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	
-	public <T> void WaitUntil(ExpectedCondition<T> condition,long timeOutInSeconds){
+	public <T> void waitUntil(ExpectedCondition<T> condition,long timeOutInSeconds){
 		String msg = "WaitUntil("+ timeOutInSeconds + "s) -> ";
 		
 		try {

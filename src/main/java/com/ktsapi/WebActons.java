@@ -266,7 +266,7 @@ public class WebActons {
 	// SeleniumCaller Define Actions --------------------------------------------------------------------------
 	
 	public static <T> void waitUntil(ExpectedCondition<T> condition,long timeOutInSeconds){
-			newInstance().WaitUntil(condition,timeOutInSeconds);
+			newInstance().waitUntil(condition,timeOutInSeconds);
 	}
 
 		

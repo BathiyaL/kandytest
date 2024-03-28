@@ -1,7 +1,5 @@
 package com.ktsapi.enums;
 
-import static com.ktsapi.WebActons.browserNavigate;
-
 public enum ABotActions {
 	Type,
 	Check,
