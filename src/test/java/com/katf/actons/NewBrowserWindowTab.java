@@ -35,7 +35,7 @@ public class NewBrowserWindowTab {
 	
 	@BeforeTest
 	public void goToDemoPage() {	      
-	      OpenBrowser();	     
+	      openBrowser();	     
 	      //GoTo(baseUrl());
 	 }
 	
@@ -43,24 +43,24 @@ public class NewBrowserWindowTab {
 	@Test
 	public void clickActionTest() {
 	
-		GoTo(baseUrl());
-		System.out.println("#####################  ::: " + WebDriver().getWindowHandle());
-		GetNewTab("https://twitter.com/");	
+		goTo(baseUrl());
+		System.out.println("#####################  ::: " + webDriver().getWindowHandle());
+		getNewTab("https://twitter.com/");	
 //		System.out.println("#####################  ::: " + driver().getWindowHandle());
 //		CloseBrowser();
 		
 //		OpenBrowser();
-		WebElementPage1 page = GetWebPage(WebElementPage1.class);
+		WebElementPage1 page = getWebPage(WebElementPage1.class);
 		page.TwitterElm.click();
 		
-		SwitchToWindowOrTab(ParentWindowHandle());
+		switchToWindowOrTab(parentWindowHandle());
 		page.playEmailTextBoxElm.type("ABCDEFGHI");
 		page.playSizeElm2.type("555");
 		
-		GetNewWindow("https://www.youtube.com/");
-		System.out.println("#####################  ::: " + WebDriver().getWindowHandle());
+		getNewWindow("https://www.youtube.com/");
+		System.out.println("#####################  ::: " + webDriver().getWindowHandle());
 		
-		System.out.println("#####################ParentWindowHandle  ::: " + ParentWindowHandle());
+		System.out.println("#####################ParentWindowHandle  ::: " + parentWindowHandle());
 
 		pause(5);
 	}

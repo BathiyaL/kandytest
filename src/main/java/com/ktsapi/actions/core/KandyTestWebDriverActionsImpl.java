@@ -66,7 +66,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public void OpenBrowser() {
+	public void openBrowser() {
 		String launchedBrowser = TestInitializr.getDesiredCapabilities().getBrowserName();
 		try {
 			WebDriver();
@@ -79,7 +79,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 
 	@Override
-	public String GoTo(String url) {
+	public String goTo(String url) {
 		String logMessage = "GoTo "+url;
 		String logMessage2 = " " + url;
 		String windowHandle = null;
@@ -95,7 +95,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 
 	@Override
-	public String GetNewWindow(String url) {
+	public String getNewWindow(String url) {
 		
 		String logMessage = "GetNewWindow "+url;
 		String logMessage2 = " " + url;
@@ -113,7 +113,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public String GetNewTab(String url) {
+	public String getNewTab(String url) {
 		
 		String logMessage = "GetNewTab "+url;
 		String logMessage2 = " " + url;
@@ -131,14 +131,14 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 
 	// @Override
-	public <C> C GetWebPage(Class<C> page) {
+	public <C> C getWebPage(Class<C> page) {
 		return (C) AvtomatPageFactory.getWebPage(page);
 	}
 	
 //SeleniumWebElement.........................................................................................
 	private final String EXPECTED_EROR_MESSAGE_WHEN_ELEMENT_NOT_CICKABLE = "is not clickable at point";
 	@Override
-	public void Click(BaseWebElement element) {
+	public void click(BaseWebElement element) {
 		String logMessage = "Click on {%s}";
 		try {
 			final int noOfTries = 5; // TODO : should be change by config file
@@ -173,7 +173,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public void SendKeys(BaseWebElement element, CharSequence... keysToSend){	
+	public void sendKeys(BaseWebElement element, CharSequence... keysToSend){	
 		try {			
 			$$(element).sendKeys(keysToSend);
 			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.SendKeys,getElementLog(element,null),Arrays.toString(keysToSend),null,null));
@@ -191,7 +191,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	
 	@Override
-	public void Clear(BaseWebElement element) {
+	public void clear(BaseWebElement element) {
 		try {			
 			$$(element).clear();
 			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Clear,getElementLog(element,null),null,null,null));
@@ -202,7 +202,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public void Submit(BaseWebElement element) {
+	public void submit(BaseWebElement element) {
 		try {		
 			$$(element).submit();
 			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.Submit,getElementLog(element,null),null,null,null));
@@ -213,7 +213,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public String GetTagName(BaseWebElement element) {
+	public String getTagName(BaseWebElement element) {
 		String tagName="";
 		try {		
 			tagName = $$(element).getTagName();
@@ -227,7 +227,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public String GetAttribute(BaseWebElement element, String attributeName) {
+	public String getAttribute(BaseWebElement element, String attributeName) {
 		String attributeValue="";
 		try {		
 			attributeValue = $$(element).getAttribute(attributeName);
@@ -242,7 +242,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public boolean IsSelected(BaseWebElement element) {
+	public boolean isSelected(BaseWebElement element) {
 		String logMessage = "IsSelected on {%s} ";
 		boolean isSelected;
 		try {		
@@ -257,7 +257,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public boolean IsEnabled(BaseWebElement element) {
+	public boolean isEnabled(BaseWebElement element) {
 		boolean isEnabled;
 		try {		
 			isEnabled = $$(element).isEnabled();	
@@ -270,7 +270,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public String GetText(BaseWebElement element) {
+	public String getText(BaseWebElement element) {
 		String logMessage = "GetText of {%s} ";
 		String getText="";
 		try {		
@@ -299,7 +299,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 //	}
 	
 	@Override
-	public boolean IsDisplayed(BaseWebElement element) {
+	public boolean isDisplayed(BaseWebElement element) {
 		boolean isDisplayed;
 		try {		
 			isDisplayed = $$(element).isDisplayed();	
@@ -313,7 +313,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	// TODO, check for null and default value
 	@Override
-	public Point GetLocation(BaseWebElement element) {
+	public Point getLocation(BaseWebElement element) {
 		Point getLocation =null;
 		try {		
 			getLocation = $$(element).getLocation();
@@ -327,7 +327,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	// TODO, check for null and default value
 	@Override
-	public Dimension GetSize(BaseWebElement element) {
+	public Dimension getSize(BaseWebElement element) {
 		Dimension dimension =null;
 		try {		
 			dimension = $$(element).getSize();
@@ -341,7 +341,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	// TODO, check for null and default value
 	@Override
-	public Rectangle GetRect(BaseWebElement element) {
+	public Rectangle getRect(BaseWebElement element) {
 		Rectangle rectangle =null;
 		try {		
 			rectangle = $$(element).getRect();
@@ -354,7 +354,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public String GetCssValue(BaseWebElement element,String propertyName) {
+	public String getCssValue(BaseWebElement element,String propertyName) {
 		String cssValue="";
 		try {		
 			cssValue = $$(element).getCssValue(propertyName);
@@ -372,7 +372,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 // ABot defined actions ............................................................................................ 
 
 	@Override
-	public void Type(BaseWebElement element, CharSequence... textValue) {
+	public void type(BaseWebElement element, CharSequence... textValue) {
 		String typeValue = "";
 		String delimeter = "";
 		if(textValue.length>1)
@@ -397,7 +397,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	
 	
 	@Override
-	public void NativeClick(BaseWebElement element) {		
+	public void nativeClick(BaseWebElement element) {		
 		try {
 			if (element.asWebelement() != null) { // TOTO: what is the need for if ??
 				//$$(element).click();
@@ -419,7 +419,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public void Check(BaseWebElement element) {
+	public void check(BaseWebElement element) {
 		String logMessage = "Check on {%s} ";
 		try {
 			if(!$$(element).isSelected()) {
@@ -433,7 +433,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public void UnCheck(BaseWebElement element) {
+	public void unCheck(BaseWebElement element) {
 		
 		try {
 			if($$(element).isSelected()) {
@@ -738,7 +738,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	
-	public <T> void WaitUntil(ExpectedCondition<T> condition,long timeOutInSeconds){
+	public <T> void waitUntil(ExpectedCondition<T> condition,long timeOutInSeconds){
 		String msg = "WaitUntil("+ timeOutInSeconds + "s) -> ";
 		
 		try {
@@ -766,14 +766,14 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 //		///return driver.findElement(seleniumSelector);
 //	}
 
-	public String GetUrl() {
+	public String getUrl() {
 		String url = null;
 		url = WebDriver().getCurrentUrl();
 		//getActionsLoggerMsg("GoTo",url);
 		return url;
 	}
 
-	public String GetTitle() {
+	public String getTitle() {
 		String title = null;
 		title = WebDriver().getTitle();
 		String logMessage = "returns "+title;
@@ -781,19 +781,19 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		return title;
 	}
 
-	public String GetPageSource() {
+	public String getPageSource() {
 		String pageSource = null;
 		pageSource = WebDriver().getPageSource();
 		//getActionsLoggerMsg("GetPageSource",pageSource);
 		return pageSource;
 	}
 
-	public void CloseBrowserWindow() {
+	public void closeBrowserWindow() {
 		WebDriver().close();
 		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.CloseBrowserTab, TestInitializr.getDesiredCapabilities().getBrowserName(), null));
 	}
 
-	public void CloseBrowser() {	
+	public void closeBrowser() {	
 		try {
 			WebDriver().quit();
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.CloseBrowser, TestInitializr.getDesiredCapabilities().getBrowserName(), null));
@@ -808,21 +808,21 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 //	}
 	
 	@Override
-	public String CurrentWindowHandle() {
+	public String currentWindowHandle() {
 		String handle = WebDriver().getWindowHandle();
 		//getActionsLoggerMsg("CurrentWindowHandle",handle);
 		return handle;
 	}
 	
 	@Override
-	public Set<String> AllWindowHandles() {
+	public Set<String> allWindowHandles() {
 		Set<String> handles = WebDriver().getWindowHandles();
 		//getActionsLoggerMsg("AllWindowHandles",handles.toString());
 		return handles;
 	}
 	
 	@Override
-	public String ParentWindowHandle() {		
+	public String parentWindowHandle() {		
 		return TestInitializr.getParentWindowHandle();
 	}
 	
@@ -885,7 +885,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 //		return ElementFactory.getElement(webElement, null);
 //	}
 
-	public void Log(String loggerMessage) {
+	public void log(String loggerMessage) {
 		userLogs(loggerMessage);		
 	}
 
@@ -905,7 +905,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	 * we find element using locator only cannot do the switching to frame or window handles
 	 */
 	@Override
-	public EnhancedWebElement FindEnhancedWebElement(By locator) {
+	public EnhancedWebElement findEnhancedWebElement(By locator) {
 		AvtomatElementFactory elementFactory = new AvtomatElementFactoryImpl();
 		return elementFactory.create(EnhancedWebElement.class, findWebElement(locator,null), locator, null);
 	}
@@ -917,7 +917,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 //	}
 	
 	@Override
-	public ComboBox ToComboBox(BaseWebElement element) {	    
+	public ComboBox toComboBox(BaseWebElement element) {	    
 		try {
 			WebElement webElement = $$(element);
 			String tagName = webElement.getTagName();
@@ -936,23 +936,23 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public ExpectedConditions WaitUntil(BaseWebElement element, long timeOutInSeconds) { 
+	public ExpectedConditions waitUntil(BaseWebElement element, long timeOutInSeconds) { 
 		return new ExpectedConditionsImpl(element,timeOutInSeconds);
 	}
 	
 	
 	@Override
-	public BrowserNavigation BrowserNavigate() {
+	public BrowserNavigation browserNavigate() {
 		return new BrowserNavigationImpl(WebDriver());
 	}
 	
 	@Override
-	public TargetLocatorFrame SwitchTo() {
+	public TargetLocatorFrame switchTo() {
 		return new TargetLocatorImpl(WebDriver());
 	}
 	
 	@Override
-	public void SwitchToWindowOrTab(String windowHandle) {
+	public void switchToWindowOrTab(String windowHandle) {
 		String logMessage = "Switch To Window Or Tab by handle " + windowHandle;
 		WebDriver().switchTo().window(windowHandle);
 		logAction(ActionLog.actionLogWithDirectMesageOnly(ABotActions.SwitchToWindowOrTab,logMessage,null));
@@ -977,7 +977,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public FrameElement ToFrameElement(BaseWebElement element) {
+	public FrameElement toFrameElement(BaseWebElement element) {
 		try {
 			return new FrameElementImpl(element,WebDriver());
 		}catch(Exception e ) {
@@ -986,13 +986,13 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		}
 	}
 	@Override
-	public void HandleBrowserWindow(BrowserWindow browserWindow, long timeOutInSeconds) {
+	public void handleBrowserWindow(BrowserWindow browserWindow, long timeOutInSeconds) {
 
 		try {
 			ExpectedCondition<Boolean> mutipleWindowsToPresent = new ExpectedCondition<Boolean>() {
 				@Override
 				public Boolean apply(WebDriver input) {
-					return AllWindowHandles().size() > 1;
+					return allWindowHandles().size() > 1;
 				}
 			};
 			//WebDriverWait wait = new WebDriverWait(driver(), timeOutInSeconds);
@@ -1005,10 +1005,10 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			
 			throw temuoutExp;
 		}
-		String parentWindow = CurrentWindowHandle();
+		String parentWindow = currentWindowHandle();
 		String parentWindowTitle = WebDriver().getTitle();
 
-		Set<String> s1 = AllWindowHandles();
+		Set<String> s1 = allWindowHandles();
 
 		Iterator<String> i1 = s1.iterator();
 		String childWindow = null;
@@ -1029,15 +1029,15 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	@Override
-	public DriverTimeOuts ManageTimeouts() {		
+	public DriverTimeOuts manageTimeouts() {		
 		return new DriverTimeOutsImpl(WebDriver());
 	}
 	@Override
-	public org.openqa.selenium.Alert Alert() {
+	public org.openqa.selenium.Alert alert() {
 		return new AlertImpl(WebDriver());
 	}
 	@Override
-	public void DragAndDropTo(BaseWebElement fromElement,BaseWebElement toElement) {
+	public void dragAndDropTo(BaseWebElement fromElement,BaseWebElement toElement) {
 		String msg = fromElement.getFieldName() + "->" + toElement.getFieldName(); // this can be null if not used from page object, need to handle this
 		try {
 			WebElement from_element = $$(fromElement); // this will invoke kandy find element strategy

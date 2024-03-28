@@ -23,25 +23,25 @@ public class NativeClickAction {
 	
 	@BeforeTest
 	public void goToDemoPage() {	      
-	      OpenBrowser();	      
+	      openBrowser();	      
 	 }
 	 
 	public static String ALERT_TEXT = "clickMeButton";
 	@Test
 	public void clickActionTest() {
-		GoTo("http://www.softwareautomationengineer.com/demo-site/web-elements-page-1.html");
-		WebElementPage1 webElementPage1 = GetWebPage(WebElementPage1.class);
+		goTo("http://www.softwareautomationengineer.com/demo-site/web-elements-page-1.html");
+		WebElementPage1 webElementPage1 = getWebPage(WebElementPage1.class);
 		webElementPage1.clickMe1.nativeClick();
-		assertThat(Alert().getText()).describedAs("page.element.click()").isEqualTo(ALERT_TEXT);
-		Alert().accept();
+		assertThat(alert().getText()).describedAs("page.element.click()").isEqualTo(ALERT_TEXT);
+		alert().accept();
 		
-		NativeClick($(webElementPage1.clickMe1.getByLocator()));
-		assertThat(Alert().getText()).describedAs("Click(BaseWebElement element)").isEqualTo(ALERT_TEXT);
-		Alert().accept();
+		nativeClick($(webElementPage1.clickMe1.getByLocator()));
+		assertThat(alert().getText()).describedAs("Click(BaseWebElement element)").isEqualTo(ALERT_TEXT);
+		alert().accept();
 			
-		FindElement(webElementPage1.clickMe1.getByLocator()).nativeClick();
-		assertThat(Alert().getText()).describedAs("FindElement(By locator).click()").isEqualTo(ALERT_TEXT);
-		Alert().accept();
+		findElement(webElementPage1.clickMe1.getByLocator()).nativeClick();
+		assertThat(alert().getText()).describedAs("FindElement(By locator).click()").isEqualTo(ALERT_TEXT);
+		alert().accept();
 		
 
 

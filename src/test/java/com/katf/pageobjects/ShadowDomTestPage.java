@@ -7,7 +7,7 @@ import com.ktsapi.annotation.LocateBy;
 import com.ktsapi.elements.EnhancedWebElement;
 import com.ktsapi.pageobject.KandyWebPageObject;
 
-public class ShadowDomTestPage extends KandyWebPageObject<FBPage> {
+public class ShadowDomTestPage extends KandyWebPageObject<ShadowDomTestPage> {
 
 	public ShadowDomTestPage(WebDriver driver) {
 		super(driver);

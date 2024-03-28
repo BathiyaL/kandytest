@@ -1,11 +1,8 @@
 package com.ktsapi.elements.impl;
 
-import static com.ktsapi.WebActons.SwitchTo;
 import static com.ktsapi.actions.core.ActionsLogger.getElementLog;
 import static com.ktsapi.actions.core.ActionsLogger.logAction;
-
 import org.openqa.selenium.WebDriver;
-
 import com.ktsapi.actions.core.ActionsLogger;
 import com.ktsapi.actions.log.ActionLog;
 import com.ktsapi.elements.BaseWebElement;

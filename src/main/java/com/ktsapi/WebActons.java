@@ -29,15 +29,15 @@ import com.ktsapi.exceptions.WebActionsExceptions;
  */
 public class WebActons {
 	
-	public static <C> C GetWebPage(Class<C> page) {		
-		return newInstance().GetWebPage(page);
+	public static <C> C getWebPage(Class<C> page) {		
+		return newInstance().getWebPage(page);
 	}
 	
-	public static void OpenBrowser() {
-		newInstance().OpenBrowser();		
+	public static void openBrowser() {
+		newInstance().openBrowser();		
 	}
 	
-	public static WebDriver WebDriver(){
+	public static WebDriver webDriver(){
 		return newInstance().WebDriver();
 	}
 	
@@ -53,16 +53,16 @@ public class WebActons {
 	 * @param url The URL to load.
 	 * @return current window handle
 	 */
-	public static String GoTo(String url) {
-		return newInstance().GoTo(url);
+	public static String goTo(String url) {
+		return newInstance().goTo(url);
 	}
 	
 	/** 
 	 * @param url The URL to load.
 	 * @return current window handle
 	 */
-	public static String GetNewWindow(String url) {
-		return newInstance().GetNewWindow(url);
+	public static String getNewWindow(String url) {
+		return newInstance().getNewWindow(url);
 		
 	}
 	
@@ -70,32 +70,24 @@ public class WebActons {
 	 * @param url The URL to load.
 	 * @return current window handle
 	 */
-	public static String GetNewTab(String url) {
-		return newInstance().GetNewTab(url);
+	public static String getNewTab(String url) {
+		return newInstance().getNewTab(url);
 	}
 	
 	/**
 	 * @return The URL of the page currently loaded in the browser
 	 */
-	public static String GetUrl() {
-		return newInstance().GetUrl();
+	public static String getUrl() {
+		return newInstance().getUrl();
 	}
 	
 	/**
 	 *@return The title of the current page
 	 */
-	public static String GetTitle() {
-		return newInstance().GetTitle();
+	public static String getTitle() {
+		return newInstance().getTitle();
 	}
-	
-//	/**
-//	 * @param selenium By Selector
-//	 * @return WebElement
-//	 */
-//	public static WebElement $$(By seleniumSelector){
-//		return newInstance().$$(seleniumSelector);
-//	}
-	
+
 	/**
 	 * @param selenium webElement
 	 * @return BaseElement
@@ -117,88 +109,88 @@ public class WebActons {
 	/**
 	 * @return The source of the current page
 	 */
-	public String GetPageSource() {
-		return newInstance().GetPageSource();
+	public String getPageSource() {
+		return newInstance().getPageSource();
 	}
 
 	/**
 	 * Close the current Browser window(tab,Popup, new window) quitting the browser if it's the last window currently open.
 	 */
-	public static void CloseBrowserWindow() {
-		newInstance().CloseBrowserWindow();
+	public static void closeBrowserWindow() {
+		newInstance().closeBrowserWindow();
 	}
 
 	/**
 	 * Close Browser
 	 */
-	public static void CloseBrowser() {
-		newInstance().CloseBrowser();
+	public static void closeBrowser() {
+		newInstance().closeBrowser();
 	}
 	
-	public static String CurrentWindowHandle() {
-		return newInstance().CurrentWindowHandle();
+	public static String currentWindowHandle() {
+		return newInstance().currentWindowHandle();
 	}
 	
-	public static Set<String> AllWindowHandles() {
-		return newInstance().AllWindowHandles();
+	public static Set<String> allWindowHandles() {
+		return newInstance().allWindowHandles();
 	}
 	
-	public static String ParentWindowHandle() {
-		return newInstance().ParentWindowHandle();
+	public static String parentWindowHandle() {
+		return newInstance().parentWindowHandle();
 	}
 	
 
 // Selenium WebElement defined Actions--------------------------------------------------------------------------
 	
-		public static void Clear(BaseWebElement element) {
-			newInstance().Clear(element);
+		public static void clear(BaseWebElement element) {
+			newInstance().clear(element);
 		}
 		
-		public static void Click(BaseWebElement element) {
-			newInstance().Click(element);
+		public static void click(BaseWebElement element) {
+			newInstance().click(element);
 		}
 		
-		public static void SendKeys(BaseWebElement element, CharSequence... keysToSend){
-			newInstance().SendKeys(element, keysToSend);
+		public static void sendKeys(BaseWebElement element, CharSequence... keysToSend){
+			newInstance().sendKeys(element, keysToSend);
 		}
 		
-		public static void Submit(BaseWebElement element){
-			newInstance().Submit(element);
+		public static void submit(BaseWebElement element){
+			newInstance().submit(element);
 		}
 		
-		public static String GetTagName(BaseWebElement element){
-			return newInstance().GetTagName(element);
+		public static String getTagName(BaseWebElement element){
+			return newInstance().getTagName(element);
 		}	
 		
-		public static String GetAttribute(BaseWebElement element, String attributeName){
-			return newInstance().GetAttribute(element, attributeName);
+		public static String getAttribute(BaseWebElement element, String attributeName){
+			return newInstance().getAttribute(element, attributeName);
 		}
 		
-		public static boolean IsSelected(BaseWebElement element){
-			return newInstance().IsSelected(element);
+		public static boolean isSelected(BaseWebElement element){
+			return newInstance().isSelected(element);
 		}
 		
-		public static boolean IsEnabled(BaseWebElement element){
-			return newInstance().IsEnabled(element);
+		public static boolean isEnabled(BaseWebElement element){
+			return newInstance().isEnabled(element);
 		}
-		public static String GetText(BaseWebElement element){
-			return newInstance().GetText(element);
+		public static String getText(BaseWebElement element){
+			return newInstance().getText(element);
 		}
-		public static boolean IsDisplayed(BaseWebElement element){
-			return newInstance().IsDisplayed(element);
+		public static boolean isDisplayed(BaseWebElement element){
+			return newInstance().isDisplayed(element);
 		}
-		public static Point GetLocation(BaseWebElement element){
-			return newInstance().GetLocation(element);
+		public static Point getLocation(BaseWebElement element){
+			return newInstance().getLocation(element);
 		}
-		public static Dimension GetSize(BaseWebElement element){
-			return newInstance().GetSize(element);
+		public static Dimension getSize(BaseWebElement element){
+			return newInstance().getSize(element);
 		}
-		public static Rectangle GetRect(BaseWebElement element){
-			return newInstance().GetRect(element);
+		public static Rectangle getRect(BaseWebElement element){
+			return newInstance().getRect(element);
 		}
-		public static String GetCssValue(BaseWebElement element,String propertyName){			
+		public static String getCssValue(BaseWebElement element,String propertyName){			
 			try {
-				return newInstance().GetCssValue(element,propertyName);
+				return newInstance().getCssValue(element,propertyName);
 			}catch(Exception e) {
 				throw new WebActionsExceptions(e.getMessage());
 			}
@@ -209,42 +201,42 @@ public class WebActons {
 
 // SeleniumCaller Define WebElementActions ------------------------------------------------------------------
 
-	public static void Type(BaseWebElement element, CharSequence... keysToSend){	
-		newInstance().Type(element, keysToSend);
+	public static void type(BaseWebElement element, CharSequence... keysToSend){	
+		newInstance().type(element, keysToSend);
 	}
 	
-	public static void NativeClick(BaseWebElement element) {
-		newInstance().NativeClick(element);
+	public static void nativeClick(BaseWebElement element) {
+		newInstance().nativeClick(element);
 	}
 	
-	public static void Check(BaseWebElement element) {
-		newInstance().Check(element);
+	public static void check(BaseWebElement element) {
+		newInstance().check(element);
 	}
 	
-	public static void UnCheck(BaseWebElement element) {
-		newInstance().UnCheck(element);
+	public static void unCheck(BaseWebElement element) {
+		newInstance().unCheck(element);
 	}
 	
-	public static ComboBox ToCombobox(BaseWebElement element) {
-		return newInstance().ToComboBox(element);
+	public static ComboBox toCombobox(BaseWebElement element) {
+		return newInstance().toComboBox(element);
 	}
 	
-	public static FrameElement ToFrameElement(BaseWebElement element) {
-		return newInstance().ToFrameElement(element);
+	public static FrameElement toFrameElement(BaseWebElement element) {
+		return newInstance().toFrameElement(element);
 	}	
 	
 	// TODO : Need to implement
-	public static EnhancedWebElement FindElement(By locator){		
-		return newInstance().FindEnhancedWebElement(locator);
+	public static EnhancedWebElement findElement(By locator){		
+		return newInstance().findEnhancedWebElement(locator);
 	}
 
 	
-	public static ExpectedConditions WaitUntil(BaseWebElement element, long timeOutInSeconds) {
-		return newInstance().WaitUntil(element, timeOutInSeconds);
+	public static ExpectedConditions waitUntil(BaseWebElement element, long timeOutInSeconds) {
+		return newInstance().waitUntil(element, timeOutInSeconds);
 	}
 	
 	public static void dragAndDropTo(BaseWebElement fromElement, BaseWebElement toElement) {
-		newInstance().DragAndDropTo(fromElement,toElement);
+		newInstance().dragAndDropTo(fromElement,toElement);
 	}
 	
 	public static int getElementCount(BaseWebElement element) {
@@ -256,39 +248,39 @@ public class WebActons {
 	
 	// Web Driver Navigation -------------------------------------------------------------------
 
-	public static BrowserNavigation BrowserNavigate() {
-		return newInstance().BrowserNavigate();
+	public static BrowserNavigation browserNavigate() {
+		return newInstance().browserNavigate();
 	}
 
-	public static TargetLocatorFrame SwitchTo() {
-		return newInstance().SwitchTo();
+	public static TargetLocatorFrame switchTo() {
+		return newInstance().switchTo();
 	}
 	
 	/** 
 	 * @param windowHandle.
 	 */
-	public static void SwitchToWindowOrTab(String windowHandle) {
-		newInstance().SwitchToWindowOrTab(windowHandle);
+	public static void switchToWindowOrTab(String windowHandle) {
+		newInstance().switchToWindowOrTab(windowHandle);
 	}
 	
 	// SeleniumCaller Define Actions --------------------------------------------------------------------------
 	
-	public static <T> void WaitUntil(ExpectedCondition<T> condition,long timeOutInSeconds){
-			newInstance().WaitUntil(condition,timeOutInSeconds);
+	public static <T> void waitUntil(ExpectedCondition<T> condition,long timeOutInSeconds){
+			newInstance().waitUntil(condition,timeOutInSeconds);
 	}
 
 		
-	public static void HandleBrowserWindow(BrowserWindow browserWindow,long timeOutInSeconds) {
-		newInstance().HandleBrowserWindow(browserWindow,timeOutInSeconds);
+	public static void handleBrowserWindow(BrowserWindow browserWindow,long timeOutInSeconds) {
+		newInstance().handleBrowserWindow(browserWindow,timeOutInSeconds);
 			
 	}
 		
-	public static DriverTimeOuts ManageTimeouts() {
-		return newInstance().ManageTimeouts();
+	public static DriverTimeOuts manageTimeouts() {
+		return newInstance().manageTimeouts();
 	}
 		
-	public static org.openqa.selenium.Alert Alert() {
-		return newInstance().Alert();
+	public static org.openqa.selenium.Alert alert() {
+		return newInstance().alert();
 	}
 
 	// End of SeleniumCaller Define Actions -------------------------------------------------------------------

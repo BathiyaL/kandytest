@@ -21,29 +21,29 @@ public class WaitUntilTest {
     @Test
     public void testMethod(){
 
-    	OpenBrowser();
-    	GoTo("http://www.softwareautomationengineer.com/demo-site/web-elements-page-1.html");
-    	GetTitle();
-    	WebElementPage1 page = GetWebPage(WebElementPage1.class);
+    	openBrowser();
+    	goTo("http://www.softwareautomationengineer.com/demo-site/web-elements-page-1.html");
+    	getTitle();
+    	WebElementPage1 page = getWebPage(WebElementPage1.class);
     	
     	//FindElement(page.noElement.getByLocator());
     	
     	page.combo1.getTagName();
     	page.combo1.toComboBox().selectByVisibleText("Audi TT");
     	//page.combo1.type("abc");
-    	WaitUntil(ExpectedConditions.visibilityOfElementLocated(page.combo1.getByLocator()), 5);
+    	waitUntil(ExpectedConditions.visibilityOfElementLocated(page.combo1.getByLocator()), 5);
     	//WaitUntil(ExpectedConditions.elementToBeClickable(By.name("abc")), 5);
     	
 //    	WebElement elm = $$(By.xpath("//select[@id='dropdown']"));
 //    	WaitUntil(ExpectedConditions.elementToBeClickable(elm), 5);
     	
-    	WaitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='dropdown']")), 5);
+    	waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='dropdown']")), 5);
     	
     	//GoTo("https://www.google.com/");
-    	print(">>>>>>>>>>>>>>>>>>>>>> :: " + GetTitle());
-    	WaitUntil(ExpectedConditions.titleContains("Web"), 5);
+    	print(">>>>>>>>>>>>>>>>>>>>>> :: " + getTitle());
+    	waitUntil(ExpectedConditions.titleContains("Web"), 5);
     	
-    	WaitUntil(ExpectedConditions.alertIsPresent(), 15);
+    	waitUntil(ExpectedConditions.alertIsPresent(), 15);
     	
     	//ExpectedConditions.titleContains("Web");
     	//WaitUntil(ExpectedConditions.titleContains("123"), 5);

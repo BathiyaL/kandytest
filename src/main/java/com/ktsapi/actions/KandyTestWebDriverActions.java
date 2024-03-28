@@ -6,8 +6,8 @@ package com.ktsapi.actions;
  */
 public interface KandyTestWebDriverActions extends WebDriverActions, EnhancedWebElementActions{
 	
-	<C> C GetWebPage(Class<C> page);
+	<C> C getWebPage(Class<C> page);
 	
-	void Log(String loggerMessage);
+	void log(String loggerMessage);
 
 }

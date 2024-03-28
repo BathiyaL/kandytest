@@ -36,12 +36,12 @@ public class EnhancedWebElementImpl extends BaseWebElementImpl implements Enhanc
 	// ABot Define Actions Section .................................................
 	@Override
 	public void type(CharSequence... keysToSend) {
-		WebActons.Type(this, keysToSend);		
+		WebActons.type(this, keysToSend);		
 	}
 	
 	@Override
 	public void nativeClick() {
-		WebActons.NativeClick(this);		
+		WebActons.nativeClick(this);		
 	}
 	
 	// End of ABot Define Actions ..................................................
@@ -50,57 +50,57 @@ public class EnhancedWebElementImpl extends BaseWebElementImpl implements Enhanc
 	// Selenium WebElement defined Actions .........................................
 	@Override
 	public void clear() {
-		WebActons.Clear(this);		
+		WebActons.clear(this);		
 	}
 	
 	@Override
 	public void check() {
-		WebActons.Check(this);		
+		WebActons.check(this);		
 	}
 	@Override
 	public void unCheck() {
-		WebActons.UnCheck(this);		
+		WebActons.unCheck(this);		
 	}
 
 	@Override
 	public void click() {
-		WebActons.Click(this);		
+		WebActons.click(this);		
 		
 	}
 
 	@Override
 	public void submit() {
-		WebActons.Submit(this);		
+		WebActons.submit(this);		
 	}
 
 	@Override
 	public void sendKeys(CharSequence... keysToSend) {
-		WebActons.SendKeys(this, keysToSend);
+		WebActons.sendKeys(this, keysToSend);
 	}
 
 	@Override
 	public String getTagName() {		
-		return WebActons.GetTagName(this);
+		return WebActons.getTagName(this);
 	}
 
 	@Override
 	public String getAttribute(String attributeName) {
-		return WebActons.GetAttribute(this,attributeName);
+		return WebActons.getAttribute(this,attributeName);
 	}
 
 	@Override
 	public boolean isSelected() {
-		return WebActons.IsSelected(this);
+		return WebActons.isSelected(this);
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return WebActons.IsEnabled(this);
+		return WebActons.isEnabled(this);
 	}
 
 	@Override
 	public String getText() {
-		return WebActons.GetText(this);
+		return WebActons.getText(this);
 	}
 
 	@Override
@@ -114,32 +114,32 @@ public class EnhancedWebElementImpl extends BaseWebElementImpl implements Enhanc
 		KandyTestWebDriverActionsImpl actionImple = new KandyTestWebDriverActionsImpl();
 		//return actionImple.FindElement(this, by);
 		//return WebActons.FindElement(this, by);
-		return actionImple.FindEnhancedWebElement(by);
+		return actionImple.findEnhancedWebElement(by);
 	}
 
 	@Override
 	public boolean isDisplayed() {
-		return WebActons.IsDisplayed(this);
+		return WebActons.isDisplayed(this);
 	}
 
 	@Override
 	public Point getLocation() {
-		return WebActons.GetLocation(this);
+		return WebActons.getLocation(this);
 	}
 
 	@Override
 	public Dimension getSize() {
-		return WebActons.GetSize(this);
+		return WebActons.getSize(this);
 	}
 
 	@Override
 	public Rectangle getRect() {
-		return WebActons.GetRect(this);
+		return WebActons.getRect(this);
 	}
 
 	@Override
 	public String getCssValue(String propertyName) {
-		return WebActons.GetCssValue(this,propertyName);
+		return WebActons.getCssValue(this,propertyName);
 	}
 
 	@Override
@@ -150,17 +150,17 @@ public class EnhancedWebElementImpl extends BaseWebElementImpl implements Enhanc
 
 	@Override
 	public ComboBox toComboBox() {
-		return WebActons.ToCombobox(this);
+		return WebActons.toCombobox(this);
 	}
 
 	@Override
 	public FrameElement toFrameElement() {		
-		return  WebActons.ToFrameElement(this);
+		return  WebActons.toFrameElement(this);
 	}
 
 	@Override
 	public ExpectedConditions waitUntil(long timeOutInSeconds) {
-		return  WebActons.WaitUntil(this, timeOutInSeconds);
+		return  WebActons.waitUntil(this, timeOutInSeconds);
 	}
 
 	@Override
