@@ -1,6 +1,6 @@
 package com.ktsapi.pagefactory;
 
-import static com.ktsapi.WebActons.WebDriver;
+import static com.ktsapi.WebActons.webDriver;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -18,11 +18,11 @@ public class AvtomatPageFactory extends PageFactory {
 	}
 	
 	private static void initWebElements(Object page){
-		initElements(new AvtomatSeleniumDecorator(WebDriver()), page);
+		initElements(new AvtomatSeleniumDecorator(webDriver()), page);
 	}
 
 	private static <T> T initWebPage(Class<T> pageClassToProxy) {
-		T page = instantiateWebPage(WebDriver(),pageClassToProxy);
+		T page = instantiateWebPage(webDriver(),pageClassToProxy);
 		return page;
 	}
 

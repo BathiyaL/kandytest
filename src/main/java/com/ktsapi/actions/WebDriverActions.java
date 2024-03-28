@@ -19,50 +19,47 @@ public interface WebDriverActions{
 
 
 	@OverrideAction(name="get(String url)")
-	String GoTo(String url);
+	String goTo(String url);
 	
-	public String GetNewWindow(String url);
+	public String getNewWindow(String url);
 	
-	public String GetNewTab(String url);
+	public String getNewTab(String url);
 	
 	@OverrideAction(name="getCurrentUrl()")
-	public String GetUrl();
+	public String getUrl();
 	
 	@OverrideAction(name="getTitle()")
-	public String GetTitle();
+	public String getTitle();
 
 	
 	@OverrideAction(name="getPageSource()")
-	String GetPageSource();
+	String getPageSource();
 	
 	@OverrideAction(name="close()")
-	void CloseBrowserWindow();	
+	void closeBrowserWindow();	
 	
 	@OverrideAction(name="quit()")
-	void CloseBrowser();
+	void closeBrowser();
 	
 	WebDriver WebDriver();
 
 	@OverrideAction(name="getWindowHandle")
-	String CurrentWindowHandle();
+	String currentWindowHandle();
 	
 	@OverrideAction(name="getWindowHandles")
-	Set<String> AllWindowHandles();
+	Set<String> allWindowHandles();
 	
-	String ParentWindowHandle();
+	String parentWindowHandle();
 
-//	public Navigation navigate();
-	BrowserNavigation BrowserNavigate();
-	TargetLocatorFrame SwitchTo();
-	void SwitchToWindowOrTab(String windowHandle);
-//	
-//	public Options manage();
+	BrowserNavigation browserNavigate();
+	TargetLocatorFrame switchTo();
+	void switchToWindowOrTab(String windowHandle);
 	
-	void OpenBrowser();
+	void openBrowser();
 	
-	void HandleBrowserWindow(BrowserWindow browserWindow,long timeOutInSeconds);
-	DriverTimeOuts ManageTimeouts();
-	Alert Alert();
+	void handleBrowserWindow(BrowserWindow browserWindow,long timeOutInSeconds);
+	DriverTimeOuts manageTimeouts();
+	Alert alert();
 	
 	 
 }

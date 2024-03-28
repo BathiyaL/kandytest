@@ -12,30 +12,28 @@ import com.ktsapi.elements.FrameElement;
 
 //org.openqa.selenium.WebElement
 public interface EnhancedWebElementActions extends SeleniumWebElementActions{
-//	void Type(WebElement element, String Value); // sendKeys
-	
-	
+
 	//ABotWebElement........................
-	void Type(BaseWebElement element, CharSequence... keysToSend);
-	void Check(BaseWebElement element);
-	void UnCheck(BaseWebElement element);
-	void Click(BaseWebElement element);
+	void type(BaseWebElement element, CharSequence... keysToSend);
+	void check(BaseWebElement element);
+	void unCheck(BaseWebElement element);
+	void click(BaseWebElement element);
 	//void Select(); add this element
-	void DragAndDropTo(BaseWebElement fromElement,BaseWebElement toElement);
+	void dragAndDropTo(BaseWebElement fromElement,BaseWebElement toElement);
 	int getElementCount(BaseWebElement element);
 	
-	ComboBox ToComboBox(BaseWebElement element);
-	FrameElement ToFrameElement(BaseWebElement element);
+	ComboBox toComboBox(BaseWebElement element);
+	FrameElement toFrameElement(BaseWebElement element);
 		
 	
-	EnhancedWebElement FindEnhancedWebElement(By locator);	
+	EnhancedWebElement findEnhancedWebElement(By locator);	
 	//ABot element type converters
 	//WebElement $$(By seleniumSelector);
 	WebElement $$(BaseWebElement element);
 	BaseWebElement $(WebElement webElement);
 	BaseWebElement $(By seleniumSelector);
 	
-	ExpectedConditions WaitUntil(BaseWebElement element, long timeOutInSeconds);
+	ExpectedConditions waitUntil(BaseWebElement element, long timeOutInSeconds);
 
 	<T> void WaitUntil(ExpectedCondition<T> condition,long timeOutInSeconds);	
 	

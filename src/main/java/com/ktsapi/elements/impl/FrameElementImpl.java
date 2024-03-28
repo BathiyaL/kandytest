@@ -1,6 +1,6 @@
 package com.ktsapi.elements.impl;
 
-import static com.ktsapi.WebActons.SwitchTo;
+import static com.ktsapi.WebActons.switchTo;
 import static com.ktsapi.actions.core.ActionsLogger.getElementLog;
 import static com.ktsapi.actions.core.ActionsLogger.logAction;
 

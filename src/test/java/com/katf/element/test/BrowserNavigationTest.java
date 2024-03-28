@@ -30,19 +30,19 @@ public class BrowserNavigationTest {
     public void testMethod(){
 
     	// TODOD : complete naviationImple class 
-    	OpenBrowser();
-    	GoTo("http://www.softwareautomationengineer.com/demo-site");
-    	FindElement(By.linkText("Web Elements Page 1")).click();
+    	openBrowser();
+    	goTo("http://www.softwareautomationengineer.com/demo-site");
+    	findElement(By.linkText("Web Elements Page 1")).click();
     	pause(1);
-    	BrowserNavigate().back();
+    	browserNavigate().back();
     	pause(1);
-    	BrowserNavigate().forward();
+    	browserNavigate().forward();
     	pause(1);
-    	BrowserNavigate().to("https://www.google.com/");   	
+    	browserNavigate().to("https://www.google.com/");   	
  
     	try {
     		URL myURL = new URL("http://www.softwareautomationengineer.com/demo-site");
-			BrowserNavigate().to(myURL);
+			browserNavigate().to(myURL);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,7 +50,7 @@ public class BrowserNavigationTest {
     
     	pause(2);
     	
-    	BrowserNavigate().refresh();
+    	browserNavigate().refresh();
     	pause(2);
 
     }

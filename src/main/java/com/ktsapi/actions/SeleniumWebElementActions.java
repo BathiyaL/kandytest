@@ -13,21 +13,20 @@ public interface SeleniumWebElementActions {
 
 	//SeleniumWebElement.....................
 		
-		void NativeClick(BaseWebElement element);
-		void SendKeys(BaseWebElement element, CharSequence... keysToSend);
-		void Clear(BaseWebElement element);
-		void Submit(BaseWebElement element);
-		String GetTagName(BaseWebElement element);
-		String GetAttribute(BaseWebElement element, String attributeName);
-		boolean IsSelected(BaseWebElement element);
-		boolean IsEnabled(BaseWebElement element);
-		String GetText(BaseWebElement element);
-		//EnhancedWebElement FindElement(BaseWebElement element,By by);
-		boolean IsDisplayed(BaseWebElement element);
-		Point GetLocation(BaseWebElement element);
-		Dimension GetSize(BaseWebElement element);
-		Rectangle GetRect(BaseWebElement element);
-		String GetCssValue(BaseWebElement element,String propertyName);
+		void nativeClick(BaseWebElement element);
+		void sendKeys(BaseWebElement element, CharSequence... keysToSend);
+		void clear(BaseWebElement element);
+		void submit(BaseWebElement element);
+		String getTagName(BaseWebElement element);
+		String getAttribute(BaseWebElement element, String attributeName);
+		boolean isSelected(BaseWebElement element);
+		boolean isEnabled(BaseWebElement element);
+		String getText(BaseWebElement element);
+		boolean isDisplayed(BaseWebElement element);
+		Point getLocation(BaseWebElement element);
+		Dimension getSize(BaseWebElement element);
+		Rectangle getRect(BaseWebElement element);
+		String getCssValue(BaseWebElement element,String propertyName);
 
 	//---------------------------------------
 }

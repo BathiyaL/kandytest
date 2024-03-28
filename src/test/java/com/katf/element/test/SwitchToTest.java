@@ -2,10 +2,10 @@ package com.katf.element.test;
 
 import static com.ktsapi.CommonActions.pause;
 import static com.ktsapi.CommonActions.print;
-import static com.ktsapi.WebActons.FindElement;
-import static com.ktsapi.WebActons.GoTo;
-import static com.ktsapi.WebActons.OpenBrowser;
-import static com.ktsapi.WebActons.SwitchTo;
+import static com.ktsapi.WebActons.findElement;
+import static com.ktsapi.WebActons.goTo;
+import static com.ktsapi.WebActons.openBrowser;
+import static com.ktsapi.WebActons.switchTo;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeTest;
@@ -30,7 +30,7 @@ public class SwitchToTest {
 	@BeforeTest
 	public void beforeTest1() {
 	      print(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> in beforeTest1");
-	      OpenBrowser();
+	      openBrowser();
 	      //indElement(By.name("iframe2_enterText2")).type("Hellow World 1");
 	      //String chromeOptions[] = {"--start-maximized","--ignore-certificate-errors"};
 	 }
@@ -41,19 +41,19 @@ public class SwitchToTest {
     	// TODOD : complete naviationImple class 
     	//OpenBrowser();
     	System.out.println("++++++++++ :: " + Thread.currentThread().getId());
-    	GoTo("http://www.softwareautomationengineer.com/demo-site");
-    	FindElement(By.linkText("Web Elements Page 1")).click();
+    	goTo("http://www.softwareautomationengineer.com/demo-site");
+    	findElement(By.linkText("Web Elements Page 1")).click();
     	
-    	SwitchTo().frame("iframe-1");
+    	switchTo().frame("iframe-1");
     	pause(10);    	
-    	SwitchTo().frame(0);
-    	FindElement(By.name("iframe2_enterText")).type("Hellow World 1");
-    	SwitchTo().parentFrame();
-    	SwitchTo().frame(0);
-    	FindElement(By.name("iframe2_enterText")).type("Hellow World 2");
+    	switchTo().frame(0);
+    	findElement(By.name("iframe2_enterText")).type("Hellow World 1");
+    	switchTo().parentFrame();
+    	switchTo().frame(0);
+    	findElement(By.name("iframe2_enterText")).type("Hellow World 2");
     	
-    	SwitchTo().defaultContent();
-    	FindElement(By.name("enterText")).type("Hellow World 0");
+    	switchTo().defaultContent();
+    	findElement(By.name("enterText")).type("Hellow World 0");
     	
     	//pause(5);
     	System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>TestCache.getTestClassName() :: " + TestInitializr.getTestClassName());
