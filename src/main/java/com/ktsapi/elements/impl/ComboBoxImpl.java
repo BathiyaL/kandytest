@@ -55,7 +55,7 @@ public class ComboBoxImpl extends BaseWebElementImpl implements ComboBox{
 		String logMessage = "ComboBox GetOptions of {%s} ";
 		List<WebElement> webElm;
 		try {			
-			webElm = selectElement.getAllSelectedOptions() ;
+			webElm = selectElement.getOptions() ;
 			logMessage = logMessage.concat("returns ").concat(webElm.size() + " WebElement");
 			ActionsLogger.logAction(ActionLog.ActionLogWithReturnValue(ABotActions.ToComboBox_getOptions,getElementLog(parentBaseWebElement,null),null,null,"@List<WebElement>",logMessage));
 			return webElm;
