@@ -46,7 +46,7 @@ public class Const {
 	//WebDriver keys
 	public static final String ktestconfig_ChromeDriverPath = "ChromeDriverPath";
 	public static final String ktestconfig_FirefoxDriverPath = "FirefoxDriverPath";
-	public static final int Default_Webdriver_FindElement_Tries = 5;
+	public static final int DEFAULT_WEBDRIVER_FINDELEMENT_TRIES = 5;
 
 
 }

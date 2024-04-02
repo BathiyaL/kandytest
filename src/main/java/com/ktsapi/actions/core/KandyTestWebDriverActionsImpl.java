@@ -931,7 +931,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 
 	private int getFindElementTries() {
 		int tries = TestInitializr.getTestConfigObj().getWebDrivers().getFindElementTries();
-		if(tries==0) return Const.Default_Webdriver_FindElement_Tries;
+		if(tries==0) return Const.DEFAULT_WEBDRIVER_FINDELEMENT_TRIES;
 		
 		return tries;
 	}
