@@ -33,6 +33,7 @@ import com.ktsapi.actions.KandyTestWebDriverActions;
 import com.ktsapi.actions.core.api.AlertImpl;
 import com.ktsapi.actions.core.api.DriverTimeOutsImpl;
 import com.ktsapi.actions.log.ActionLog;
+import com.ktsapi.core.Const;
 import com.ktsapi.core.TestInitializr;
 import com.ktsapi.elements.BaseWebElement;
 import com.ktsapi.elements.BrowserNavigation;
@@ -58,8 +59,6 @@ import com.ktsapi.pagefactory.AvtomatElementFactoryImpl;
 import com.ktsapi.pagefactory.AvtomatPageFactory;
 
 public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions {
-	//public static WebDriver driver;
-	private static Class<?> LAST_RUNNING_PAGE_OBJECT = null;
 
 	public WebDriver WebDriver(){			
 		return TestInitializr.getWebDriver();
@@ -134,6 +133,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public <C> C getWebPage(Class<C> page) {
 		return (C) AvtomatPageFactory.getWebPage(page);
 	}
+
 	
 //SeleniumWebElement.........................................................................................
 	private final String EXPECTED_EROR_MESSAGE_WHEN_ELEMENT_NOT_CICKABLE = "is not clickable at point";
@@ -141,7 +141,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public void click(BaseWebElement element) {
 		String logMessage = "Click on {%s}";
 		try {
-			final int noOfTries = 5; // TODO : should be change by config file
+			final int noOfTries = getFindElementTries();
 			for(int i=1 ; i<=noOfTries ; i++) {
 				try {				
 					$$(element).click();
@@ -188,8 +188,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			throw e;
 		}
 	}
-	
-	
+
 	@Override
 	public void clear(BaseWebElement element) {
 		try {			
@@ -217,7 +216,6 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		String tagName="";
 		try {		
 			tagName = $$(element).getTagName();
-			//logAction(new ActionLog(ABotActions.GetTagName,getElementLog(element,null),null,null));
 			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetTagName,getElementLog(element,null),null,null,tagName,null));
 		} catch (Exception e){
 			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.GetTagName,getElementLog(element,e.getMessage()),null,e,null));
@@ -231,7 +229,6 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		String attributeValue="";
 		try {		
 			attributeValue = $$(element).getAttribute(attributeName);
-			//logAction(new ActionLog(ABotActions.GetAttribute,getElementLog(element,null),attributeName,null));
 			String logMessage = "GetAttribute of {%s} return {"+attributeValue+"}";
 			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.GetAttribute,getElementLog(element,null),attributeName,null,attributeValue,logMessage));
 		} catch (Exception e){
@@ -283,20 +280,6 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		}
 		return getText;
 	}
-	
-//	@Override
-//	public EnhancedWebElement FindElement(BaseWebElement element,By by) {
-//		WebElement returnElement = null;
-//		try {		
-//			
-//			$$(element).findElement(by);
-//			logAction(ActionLog.ActionLogWithReturnValue(ABotActions.FindElement,getElementLog(element,null),null,null,"ABotWebElement"));
-//		} catch (Exception e){
-//			logAction(ActionLog.ActionLogWithoutReturnValue(ABotActions.FindElement,getElementLog(element,e.getMessage()),null,e));
-//			throw e;
-//		}
-//		return getABotWebElement(returnElement);
-//	}
 	
 	@Override
 	public boolean isDisplayed(BaseWebElement element) {
@@ -369,8 +352,8 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 //End of SeleniumWebElement.........................................................................................
 	
 	
-// ABot defined actions ............................................................................................ 
-
+//Kandy framework defined actions ............................................................................................ 
+	
 	@Override
 	public void type(BaseWebElement element, CharSequence... textValue) {
 		String typeValue = "";
@@ -395,12 +378,10 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		}
 	}
 	
-	
 	@Override
 	public void nativeClick(BaseWebElement element) {		
 		try {
 			if (element.asWebelement() != null) { // TOTO: what is the need for if ??
-				//$$(element).click();
 				element.asWebelement().click();				
 			} else if (element.getByLocator() != null) {				
 				$$(element).click();		
@@ -445,27 +426,6 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			throw e;
 		}
 	}
-	
-//	@Override
-//	public ABotWebElement FindElement(BaseWebElement element, By by) {
-//		WebElement returnElement = null;
-//		try {
-//			if (element.asWebelement() != null) {				
-//				returnElement =  element.asWebelement().findElement(by);
-//			} else if (element.asBy() != null) {				
-//				returnElement =  findWebElement(element.asBy() );
-//			}	
-//			logAction(new ActionLog(ABotActions.FindElement,getElementLog(element,null),null,null));			
-//		} catch (NoSuchElementException e) {			
-//			logAction(new ActionLog(ABotActions.FindElement,getElementLog(element,e.getMessage()),null,e));
-//			throw e;
-//		} catch (Exception e) {			
-//			logAction(new ActionLog(ABotActions.FindElement,getElementLog(element,e.getMessage()),null,e));
-//			throw e;
-//		}
-//		return FindABotWebElement(returnElement);
-//		//return returnElement;
-//	}	
 
 	private WebElement findAlternativeElementFromTargets(BaseWebElement baseElement) {
 		if (null != baseElement && baseElement.getFieldName() != null) { // if element comes from page object then
@@ -509,28 +469,22 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 						}
 					}
 				}
-
 			}
 		}
-		// TODO: generally this return should not reach. but is there better way to handle this
 		return null;
 	}
 	@Override
 	public WebElement $$(BaseWebElement baseElement) {
-		// TODO
 		try {
 			return findWebElement(baseElement.getByLocator(),baseElement);
 		} catch (NoSuchElementException e) {
-			// Try alternative targets
+			// ToDo : Try alternative targets
 			WebElement alternatieElm = findAlternativeElementFromTargets(baseElement);
 			if(alternatieElm==null) {
 				throw e;
 			}
 			return alternatieElm;
 		}
-
-		// this code should not reach handle it properly
-		//return findWebElement(baseElement.getByLocator(),baseElement);
 	}
 	
 	final static String ELEMENT_INVALID_LOCATOR_MSG = "Invalid element lcoator strategy";
@@ -649,7 +603,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 	private void autoSwitchToGivenFrames(BaseWebElement baseElement) {
-		boolean enableAutoSwitch = true; // TODO : should be change by config file
+		boolean enableAutoSwitch = TestInitializr.getTestConfigObj().getWebDrivers().isEnabledAutoFrameSwitch();
 		if(enableAutoSwitch) {
 			switchToFrames(baseElement);
 		}
@@ -661,8 +615,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	 * this will find element using selenium driver
 	 */
 	private WebElement findWebElement(By seleniumSelector,BaseWebElement baseElement) {
-		// TODO : should be change by config file
-		final int noOfTries = 5; 
+		final int noOfTries = getFindElementTries(); 
 		try {
 			for(int i=1 ; i<=noOfTries ; i++) {
 				try {
@@ -742,7 +695,6 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		String msg = "WaitUntil("+ timeOutInSeconds + "s) -> ";
 		
 		try {
-			//WebDriverWait wait = new WebDriverWait(driver(), timeOutInSeconds);
 			WebDriverWait wait = new WebDriverWait(WebDriver(), Duration.ofSeconds(timeOutInSeconds));
 			wait.until(condition);	
 			msg = condition.toString();
@@ -752,24 +704,11 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 			logAction(ActionLog.actionLogWithDirectMesage(ABotActions.WaitUntil,msg,ex));	
 			throw ex;
 		}
-
-
 	}
-	
-	
-	
-	
-//	public void Find(WebElement webElement) {
-//		
-//		//return new Element(webElement, null);
-//		//element.findElement
-//		///return driver.findElement(seleniumSelector);
-//	}
 
 	public String getUrl() {
 		String url = null;
 		url = WebDriver().getCurrentUrl();
-		//getActionsLoggerMsg("GoTo",url);
 		return url;
 	}
 
@@ -784,7 +723,6 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public String getPageSource() {
 		String pageSource = null;
 		pageSource = WebDriver().getPageSource();
-		//getActionsLoggerMsg("GetPageSource",pageSource);
 		return pageSource;
 	}
 
@@ -802,22 +740,15 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		}		
 	}
 
-//	// WebDriver Navigation Actions
-//	public void Back() {
-//		driver.navigate().back();
-//	}
-	
 	@Override
 	public String currentWindowHandle() {
 		String handle = WebDriver().getWindowHandle();
-		//getActionsLoggerMsg("CurrentWindowHandle",handle);
 		return handle;
 	}
 	
 	@Override
 	public Set<String> allWindowHandles() {
 		Set<String> handles = WebDriver().getWindowHandles();
-		//getActionsLoggerMsg("AllWindowHandles",handles.toString());
 		return handles;
 	}
 	
@@ -825,81 +756,13 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	public String parentWindowHandle() {		
 		return TestInitializr.getParentWindowHandle();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
+	
 	// -------------------------------------
-
-	private static String getLastRunningPageObject() {
-		String lastPageObject = null;
-		if (LAST_RUNNING_PAGE_OBJECT != null) {
-			String s = LAST_RUNNING_PAGE_OBJECT.toString();
-			lastPageObject = s.substring(s.lastIndexOf(".") + 1).trim();
-
-			System.out.println(LAST_RUNNING_PAGE_OBJECT.getAnnotations());
-			// System.out.println(LAST_RUNNING_PAGE_OBJECT.getDeclaringClass());
-			// System.out.println(LAST_RUNNING_PAGE_OBJECT.getSimpleName());
-			// System.out.println(LAST_RUNNING_PAGE_OBJECT.getCanonicalName());
-			// System.out.println(LAST_RUNNING_PAGE_OBJECT.getDeclaredClasses());
-		}
-
-		return lastPageObject;
-	}
-
-//	public TextImpl Text(WebElement webElement) {		
-//		return ElementFactory.getTextActions(webElement, null);
-//	}
-
-
-	
-//	public DropDown DropDown(WebElement webElement) {
-//		return ElementFactory.getDropDown(webElement, null);
-//	}
-	
-//	@Override
-//	public ListBox ListBox(WebElement webElement) {
-//		return ElementFactory.getListBox(webElement, null);
-//	}
-//	
-//	@Override
-//	public Element Element(WebElement webElement) {
-//		return ElementFactory.getElement(webElement, null);
-//	}
 
 	public void log(String loggerMessage) {
 		userLogs(loggerMessage);		
 	}
-
-//	public Text FindText(By locator) {		
-//		AvtomatElementFactory elementFactory = new AvtomatElementFactoryImpl();
-//		return elementFactory.create(Text.class, $$(locator), locator, locator.toString());
-//	}
-
-//	@Override
-//	public Button FindButton(By locator) {
-//		AvtomatElementFactory elementFactory = new AvtomatElementFactoryImpl();
-//		return elementFactory.create(Button.class, $$(locator), locator, locator.toString());
-//	}
-
 
 	/*
 	 * we find element using locator only cannot do the switching to frame or window handles
@@ -909,13 +772,7 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 		AvtomatElementFactory elementFactory = new AvtomatElementFactoryImpl();
 		return elementFactory.create(EnhancedWebElement.class, findWebElement(locator,null), locator, null);
 	}
-	
 
-//	private EnhancedWebElement getABotWebElement(WebElement webElement) {
-//		AvtomatElementFactory elementFactory = new AvtomatElementFactoryImpl();
-//		return elementFactory.create(EnhancedWebElement.class, webElement, null, null);
-//	}
-	
 	@Override
 	public ComboBox toComboBox(BaseWebElement element) {	    
 		try {
@@ -995,7 +852,6 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 					return allWindowHandles().size() > 1;
 				}
 			};
-			//WebDriverWait wait = new WebDriverWait(driver(), timeOutInSeconds);
 			WebDriverWait wait = new WebDriverWait(WebDriver(), Duration.ofSeconds(timeOutInSeconds));
 			wait.until(mutipleWindowsToPresent);
 		} catch (TimeoutException e) {			
@@ -1073,5 +929,11 @@ public class KandyTestWebDriverActionsImpl implements KandyTestWebDriverActions 
 	}
 	
 
+	private int getFindElementTries() {
+		int tries = TestInitializr.getTestConfigObj().getWebDrivers().getFindElementTries();
+		if(tries==0) return Const.Default_Webdriver_FindElement_Tries;
+		
+		return tries;
+	}
 
 }

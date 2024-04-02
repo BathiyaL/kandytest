@@ -2,6 +2,7 @@
     "isDryRun": false,
     "applicationId": "d5b0cef8-396d-11eb-adc1-0242ac120002",
     "webDrivers": {
+    	"findElementTries": 5,
         "chrome": {
             "isDownload": false,
             "driverPath": "/Users/bathiyaladduwahetty/code/drivers/chromedriver"

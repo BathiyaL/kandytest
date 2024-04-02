@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.pagefactory.Annotations;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.DefaultFieldDecorator;
@@ -42,11 +41,7 @@ public class AvtomatSeleniumDecorator extends DefaultFieldDecorator {
 	 */
 	private Object decorateElement(final Field field, final WebElement wrappedElement) {		
 		By byLocator = getByLocator(field);
-		//System.out.println("Field Name : " + field.getDeclaringClass().getSimpleName() + "."+ field.getName() );
 		String fieldName = field.getDeclaringClass() + "."+ field.getName();
-		//FindBy fb = field.getAnnotation(FindBy.class);
-		//System.out.println(">>>>>>>>>>>>> :: " + fb.id());
-		
 		EnhancedWebElementLocator locator = new EnhancedWebElementLocator();
 		locator.setTarget(byLocator);
 		locator.setFieldName(fieldName);
@@ -61,8 +56,7 @@ public class AvtomatSeleniumDecorator extends DefaultFieldDecorator {
 		}else {
 			locator.setLocateByExist(false);
 		}
-		
-//		BaseWebElement element = elementFactory.create((Class<? extends BaseWebElement>) field.getType(), wrappedElement,byLocator,fieldName);
+
 		BaseWebElement element = elementFactory.create((Class<? extends BaseWebElement>) field.getType(), wrappedElement,locator);
 		return element;
 	}
