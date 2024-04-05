@@ -37,6 +37,7 @@ public class CustomReportGenerator {
 		String suiteName = suites.get(0).getName();	
 		if(suiteName != null && !suiteName.trim().isEmpty()) {
 			suiteFolder = suiteName;
+			REPORT_NAME = "KandyTestReport_"+suiteName.concat(".html");
 		}
 		
     	int testsCount = 0;
@@ -44,9 +45,8 @@ public class CustomReportGenerator {
         int skippedTests = 0;
         int failedTests = 0;
         String reportTemplate = initReportTemplate();
+        
         if(reportTemplate!=null) {
-            REPORT_NAME = "KandyTestReport_"+suiteName.concat(".html");
-    		
     		for(String key :  suites.get(0).getResults().keySet()) {
     	    	testsCount += suites.get(0).getResults().get(key).getTestContext().getPassedTests().size();
     	        passedTests += suites.get(0).getResults().get(key).getTestContext().getPassedTests().size();
