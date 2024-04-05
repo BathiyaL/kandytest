@@ -10,8 +10,10 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -45,7 +47,11 @@ public class AvtomatUtils {
 	public static LocalDateTime getCurretnTimeStamp() {
 		return LocalDateTime.now();
 	}
-	
+	public static String getCurrentDateTimeInSimpleFormat() {
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy:HH.mm.ss");
+		return formatter.format(currentDate.getTime());
+	}
 	public static String localDateTimeStringFormat(LocalDateTime localDateTime) {
 		return DateTimeFormatter.ofPattern(DATE_TIME_FORMAT).format(localDateTime);
 	}

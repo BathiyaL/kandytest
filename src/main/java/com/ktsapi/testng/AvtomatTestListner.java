@@ -4,7 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -44,6 +46,7 @@ import com.ktsapi.core.TestRunner;
 import com.ktsapi.dto.TestResultRequest;
 import com.ktsapi.enums.TestResultStatus;
 import com.ktsapi.kclient.KandyClientApiCaller;
+import com.ktsapi.testng.reports.CustomReportGenerator;
 import com.ktsapi.utils.AvtomatUtils;
 import static com.ktsapi.CommonActions.saveScreenshot;
 
@@ -320,129 +323,9 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		return this.testCount;
 	}
 
-	// ############################################# Custom Report Generation ###########################################################
-
-    String REPORT_NAME = "testreport.html";
-	private static final String REPORT_FOLDER= "kandyreports";
-
-	private static final String ROW_TEMPLATE = "<tr><td>%s</td><td>%s</td><td class=\"%s\">%s</td><td style=\"text-align: center; vertical-align: middle;\">%s</td></tr>";
-
 	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
-		
-		String suiteName = suites.get(0).getName();	
-    	int testsCount = 0;
-        int passedTests = 0;
-        int skippedTests = 0;
-        int failedTests = 0;
-        String reportTemplate = initReportTemplate();
-        if(reportTemplate!=null) {
-            REPORT_NAME = suiteName.concat(".html");
-    		
-    		for(String key :  suites.get(0).getResults().keySet()) {
-    	    	testsCount += suites.get(0).getResults().get(key).getTestContext().getPassedTests().size();
-    	        passedTests += suites.get(0).getResults().get(key).getTestContext().getPassedTests().size();
-    	        skippedTests += suites.get(0).getResults().get(key).getTestContext().getSkippedTests().size();
-    	        failedTests += suites.get(0).getResults().get(key).getTestContext().getFailedTests().size();			
-    		}
-    		testsCount = passedTests + skippedTests + failedTests;
-    		reportTemplate = reportTemplate.replace("$reportTitle", getReportTitle(suiteName));
-    		reportTemplate = reportTemplate.replace("$passedTestCount", Integer.toString(passedTests));
-    		reportTemplate = reportTemplate.replace("$failedTestCount", Integer.toString(failedTests));
-    		reportTemplate = reportTemplate.replace("$skippedTestCount", Integer.toString(skippedTests));
-    		
-    		
-    		final String body = suites.stream().flatMap(suiteToResults()).collect(Collectors.joining());
-    		saveReportTemplate(outputDirectory, reportTemplate.replace("$testResults",body));
-        }else {
-        	ConfigLogger.logInfo("Error occuer while initializing custom report template");
-        }
+		CustomReportGenerator customReport =  new CustomReportGenerator();
+		customReport.generateReport(xmlSuites, suites, outputDirectory);
 	}
 	
-    protected String getReportTitle(String title) {
-		return title + " [" + getCurrentDateTime() + "]" ;
-	}
-
-	private Function<ISuite, Stream<? extends String>> suiteToResults() {
-		return suite -> suite.getResults().entrySet().stream().flatMap(resultsToRows(suite));
-	}
-
-	private Function<Map.Entry<String, ISuiteResult>, Stream<? extends String>> resultsToRows(ISuite suite) {
-		return e -> {
-			ITestContext testContext = e.getValue().getTestContext();
-
-			Set<ITestResult> failedTests = testContext.getFailedTests().getAllResults();
-			Set<ITestResult> passedTests = testContext.getPassedTests().getAllResults();
-			Set<ITestResult> skippedTests = testContext.getSkippedTests().getAllResults();		
-			String suiteName = suite.getName();
-
-			return Stream.of(failedTests, passedTests, skippedTests)
-					.flatMap(results -> generateReportRows(e.getKey(), suiteName, results).stream());
-		};
-	}
-
-	private List<String> generateReportRows(String testName, String suiteName, Set<ITestResult> allTestResults) {
-		return allTestResults.stream().map(testResultToResultRow(testName, suiteName)).toList();
-	}
-
-	private Function<ITestResult, String> testResultToResultRow(String testName, String suiteName) {
-		return testResult -> {
-			
-			String fullyQualifiedName = testResult.getTestClass().getName();
-			String testClassName = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".")+1);
-			String testGroup = testName;
-			//String testDescription = testResult.getMethod().getDescription(); // fetch description in @test annotation
-			
-			switch (testResult.getStatus()) {
-			case ITestResult.FAILURE:
-				return String.format(ROW_TEMPLATE, testGroup, testClassName, "bg-danger", "FAILED", "NA");
-
-			case ITestResult.SUCCESS:
-				return String.format(ROW_TEMPLATE, testGroup, testClassName, "bg-success", "PASSED",
-						String.valueOf(testResult.getEndMillis() - testResult.getStartMillis()));
-
-			case ITestResult.SKIP:
-				return String.format(ROW_TEMPLATE,testGroup, testClassName, "bg-warning", "SKIPPED","NA");
-
-			default:
-				return "";
-			}
-		};
-	}
-
-	private String initReportTemplate() {
-		String template = null;
-		byte[] reportTemplate;
-		//Path resourceDirectoryPath = Paths.get("src","test","resources","reportTemplateV4.html");
-		URL url = getClass().getResource("/reports/reportTemplateV4.html");
-		try {
-			reportTemplate = Files.readAllBytes(Paths.get(url.getPath()));
-			template = new String(reportTemplate, "UTF-8");
-		} catch (IOException e) {
-			ConfigLogger.logInfo("Error occuer while initializing custom report template");
-		}
-		return template;
-	}
-
-	private void saveReportTemplate(String outputDirectory, String reportTemplate) {
-		
-		// create custom report path to hold custom reports only
-		File outputDirectoryFilePath = new File(outputDirectory,REPORT_FOLDER);
-		outputDirectoryFilePath.mkdirs();
-		try {
-			PrintWriter reportWriter = new PrintWriter(
-					new BufferedWriter(new FileWriter(new File(outputDirectoryFilePath.getPath(), REPORT_NAME))));
-			reportWriter.println(reportTemplate);
-			reportWriter.flush();
-			reportWriter.close();
-		} catch (IOException e) {
-			ConfigLogger.logInfo("Error occuer while saving custom report template");
-		}
-	}
-	
-	public static String getCurrentDateTime() {
-		Calendar currentDate = Calendar.getInstance();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy:HH.mm.ss");
-		return formatter.format(currentDate.getTime());
-	}
-
 }
