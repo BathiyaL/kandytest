@@ -48,5 +48,8 @@ public class Const {
 	public static final String ktestconfig_FirefoxDriverPath = "FirefoxDriverPath";
 	public static final int DEFAULT_WEBDRIVER_FINDELEMENT_TRIES = 5;
 
+	
+	// Custom Reports
+	public static final String CUSTOM_REPORT_TEMPLATE_PATH = "com/ktsapi/testng/reports/reportTemplateV4.html";  
 
 }

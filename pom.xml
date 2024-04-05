@@ -158,23 +158,23 @@
 	</profiles>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+		
+		<resources>
+			<resource>
+	            <directory>src/main/resources</directory>
+	        </resource>
+	        
+	        <resource>
+	            <directory>src/main/java</directory>
+	            <includes>
+	                <include>**/*.html</include>
+	            </includes>
+	            <filtering>false</filtering>
+	        </resource>
+    	</resources>
 
-<!--			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.1</version>
-				<configuration>
-					<suiteXmlFiles>
-						<suiteXmlFile>src/test/java/com/katf/plans/IntegrationTestSuite.xml</suiteXmlFile>
-					</suiteXmlFiles>
-					<argLine>add-opens java.base/java.lang=ALL-UNNAMED</argLine>  this is due top bug https://github.com/appium/java-client/issues/1619
-				</configuration>
-			</plugin>-->
+		<plugins>
+
 
 		<plugin>
             <groupId>org.apache.maven.plugins</groupId>
