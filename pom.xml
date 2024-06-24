@@ -28,6 +28,12 @@
 		    <artifactId>selenium-java</artifactId>
 		    <version>4.18.0</version>
 		</dependency>
+		
+		<dependency>
+           <groupId>io.rest-assured</groupId>
+           <artifactId>rest-assured</artifactId>
+           <version>5.4.0</version>
+       </dependency>
 
 
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->

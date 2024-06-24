@@ -9,7 +9,7 @@
         },
         "firefox": {
             "isDownload": false,
-            "driverPath": "/drivers/firefox/mac/_arm64/geckodriver"
+            "driverPath": "/Users/bathiyaladduwahetty/code/drivers/geckodriver"
         }
     },
     "mobileDrivers": {
