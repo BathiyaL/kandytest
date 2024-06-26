@@ -6,5 +6,6 @@ public enum TestDriver {
 	IMAGE,
 	AVTOMAT,
 	MOBILE_ANDROID,
+	API,
 	UNDEFINED
 }

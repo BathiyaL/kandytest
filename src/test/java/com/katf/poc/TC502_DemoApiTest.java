@@ -13,28 +13,27 @@ import static io.restassured.RestAssured.given;
 
 @TestConfiguration(testDriver = TestDriver.API
 )
-public class TC501_DemoApiTest {
+public class TC502_DemoApiTest {
 
 	@BeforeTest
     public static void setup(){
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = 8080;
-        RestAssured.basePath = "/api";
+        RestAssured.baseURI = "http://localhost:8080/api/testPlanRuns/75/?workspaceId=1";
+//        RestAssured.port = 8080;
+//        RestAssured.basePath = "/api/";
     }
 
     @Test
     public void testGetTestPlanRunBuId() throws JsonMappingException, JsonProcessingException{
         Response response = given().log().all()
-				                .pathParam("testPlanRunId",75)
-				                .queryParam("workspaceId", 1)
-				                .when()
-				                .get("testPlanRuns/{testPlanRunId}/")
-				                .then().log().all()
-				                .statusCode(200)
-				                .body("testPlanRunId",equalTo("75"))
-				                .extract()
-				                
-				                .response();
-        System.out.println(response.asPrettyString());
+                .when()
+                .get("http://localhost:8080/api/testPlanRuns/75/?workspaceId=1")
+                .then().log().all()
+                .statusCode(200)
+                .body("testPlanRunId",equalTo("75"))
+                .extract()
+                
+                .response();
+//response.reques
+System.out.println(response.asPrettyString());
     }
 }
