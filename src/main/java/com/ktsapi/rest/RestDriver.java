@@ -1,8 +1,9 @@
 package com.ktsapi.rest;
 
-public class RestDriver {
+import io.restassured.response.Response;
 
-	public void get(RestContext restContext) {
-		
-	}
+public interface RestDriver {
+
+	public Response get();
+	public Response post();
 }

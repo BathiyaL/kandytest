@@ -1,13 +1,49 @@
 package com.ktsapi.rest;
 
-public class RestContext {
+import java.util.Map;
+import com.ktsapi.core.TestInitializr;
 
-	private static final String DEFAULT_URI = "http://localhost";
-	public static final int UNDEFINED_PORT = -1;
-	public static final String DEFAULT_PATH = "";
+public class RestContext {
 	
-	public static String baseURI = DEFAULT_URI;
-	public static int port = UNDEFINED_PORT;
-	public static String basePath = DEFAULT_PATH;
+	private String baseURI;
+	private String endPoint;
+	private Map<String, ?> headers;
+	private String body;
+
+	public RestContext() {
+		this.baseURI = TestInitializr.getTestConfiguration().getBaseUrl();
+	}
 	
+	public RestContext(String baseURI) {
+		this.baseURI = baseURI;
+	}
+	
+	public String getBaseURI() {
+		return baseURI;
+	}
+	public String getEndPoint() {
+		return endPoint;
+	}
+	public void setEndPoint(String endPoint) {
+		this.endPoint = endPoint;
+	}
+	
+	public String getRequestURL() {
+		// TODO: need url validation
+		return baseURI + endPoint;
+	}
+	
+	public Map<String, ?> getHeaders() {
+		return headers;
+	}
+	public void setHeaders(Map<String, ?> headers) {
+		this.headers = headers;
+	}
+
+	public String getBody() {
+		return body;
+	}
+	public void setBody(String body) {
+		this.body = body;
+	}
 }
