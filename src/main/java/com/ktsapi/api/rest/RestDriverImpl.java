@@ -1,4 +1,4 @@
-package com.ktsapi.rest;
+package com.ktsapi.api.rest;
 
 import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
