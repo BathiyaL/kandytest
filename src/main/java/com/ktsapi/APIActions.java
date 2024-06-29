@@ -13,6 +13,10 @@ public class APIActions {
 	public static RestDriver getRestDriver(RestContext restContext) {
 		return newInstance().getRestDriver(restContext);
 	}
+	
+	/*
+	 * This returns a default Restcontext
+	 */
 	public static RestContext getRestContext() {
 		return newInstance().getRestContext();
 	}

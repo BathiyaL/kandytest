@@ -9,8 +9,9 @@ import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeTest;
 
-@TestConfiguration(testDriver = TestDriver.API,
-	baseUrl = "https://petstore.swagger.io"
+@TestConfiguration(
+		testDriver = TestDriver.API,
+		baseUrl = "https://petstore.swagger.io"
 )
 public class TC503_DemoApiTest {
 
@@ -21,6 +22,7 @@ public class TC503_DemoApiTest {
 	
 	@BeforeTest
     public void setup(){
+		// https://petstore.swagger.io
 		postRestContext = APIActions.getRestContext();
 		postRestContext.setEndPoint("/v2/pet");
 		postRestContext.setBody(getPetPayload());
