@@ -6,10 +6,14 @@ import com.ktsapi.api.rest.RestDriver;
 
 public class APIActions {
 
+	private static KandyTestAPIDriverActions newInstance(){
+		return KTestActonsHandler.apiDriverActionsInstance();
+	}
+	
 	public static RestDriver getRestDriver(RestContext restContext) {
 		return newInstance().getRestDriver(restContext);
 	}
-	private static KandyTestAPIDriverActions newInstance(){
-		return KTestActonsHandler.apiDriverActionsInstance();
+	public static RestContext getRestContext() {
+		return newInstance().getRestContext();
 	}
 }
