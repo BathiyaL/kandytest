@@ -85,6 +85,10 @@ public enum ABotActions {
 	//Common Action
 	Pause,
 	Print,
-	BaseUrl
+	BaseUrl,
+	
+	// Rest API actions
+	GET,
+	POSt
 
 }

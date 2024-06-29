@@ -1,58 +1,50 @@
 package com.katf.poc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.ktsapi.annotation.TestConfiguration;
+import com.ktsapi.api.rest.RestContext;
+import com.ktsapi.api.rest.RestDriver;
 import com.ktsapi.enums.TestDriver;
-import com.ktsapi.rest.RestContext;
-import com.ktsapi.rest.RestDriver;
-import com.ktsapi.rest.RestDriverImpl;
+import com.ktsapi.APIActions;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
-
-import java.util.HashMap;
-
 import org.testng.annotations.BeforeTest;
 
-@TestConfiguration(testDriver = TestDriver.API,
-	baseUrl = "https://petstore.swagger.io"
+@TestConfiguration(
+		testDriver = TestDriver.API,
+		baseUrl = "https://petstore.swagger.io"
 )
 public class TC503_DemoApiTest {
 
 	RestContext getRestContext;
 	RestContext postRestContext;
 	RestDriver restDriver;
+	long petId;
 	
 	@BeforeTest
     public void setup(){
-		
-		HashMap<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
-		headers.put("Accept", "application/json");
-		
-		getRestContext = new RestContext();
-		//restContext.setEndPoint("/api/testPlanRuns/75/?workspaceId=1");
-		getRestContext.setEndPoint("/v2/pet");
-		getRestContext.setHeaders(headers);
-		getRestContext.setBody(getPetPayload());
-		
-		postRestContext = getRestContext;
-		
+		// https://petstore.swagger.io
+		postRestContext = APIActions.getRestContext();
 		postRestContext.setEndPoint("/v2/pet");
+		postRestContext.setBody(getPetPayload());
 		
-		
+		getRestContext = postRestContext;
+		postRestContext.setEndPoint("/v2/pet");	
     }
 
-    @Test
+    @Test(priority=0)
     public void testPostRequest(){
-    	restDriver = new RestDriverImpl(postRestContext);
+    	restDriver = APIActions.getRestDriver(postRestContext);
         Response response = restDriver.post();
+        petId = response.jsonPath().getLong("id");
 		System.out.println(response.asPrettyString());
     }
+    
+    @Test(priority=1)
     public void testGetRequest(){
-//    	restDriver = new RestDriverImpl(postRestContext);
-//    	Response response = restDriver.get();
-//		System.out.println(response.asPrettyString());
+    	getRestContext.setEndPoint("/v2/pet/"+petId);
+    	restDriver = APIActions.getRestDriver(getRestContext);
+    	Response response = restDriver.get();
+		System.out.println(response.asPrettyString());
     }
     
     private String getPetPayload() {
