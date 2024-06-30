@@ -22,7 +22,6 @@ public class TC503_DemoApiTest {
 	
 	@BeforeTest
     public void setup(){
-		// https://petstore.swagger.io
 		postRestContext = APIActions.getRestContext();
 		postRestContext.setEndPoint("/v2/pet");
 		postRestContext.setBody(getPetPayload());
@@ -39,6 +38,8 @@ public class TC503_DemoApiTest {
 		System.out.println(response.asPrettyString());
     }
     
+    
+    // TODO : Currently TestListner is not support multiple tests in a single class.
     @Test(priority=1)
     public void testGetRequest(){
     	getRestContext.setEndPoint("/v2/pet/"+petId);

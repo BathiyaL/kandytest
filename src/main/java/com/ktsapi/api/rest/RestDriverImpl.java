@@ -21,20 +21,22 @@ public class RestDriverImpl implements RestDriver {
 	}
 
 	public Response get() {
+		logRequest(ABotActions.GET);
         return requestSpecification.get(this.restContext.getRequestURL());
 
 	}
 
 	@Override
 	public Response post() {
+		logRequest(ABotActions.POST);
 		requestSpecification.body(this.restContext.getBody());
 		return requestSpecification.post(this.restContext.getRequestURL());
 		
 	}
 	
 	// TODO: update after fix cache log issues
-	private void logRequest() {
-		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.GET, "Request URL: "+this.restContext.getRequestURL(), null));
-		logAction(ActionLog.actionLogWithDirectMesage(ABotActions.GET, "Headers: "+this.restContext.getHeaders(), null));
+	private void logRequest(ABotActions abotAction) {
+		logAction(ActionLog.actionLogWithDirectMesage(abotAction, "Request URL: "+this.restContext.getRequestURL(), null));
+		logAction(ActionLog.actionLogWithDirectMesage(abotAction, "Request Headers: "+this.restContext.getHeaders(), null));
 	}
 }
