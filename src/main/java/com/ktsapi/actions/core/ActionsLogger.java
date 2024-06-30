@@ -13,12 +13,18 @@ import com.ktsapi.enums.ABotActions;
 public class ActionsLogger {
 
 	public static void logAction(ActionLog actionObject) {
-		TestInitializr.getTestActionsList().add(actionObject);
 		
-		if(actionObject.getStackTraceString()!=null && !actionObject.getStackTraceString().isEmpty() && !actionObject.getStackTraceString().equals("N/A")) {
-			String errorString = "\n#######################<FAILURE MESSAGE>########################### \n" + actionObject.getStackTraceString() + "\n#######################</FAILURE MESSAGE>########################## \n";			
-			TestInitializr.getTestLogger().error(actionObject.getActionLogString() + "\n" + errorString);
+		if(TestInitializr.getTestActionsList()!=null) {
+			TestInitializr.getTestActionsList().add(actionObject);
+			
+			if(actionObject.getStackTraceString()!=null && !actionObject.getStackTraceString().isEmpty() && !actionObject.getStackTraceString().equals("N/A")) {
+				String errorString = "\n#######################<FAILURE MESSAGE>########################### \n" + actionObject.getStackTraceString() + "\n#######################</FAILURE MESSAGE>########################## \n";			
+				TestInitializr.getTestLogger().error(actionObject.getActionLogString() + "\n" + errorString);
+			}
+		}else {
+			ConfigLogger.logError("[Actions] Log -> ActionList is null in TestInitializr");
 		}
+
 	}
 
 	protected static String getLocator(String element) {
@@ -47,7 +53,7 @@ public class ActionsLogger {
 		try {
 			TestInitializr.getTestLogger().info("[Actions] "+action+"[" + getElementLocatorMsg(element,tagName) +"] @value=" + value); // changed -> to @value
 		} catch(Exception e){
-			System.out.println("[Actions] "+action+"Unbale to Fetch loger Message");
+			ConfigLogger.logError("[Actions] "+action+"Unbale to Fetch loger Message");
 		}	
 	}
 	
@@ -62,7 +68,7 @@ public class ActionsLogger {
 		try {
 			TestInitializr.getTestLogger().info("[Actions] "+action+"[" + getElementLocatorMsg(element,tagName) +"]");
 		} catch(Exception e){
-			System.out.println("[Actions] "+action+"Unbale to Fetch loger Message");
+			ConfigLogger.logError("[Actions] "+action+"Unbale to Fetch loger Message");
 		}		
 	}
 
@@ -70,7 +76,7 @@ public class ActionsLogger {
 		try {
 			TestInitializr.getTestLogger().info("[Actions] Log -> " + loggerMessage );
 		} catch(Exception e){
-			System.out.println("[Actions] Log -> Unbale to Fetch loger Message");
+			ConfigLogger.logError("[Actions] Log -> Unbale to Fetch loger Message");
 		}	
 	}
 	
@@ -78,7 +84,7 @@ public class ActionsLogger {
 		try {
 			TestInitializr.getTestLogger().info(loggerMessage);
 		} catch(Exception e){
-			System.out.println("[Actions] Log -> Unbale to Fetch loger Message");
+			ConfigLogger.logError("[Actions] Log -> Unbale to Fetch loger Message");
 		}	
 	}
 	
@@ -86,7 +92,7 @@ public class ActionsLogger {
 		try {
 			TestInitializr.getTestLogger().warn(loggerMessage);
 		} catch(Exception e){
-			System.out.println("[Actions] Log -> Unbale to Fetch loger Message");
+			ConfigLogger.logError("[Actions] Log -> Unbale to Fetch loger Message");
 		}	
 	}
 
@@ -106,7 +112,7 @@ public class ActionsLogger {
 		try {
 			TestInitializr.getTestLogger().info("[Actions] "+action+"[" + element +"] @value=" + value);// changed -> to @value
 		} catch(Exception e){
-			System.out.println("[ActionsLOGError] "+action+"Unbale to Fetch loger Message");
+			ConfigLogger.logError("[ActionsLOGError] "+action+"Unbale to Fetch loger Message");
 		}
 	}
 	protected static void logAction(BaseWebElement element, ABotActions action) {
@@ -125,7 +131,7 @@ public class ActionsLogger {
 		try {
 			TestInitializr.getTestLogger().error("[ActionsError] {"+action+"[" + element +"] @value=" + value + " } : Error Message . . . . ." + "\n " +errorMessage + "\n "); // changed -> to @value
 		} catch(Exception e){
-			System.out.println("[ActionsLOGError] "+action+"Unbale to Fetch loger Message");
+			ConfigLogger.logError("[ActionsLOGError] "+action+"Unbale to Fetch loger Message");
 		}
 	}
 

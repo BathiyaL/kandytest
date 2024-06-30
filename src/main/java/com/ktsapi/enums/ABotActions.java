@@ -89,6 +89,6 @@ public enum ABotActions {
 	
 	// Rest API actions
 	GET,
-	POSt
+	POST
 
 }
