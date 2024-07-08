@@ -1,33 +1,18 @@
 package com.ktsapi.testng;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import static com.ktsapi.CommonActions.saveScreenshot;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.testng.IClass;
 import org.testng.IConfigurationListener2;
 import org.testng.IReporter;
 import org.testng.ISuite;
-import org.testng.ISuiteResult;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -48,7 +33,6 @@ import com.ktsapi.enums.TestResultStatus;
 import com.ktsapi.kclient.KandyClientApiCaller;
 import com.ktsapi.testng.reports.CustomReportGenerator;
 import com.ktsapi.utils.AvtomatUtils;
-import static com.ktsapi.CommonActions.saveScreenshot;
 
 public class AvtomatTestListner implements ITestListener, IConfigurationListener2, IReporter {
 
@@ -110,7 +94,8 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	public void onTestFailure(ITestResult result) {
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has failed");
 		saveFailureScreenshot();
-		tearDownContext(result, TestResultStatus.Failed);
+		//tearDownContext(result, TestResultStatus.Failed);
+		teatDownTest(result, TestResultStatus.Failed);
 	}
 	
 	private void saveFailureScreenshot() {
@@ -122,13 +107,16 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has skipped");
 		// TODO: if there is a validation ERROR in test tag in suite (means before test start) no need to tearDown or do we need to log 
 		// result with validation ERROR
-		tearDownContext(result, TestResultStatus.Skipped);
+		//tearDownContext(result, TestResultStatus.Skipped);
+		teatDownTest(result, TestResultStatus.Skipped);
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " is success");
-		tearDownContext(result, TestResultStatus.Passed);
+		//tearDownContext(result, TestResultStatus.Passed);
+		teatDownTest(result, TestResultStatus.Passed);
+		
 	}
 
 	private String getTestMethodFromITResult(ITestResult result) {
@@ -139,6 +127,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	// @Override
 	public void onTestStart(ITestResult result) {
+		System.out.println("########################################-> + onTestStart");
 		/*
 		 * Not @beforeTest in the script hence @Test has to init the TestCache
 		 */
@@ -200,13 +189,26 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		}
 	}
 
-	private void tearDownContext(ITestResult result, TestResultStatus testResultStatus) {
+	private void teatDownTest(ITestResult result, TestResultStatus testResultStatus) {
 		if (runner != null) {
 			if(!TestInitializr.getDryRunStatus()) {
 				postTestResult(testResultStatus,result);
 			}else {
 				printAndGetActionLogger();
 			}
+		}
+	}
+	
+	private void tearDownContext() {
+//		if (runner != null) {
+//			if(!TestInitializr.getDryRunStatus()) {
+//				postTestResult(testResultStatus,result);
+//			}else {
+//				printAndGetActionLogger();
+//			}
+//			runner.end();
+//		}
+		if (runner != null) {
 			runner.end();
 		}
 	}
@@ -243,6 +245,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	@Override
 	public void onFinish(ITestContext context) {
 		ConfigLogger.logInfo("@TestClass{" + context.getCurrentXmlTest().getName() + "} execution has finished. \n");
+		tearDownContext();
 	}
 
 	/*
@@ -264,7 +267,8 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	@Override
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-		tearDownContext(result, TestResultStatus.Failed); // TODO : This test status need to check
+		//tearDownContext(result, TestResultStatus.Failed); // TODO : This test status need to check
+		teatDownTest(result, TestResultStatus.Failed);
 
 	}
 
