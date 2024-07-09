@@ -69,10 +69,12 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		// getting testid from TEP is there better way to handle this
 		String[] nampeSplit = result.getTestContext().getName().split("\\."); //TestInitializr.getTestClassName().split("\\.");
 		String testClassName = nampeSplit[nampeSplit.length - 1];
-		String testID = null;
-		if (testClassName.contains("_") && testClassName.contains("TC")) {
-			testID = "TC-" + (testClassName.split("\\_")[0].split("TC"))[1];
-		}
+//		String testID = null;
+//		if (testClassName.contains("_") && testClassName.contains("TC")) {
+//			testID = "TC-" + (testClassName.split("\\_")[0].split("TC"))[1];
+//		}
+		String testID = result.getMethod().getDescription();
+		
 		testResultRequest.setTestCaseId(testID);
 		// String testID = testClassName
 
@@ -131,6 +133,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		/*
 		 * Not @beforeTest in the script hence @Test has to init the TestCache
 		 */
+		testExecutionStartTime = AvtomatUtils.getCurretnTimeStamp();
 		String testClassName = result.getMethod().getTestClass().getName();
 		logMethodStart("@Test", result.getMethod().getMethodName() + "()", testClassName);
 		if (!isTestClassContaisAnnotation(result.getInstance().getClass(), BeforeTest.class)) {
@@ -160,7 +163,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	public void onStart(ITestContext testContext) {
 
 		setXmlTestLevelParametersToMap(testContext);
-		testExecutionStartTime = AvtomatUtils.getCurretnTimeStamp();
+		//testExecutionStartTime = AvtomatUtils.getCurretnTimeStamp();
 		logMethodStart("@TestClass", "", testContext.getCurrentXmlTest().getName());
 	}
 
@@ -190,6 +193,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	}
 
 	private void teatDownTest(ITestResult result, TestResultStatus testResultStatus) {
+		System.out.println("#####################>> : " + result.getMethod().getDescription());
 		if (runner != null) {
 			if(!TestInitializr.getDryRunStatus()) {
 				postTestResult(testResultStatus,result);
