@@ -31,6 +31,7 @@ public class TestRunner extends TestSession implements Runner{
 		setTestSuiteFilePath(testContext.getTestSuiteFilePath());
 		setTestClassName(testContext.getTestClassName());
 		setTestName(testContext.getTestName());
+		setTestId(testContext.getTestID());
 		setTestPlanName(testContext.getTestPlanName());
 		setTestPlanUUID(testContext.getTestPlanUUID());
 		setKandyClientTestPlanId(testContext.getKandyClientTestPlanId());

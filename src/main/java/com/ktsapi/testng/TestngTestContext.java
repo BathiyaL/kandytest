@@ -7,6 +7,7 @@ import java.util.Map;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestResult;
+import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ktsapi.actions.core.ConfigLogger;
@@ -43,6 +44,8 @@ public class TestngTestContext implements TestContext{
 	String browserversion = null;
 	Platform platform = Platform.ANY;
 	String chromeOptions[];
+	String testName = "";
+	String testID = "";
 	
 	// Avotomat attributes
 	TestDriver testDriver;
@@ -110,6 +113,14 @@ public class TestngTestContext implements TestContext{
 		mobileDeviceName= testConfig.mobileDeviceName();
 		mobileCapabilitiesFileName = testConfig.mobileCapabilitiesFileName();
 		
+		// TODO : Need a validation, also some config to pass testname/id form TEP when run 1:1 mapping, this is useful for data driven testing
+		Test testAnnotation = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class);
+		if(testAnnotation!=null) {
+			String[] testNameArray = testAnnotation.testName().split(":");
+			testID = testNameArray[1];
+			testName = testNameArray[1];
+		}
+
 				
 		testConfigurationContext = new TestConfigurationContext();
 		testConfigurationContext.setBaseUrl(baseUrl);		
@@ -127,6 +138,9 @@ public class TestngTestContext implements TestContext{
 		testConfigurationContext.setMobileApp(mobileApp);
 		testConfigurationContext.setMobileDeviceName(mobileDeviceName);
 		testConfigurationContext.setMobileCapabilitiesFileName(mobileCapabilitiesFileName);
+		
+		testConfigurationContext.setTestName(testName);
+		testConfigurationContext.setTestID(testID);
 
 		String testInstanceName = result.getInstanceName();
 		testConfigurationContext.setTestClassName(testInstanceName.substring(testInstanceName.lastIndexOf('.') + 1));
@@ -243,7 +257,12 @@ public class TestngTestContext implements TestContext{
 	// test name in suit 
 	@Override
 	public String getTestName() {	
-		return result.getTestContext().getName();
+		return this.testName;
+	}
+	
+	@Override
+	public String getTestID() {
+		return this.testID;
 	}
 
 	@Override
@@ -303,5 +322,7 @@ public class TestngTestContext implements TestContext{
 	public TestNGConfig getTestNGConfig() {
 		return (TestNGConfig)result.getTestContext().getSuite().getAttribute(TestInitializr.TESTNG_CONFIG_OBJ);
 	}
+
+
 
 }

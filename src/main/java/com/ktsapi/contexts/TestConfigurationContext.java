@@ -24,8 +24,16 @@ public class TestConfigurationContext {
 	
 	//TestNG attributes
 	String testName;
+	String testID;
 	String testClassName;
 	
+	
+	public String getTestID() {
+		return testID;
+	}
+	public void setTestID(String testID) {
+		this.testID = testID;
+	}
 	public String getTestName() {
 		return testName;
 	}

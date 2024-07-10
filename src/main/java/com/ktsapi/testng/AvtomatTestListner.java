@@ -18,6 +18,7 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import org.testng.xml.XmlSuite;
 
 import com.google.gson.Gson;
@@ -67,15 +68,20 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		testResultRequest.setTestPlanId(TestInitializr.getKandyClientTestPlanId());
 		testResultRequest.setTestPlanAutomatedRunId(TestInitializr.getKandyClientTestPlanAutomatedRunId());
 		// getting testid from TEP is there better way to handle this
-		String[] nampeSplit = result.getTestContext().getName().split("\\."); //TestInitializr.getTestClassName().split("\\.");
-		String testClassName = nampeSplit[nampeSplit.length - 1];
+//		String[] nampeSplit = result.getTestContext().getName().split("\\."); //TestInitializr.getTestClassName().split("\\.");
+//		String testClassName = nampeSplit[nampeSplit.length - 1];
 //		String testID = null;
 //		if (testClassName.contains("_") && testClassName.contains("TC")) {
 //			testID = "TC-" + (testClassName.split("\\_")[0].split("TC"))[1];
 //		}
-		String testID = result.getMethod().getDescription();
+//		String testID = getTestIDFromTestName(result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class).testName());
 		
-		testResultRequest.setTestCaseId(testID);
+		if(TestInitializr.getTesID().isEmpty()) {
+			ConfigLogger.logError("@TestSuite{ [KandyClient] => Cannot POST test result. Valid TestID is not provided under testName attribute in @Test");
+			return false; // cannot post result if testID is empty
+		}
+		
+		testResultRequest.setTestCaseId(TestInitializr.getTesID());
 		// String testID = testClassName
 
 		// TODO : if we are execute form selenium grid we may need to pass relevant node
@@ -90,6 +96,12 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 				e.printStackTrace(); // TODO : Add custom exception
 			}		
 		return false;
+	}
+	private String getTestIDFromTestName(String testName) {
+		if(testName!=null) {
+			return testName.split(":")[0];
+		}
+		return null;
 	}
 
 	@Override
@@ -136,9 +148,10 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		testExecutionStartTime = AvtomatUtils.getCurretnTimeStamp();
 		String testClassName = result.getMethod().getTestClass().getName();
 		logMethodStart("@Test", result.getMethod().getMethodName() + "()", testClassName);
-		if (!isTestClassContaisAnnotation(result.getInstance().getClass(), BeforeTest.class)) {
-			setupTestContext(result);
-		}
+//		if (!isTestClassContaisAnnotation(result.getInstance().getClass(), BeforeTest.class)) {
+//			setupTestContext(result);
+//		}
+		setupTestContext(result);
 	}
 
 	boolean isTestClassContaisAnnotation(Class<? extends Object> clazz, final Class<? extends Annotation> annotation) {
@@ -201,6 +214,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 				printAndGetActionLogger();
 			}
 		}
+		TestInitializr.resetActionsList();
 	}
 	
 	private void tearDownContext() {
@@ -219,9 +233,9 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	private void setupTestContext(ITestResult result) {
 
-		if (TestInitializr.isTestCacheInUse()) {
-			return;
-		}
+//		if (TestInitializr.isTestCacheInUse()) {
+//			return;
+//		}
 		result.setAttribute(TestSuiteParameters.XML_TEST_LEVEL_MAP, xmlTestLevelParameterMap);
 		TestContext testContext = new TestngTestContext(result);
 		if (!testContext.hasTestConfigurationAnnotation()) {
