@@ -236,6 +236,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 //		if (TestInitializr.isTestCacheInUse()) {
 //			return;
 //		}
+		String mName = result.getMethod().getMethodName();
 		result.setAttribute(TestSuiteParameters.XML_TEST_LEVEL_MAP, xmlTestLevelParameterMap);
 		TestContext testContext = new TestngTestContext(result);
 		if (!testContext.hasTestConfigurationAnnotation()) {
@@ -245,19 +246,28 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		// Setting data to TestCache
 		runner = new TestRunner(testContext);
 		runner.start(); // Open/Init TestCache map in TestInitializr
+		setupInitialLog();
 
-		String log = "\n#################### Test Startup Configuration #####################\n" + "Test Suite : "
-				+ TestInitializr.getTestPlanName() + "["
-				+ TestInitializr.getTestSuiteFilePath().getFileName().toString() + "]" + "\n" + "Test Name : "
-				+ TestInitializr.getTestName() + "\n" + "Test Class : " + TestInitializr.getTestClassName() + "\n"
-				+ "baseUrl : " + TestInitializr.getTestConfiguration().getBaseUrl() + "\n" + "testDriver : "
-				+ TestInitializr.getTestConfiguration().getTestDriver() + "\n" + "browser : "
-				+ TestInitializr.getTestConfiguration().getBrowser() + "\n" + "Running OS : "
-				+ AvtomatUtils.getOS() + "\n"
-				+ "implicitlyWaitTime : " + TestInitializr.getImplicitlyWaitTime() + "\n" + "pageLoadTimeout : "
-				+ TestInitializr.getPageLoadTimeout() + "\n" + "scriptTimeout : " + TestInitializr.getScriptTimeout()
-				+ "\n" + "######################################################################";
-		ConfigLogger.logInfo(log);
+	}
+	private boolean isInitialLogSetup = false;
+	
+	private void setupInitialLog() {
+		if(!isInitialLogSetup) {
+			String log = "\n#################### Test Startup Configuration #####################\n" + "Test Suite : "
+					+ TestInitializr.getTestPlanName() + "["
+					+ TestInitializr.getTestSuiteFilePath().getFileName().toString() + "]" + "\n" + "Test Name : "
+					+ TestInitializr.getTestName() + "\n" + "Test Class : " + TestInitializr.getTestClassName() + "\n"
+					+ "baseUrl : " + TestInitializr.getTestConfiguration().getBaseUrl() + "\n" + "testDriver : "
+					+ TestInitializr.getTestConfiguration().getTestDriver() + "\n" + "browser : "
+					+ TestInitializr.getTestConfiguration().getBrowser() + "\n" + "Running OS : "
+					+ AvtomatUtils.getOS() + "\n"
+					+ "implicitlyWaitTime : " + TestInitializr.getImplicitlyWaitTime() + "\n" + "pageLoadTimeout : "
+					+ TestInitializr.getPageLoadTimeout() + "\n" + "scriptTimeout : " + TestInitializr.getScriptTimeout()
+					+ "\n" + "######################################################################";
+			ConfigLogger.logInfo(log);
+			isInitialLogSetup = true;
+		}
+
 	}
 
 	@Override

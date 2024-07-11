@@ -31,6 +31,7 @@ public class TestngTestContext implements TestContext{
 	
 	public TestngTestContext(final ITestResult result) {
 		this.result = result;
+		setupInlineTestConfigs();
 	}
 
 	/*
@@ -77,6 +78,31 @@ public class TestngTestContext implements TestContext{
 		return desiredCapabilities;
 	}
 	
+//	private void updateInlineTestConfigs() {
+//		if(testConfigurationContext!=null) {
+//			setupInlineConfigs();
+//			testConfigurationContext.setTestName(testName);
+//			testConfigurationContext.setTestID(testID);
+//		}
+//	}
+	
+	// These configs are setup for each @Test
+	void setupInlineTestConfigs() {
+		// TODO : Need a validation, also some config to pass testname/id form TEP when run 1:1 mapping, this is useful for data driven testing
+		Test testAnnotation = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class);
+		if(testAnnotation!=null) {
+			String[] testNameArray = testAnnotation.testName().split(":");
+			if(testNameArray.length==2) {
+				testID = testNameArray[0];
+				testName = testNameArray[1];
+			} else {
+				testName =testAnnotation.testName();
+			}
+
+		}
+	}
+	
+	// these configs are one time setup per test class
 	private void getTestCofigurationFromScript() {
 				
 		Testplan testPlan = getTestPlanObj();
@@ -113,14 +139,13 @@ public class TestngTestContext implements TestContext{
 		mobileDeviceName= testConfig.mobileDeviceName();
 		mobileCapabilitiesFileName = testConfig.mobileCapabilitiesFileName();
 		
-		// TODO : Need a validation, also some config to pass testname/id form TEP when run 1:1 mapping, this is useful for data driven testing
-		Test testAnnotation = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class);
-		if(testAnnotation!=null) {
-			String[] testNameArray = testAnnotation.testName().split(":");
-			testID = testNameArray[1];
-			testName = testNameArray[1];
-		}
-
+//		// TODO : Need a validation, also some config to pass testname/id form TEP when run 1:1 mapping, this is useful for data driven testing
+//		Test testAnnotation = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class);
+//		if(testAnnotation!=null) {
+//			String[] testNameArray = testAnnotation.testName().split(":");
+//			testID = testNameArray[1];
+//			testName = testNameArray[1];
+//		}
 				
 		testConfigurationContext = new TestConfigurationContext();
 		testConfigurationContext.setBaseUrl(baseUrl);		
