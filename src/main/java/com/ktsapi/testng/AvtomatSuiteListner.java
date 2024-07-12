@@ -27,6 +27,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	private String kandyTestPlanID;
 	private String kandyTestPlanAutmatedRunID;
 	private boolean isDryRun;
+	private boolean isOneToOneMapping;
 	private Long workspaceId = 1L;
     private long startTime;
 
