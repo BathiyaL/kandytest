@@ -41,6 +41,7 @@ public interface TestContext {
 	TestNGConfig getTestNGConfig();
 
 	boolean isDryrun();
+	boolean isOneToOneMap();
 
 	
 	Map<String,String> getTestLevelParametersMap();

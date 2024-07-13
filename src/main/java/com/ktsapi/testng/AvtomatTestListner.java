@@ -194,6 +194,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		xmlTestLevelParameterMap.put(TestSuiteParameters.PAGE_LOAD_TIMEOUT,
 				testContext.getCurrentXmlTest().getParameter(TestSuiteParameters.PAGE_LOAD_TIMEOUT));
 		xmlTestLevelParameterMap.put(TestSuiteParameters.BROWSER, testSuiteValidator.validateAndGetBrowserParameterValue());
+		xmlTestLevelParameterMap.put(TestSuiteParameters.IS_ONE_T0_ONE_MAPPING, testContext.getCurrentXmlTest().getParameter(TestSuiteParameters.IS_ONE_T0_ONE_MAPPING)); // TODO : NEED Validation, true, false or null
 
 	}
 

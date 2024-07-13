@@ -55,6 +55,7 @@ public class TestInitializr {
 	public static final String KANDY_CLIENT_TEST_PLAN_AUTOMATED_RUN_ID =  "__kandy.client.test.plan.automated.run.id";
 	
 	public static final String IS_DRY_RUN = "__is.dry.run"; 
+	public static final String IS_ONE_TO_ONE_MAPPING = "__is.one.to.one.mapping";
 	
 	protected static final ThreadLocal<Map<String, Object>> TEST_CACHE = new ThreadLocal<>();
 	

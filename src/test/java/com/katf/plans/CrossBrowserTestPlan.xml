@@ -9,28 +9,28 @@
     <parameter name="testPlanTemplateId" value="42" />  
 	<!-- <parameter name="testPlanRunId" value="12" /> -->
 	
-   <test name = "TC1_FirefoxTest">
+   <test name = "TC1:FirefoxTest">
 	   <parameter name="browser" value="firefox" />
       <classes>
       	<class name="com.katf.tests.TestKandyWebElementActionsWithPageObject" />
       </classes>
    </test>
    
-   <test name = "TC2_ChromeTest">
+   <test name = "TC2:ChromeTest">
 	   <parameter name="browser" value="chrome" />
       <classes>
          <class name="com.katf.tests.TestKandyWebElementActionsWithPageObject" />
       </classes>
    </test>
    
-   <test name = "TC3_ChromeHeadlessTest">
+   <test name = "TC3:ChromeHeadlessTest">
 	   <parameter name="browser" value="chrome_headless" />
       <classes>
          <class name="com.katf.tests.TestKandyWebElementActionsWithPageObject" />
       </classes>
    </test>
    
-   <test name = "TC4_FirefoxHeadlessTest">
+   <test name = "TC4:FirefoxHeadlessTest">
 	   <parameter name="browser" value="firefox_headless" />
       <classes>
          <class name="com.katf.tests.TestKandyWebElementActionsWithPageObject" />
