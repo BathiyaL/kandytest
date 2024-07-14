@@ -52,7 +52,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		suite.setAttribute(TestInitializr.TESTNG_CONFIG_OBJ, testNGConfig);  
 		
 		isDryRun = getIsDryRunForTestInstance(ktestConfig, suite);
-		isOneToOneMapping = getMappingType(ktestConfig, suite);
+		isOneToOneMapping = getMappingType(suite);
 
 		testMethods  = suite.getAllMethods();
 	    this.testCount = testMethods.size();
@@ -218,7 +218,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		}
 	} 
 	
-	private Boolean getMappingType(KTestConfig ktestConfig, ISuite suite) {
+	private Boolean getMappingType(ISuite suite) {
 		return Boolean.parseBoolean(suite.getXmlSuite().getParameter(TestSuiteParameters.IS_ONE_T0_ONE_MAPPING)); // DOC BL : if not define in TEP return default value true
 	}
 

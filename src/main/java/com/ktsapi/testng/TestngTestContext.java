@@ -101,7 +101,7 @@ public class TestngTestContext implements TestContext{
 			}
 		} else {
 			// getting testid from TEP is there better way to handle this
-			String[] nampeSplit = result.getTestContext().getName().split("\\."); //TestInitializr.getTestClassName().split("\\.");
+			String[] nampeSplit = result.getTestContext().getName().split("\\.");
 			String testClassName = nampeSplit[nampeSplit.length - 1];
 			if (testClassName.contains(testNameDelimeter) && testClassName.contains("TC")) {
 				testID = "TC-" + (testClassName.split(testNameDelimeter)[0].split("TC"))[1];

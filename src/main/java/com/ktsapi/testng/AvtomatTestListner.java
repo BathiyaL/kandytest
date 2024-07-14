@@ -40,7 +40,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	Map<String, String> xmlTestLevelParameterMap;
 	private long testCount = 0;
 
-	boolean postTestResult(TestResultStatus testResultStatus,ITestResult result) {
+	boolean postTestResult(TestResultStatus testResultStatus) {
 		
 		String ationLog = printAndGetActionLogger();
 		
@@ -181,7 +181,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	private void teatDownTest(ITestResult result, TestResultStatus testResultStatus) {
 		if (runner != null) {
 			if(!TestInitializr.getDryRunStatus()) {
-				postTestResult(testResultStatus,result);
+				postTestResult(testResultStatus);
 			}else {
 				printAndGetActionLogger();
 			}
