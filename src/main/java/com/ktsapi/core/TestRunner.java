@@ -47,7 +47,6 @@ public class TestRunner extends TestSession implements Runner{
 	}
 	
 	private void updateTestCache() {
-		String s = testContext.getTestID();
 		setTestName(testContext.getTestName());
 		setTestId(testContext.getTestID());
 	}

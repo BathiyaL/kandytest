@@ -9,23 +9,22 @@
     <parameter name="testPlanTemplateId" value="3" />  
 	<!-- <parameter name="testPlanRunId" value="12" /> -->
 	
-   <test name = "TestPass">
+   <test name = "TC2:TestPass">
       <classes>
          <class name = "com.katf.tests.clientsamples.TC2_TestPass" />
       </classes>
    </test>
    
-   <test name = "TestFail">
+   <test name = "TC1:TestFail">
       <classes>
          <class name = "com.katf.tests.clientsamples.TC1_TestFail" />
       </classes>
    </test>
    
-	<test name = "TestSkip">
+	<test name = "TC3:TestSkip">
       <classes>
          <class name = "com.katf.tests.clientsamples.TC3_TestSkip" />
       </classes>
    </test>
-
    
 </suite>	

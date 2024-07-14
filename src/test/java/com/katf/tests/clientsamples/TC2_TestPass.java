@@ -20,17 +20,17 @@ public class TC2_TestPass {
 	
 	@BeforeTest
 	public void goSite() {	 	 
-	      print("BeforeTest executed ........");	      
+	      print(": BeforeTest executed ........");	      
 	 }
 	
 	@BeforeTest(dependsOnMethods = {"goSite"})
 	public void login() {	      
-		print("BeforeTest login ........");		
+		print(": BeforeTest login ........");		
 	 }
 	
 	@Test
 	public void testMethod() {		
-		print("testMethod Pass ........");	
+		print(": testMethod Pass ........");	
 	}
 
 }

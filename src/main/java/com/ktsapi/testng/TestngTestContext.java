@@ -77,14 +77,7 @@ public class TestngTestContext implements TestContext{
 		
 		return desiredCapabilities;
 	}
-	
-//	private void updateInlineTestConfigs() {
-//		if(testConfigurationContext!=null) {
-//			setupInlineConfigs();
-//			testConfigurationContext.setTestName(testName);
-//			testConfigurationContext.setTestID(testID);
-//		}
-//	}
+
 	
 	// These configs are setup for each @Test
 	void setupInlineTestConfigs() {
@@ -153,14 +146,6 @@ public class TestngTestContext implements TestContext{
 		mobileApp = testConfig.mobileApp();
 		mobileDeviceName= testConfig.mobileDeviceName();
 		mobileCapabilitiesFileName = testConfig.mobileCapabilitiesFileName();
-		
-//		// TODO : Need a validation, also some config to pass testname/id form TEP when run 1:1 mapping, this is useful for data driven testing
-//		Test testAnnotation = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class);
-//		if(testAnnotation!=null) {
-//			String[] testNameArray = testAnnotation.testName().split(":");
-//			testID = testNameArray[1];
-//			testName = testNameArray[1];
-//		}
 				
 		testConfigurationContext = new TestConfigurationContext();
 		testConfigurationContext.setBaseUrl(baseUrl);		
@@ -377,7 +362,5 @@ public class TestngTestContext implements TestContext{
 		return false;
 
 	}
-
-
 
 }

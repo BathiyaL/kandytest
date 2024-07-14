@@ -17,8 +17,6 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.SkipException;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 import org.testng.xml.XmlSuite;
 
 import com.google.gson.Gson;
@@ -39,6 +37,8 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	private Runner runner = null;
 	LocalDateTime testExecutionStartTime;
+	Map<String, String> xmlTestLevelParameterMap;
+	private long testCount = 0;
 
 	boolean postTestResult(TestResultStatus testResultStatus,ITestResult result) {
 		
@@ -56,7 +56,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		testResultRequest.setExecutionCompletedTimestamp(
 				AvtomatUtils.localDateTimeStringFormat(AvtomatUtils.getCurretnTimeStamp()));
 		testResultRequest.setExecutionMode(TestInitializr.getTestConfiguration().getExecutionMode().toString());
-		testResultRequest.setExecutionNode("bladduwahetty");// TODO: for now hardcoded need to handle this
+		testResultRequest.setExecutionNode("TestNode1");// TODO: for now hardcoded. need to handle this
 		testResultRequest.setExecutionStartTimestamp(AvtomatUtils.localDateTimeStringFormat(testExecutionStartTime)); // Need to pass start time
 
 		testResultRequest.setTestName(TestInitializr.getTestName());
@@ -67,14 +67,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 		testResultRequest.setTestPlanId(TestInitializr.getKandyClientTestPlanId());
 		testResultRequest.setTestPlanAutomatedRunId(TestInitializr.getKandyClientTestPlanAutomatedRunId());
-		// getting testid from TEP is there better way to handle this
-//		String[] nampeSplit = result.getTestContext().getName().split("\\."); //TestInitializr.getTestClassName().split("\\.");
-//		String testClassName = nampeSplit[nampeSplit.length - 1];
-//		String testID = null;
-//		if (testClassName.contains("_") && testClassName.contains("TC")) {
-//			testID = "TC-" + (testClassName.split("\\_")[0].split("TC"))[1];
-//		}
-//		String testID = getTestIDFromTestName(result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class).testName());
 		
 		if(TestInitializr.getTesID().isEmpty()) {
 			ConfigLogger.logError("@TestSuite{ [KandyClient] => Cannot POST test result. Valid TestID is not provided under testName attribute in @Test");
@@ -82,10 +74,8 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		}
 		
 		testResultRequest.setTestCaseId(TestInitializr.getTesID());
-		// String testID = testClassName
 
-		// TODO : if we are execute form selenium grid we may need to pass relevant node
-		// ip
+		// TODO : if we execute from selenium grid we may need to pass relevant node, IP
 		String executionNode = AvtomatUtils.getWindowsLoggedInUser();
 		testResultRequest.setExecutionNode(executionNode);
 
@@ -97,23 +87,16 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 			}		
 		return false;
 	}
-	private String getTestIDFromTestName(String testName) {
-		if(testName!=null) {
-			return testName.split(":")[0];
-		}
-		return null;
-	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has failed");
 		saveFailureScreenshot();
-		//tearDownContext(result, TestResultStatus.Failed);
 		teatDownTest(result, TestResultStatus.Failed);
 	}
 	
 	private void saveFailureScreenshot() {
-		saveScreenshot("FailPoint");
+		saveScreenshot("FailedPoint");
 	}
 
 	@Override
@@ -121,14 +104,12 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has skipped");
 		// TODO: if there is a validation ERROR in test tag in suite (means before test start) no need to tearDown or do we need to log 
 		// result with validation ERROR
-		//tearDownContext(result, TestResultStatus.Skipped);
 		teatDownTest(result, TestResultStatus.Skipped);
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " is success");
-		//tearDownContext(result, TestResultStatus.Passed);
 		teatDownTest(result, TestResultStatus.Passed);
 		
 	}
@@ -141,16 +122,12 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	// @Override
 	public void onTestStart(ITestResult result) {
-		System.out.println("########################################-> + onTestStart");
 		/*
 		 * Not @beforeTest in the script hence @Test has to init the TestCache
 		 */
 		testExecutionStartTime = AvtomatUtils.getCurretnTimeStamp();
 		String testClassName = result.getMethod().getTestClass().getName();
 		logMethodStart("@Test", result.getMethod().getMethodName() + "()", testClassName);
-//		if (!isTestClassContaisAnnotation(result.getInstance().getClass(), BeforeTest.class)) {
-//			setupTestContext(result);
-//		}
 		setupTestContext(result);
 	}
 
@@ -169,14 +146,9 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	 * when we have multiple classes in a test tag in xml hence try beforeInvocation
 	 * or beforeConfiguration -
 	 */
-
-	Map<String, String> xmlTestLevelParameterMap;
-
 	@Override
 	public void onStart(ITestContext testContext) {
-
 		setXmlTestLevelParametersToMap(testContext);
-		//testExecutionStartTime = AvtomatUtils.getCurretnTimeStamp();
 		logMethodStart("@TestClass", "", testContext.getCurrentXmlTest().getName());
 	}
 
@@ -207,7 +179,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	}
 
 	private void teatDownTest(ITestResult result, TestResultStatus testResultStatus) {
-		System.out.println("#####################>> : " + result.getMethod().getDescription());
 		if (runner != null) {
 			if(!TestInitializr.getDryRunStatus()) {
 				postTestResult(testResultStatus,result);
@@ -219,25 +190,12 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	}
 	
 	private void tearDownContext() {
-//		if (runner != null) {
-//			if(!TestInitializr.getDryRunStatus()) {
-//				postTestResult(testResultStatus,result);
-//			}else {
-//				printAndGetActionLogger();
-//			}
-//			runner.end();
-//		}
 		if (runner != null) {
 			runner.end();
 		}
 	}
 
 	private void setupTestContext(ITestResult result) {
-
-//		if (TestInitializr.isTestCacheInUse()) {
-//			return;
-//		}
-		String mName = result.getMethod().getMethodName();
 		result.setAttribute(TestSuiteParameters.XML_TEST_LEVEL_MAP, xmlTestLevelParameterMap);
 		TestContext testContext = new TestngTestContext(result);
 		if (!testContext.hasTestConfigurationAnnotation()) {
@@ -296,9 +254,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	@Override
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-		//tearDownContext(result, TestResultStatus.Failed); // TODO : This test status need to check
-		teatDownTest(result, TestResultStatus.Failed);
-
+		teatDownTest(result, TestResultStatus.Failed);// TODO : This test status need to check
 	}
 
 	@Override
@@ -346,7 +302,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 				+ result.getMethod().getMethodName() + "()}";
 		return testMethodLogStr;
 	}
-	private long testCount = 0;
 
 	public void setTestCount(long testCount) {
 		this.testCount = testCount;
