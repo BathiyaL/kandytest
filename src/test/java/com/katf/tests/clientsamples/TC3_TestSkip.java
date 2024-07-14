@@ -21,18 +21,18 @@ public class TC3_TestSkip {
 	
 	@BeforeTest
 	public void goSite() {	 	 
-	      print("BeforeTest executed ........");	      
+	      print(": BeforeTest executed ........");	      
 	      Assert.assertEquals(true, false,"Fail on BeforeTest");
 	 }
 	
 	@BeforeTest(dependsOnMethods = {"goSite"})
 	public void login() {	      
-		print("BeforeTest login ........");		
+		print(": BeforeTest login ........");		
 	 }
 	
 	@Test
 	public void testMethod() {		
-		print("testMethod Pass ........");	
+		print(": testMethod Pass ........");	
 	}
 
 }

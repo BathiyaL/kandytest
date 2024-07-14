@@ -21,17 +21,17 @@ public class TC1_TestFail {
 	
 	@BeforeTest
 	public void goSite() {	 	 
-	      print("BeforeTest executed ........");	      
+	      print(": BeforeTest executed ........");	      
 	 }
 	
 	@BeforeTest(dependsOnMethods = {"goSite"})
 	public void login() {	      
-		print("BeforeTest login ........");		
+		print(": BeforeTest login ........");		
 	 }
 	
 	@Test
 	public void testMethod() {		
-		print("testMethod started ........");	
+		print(": testMethod started ........");	
 		Assert.assertEquals(true,false,"TC1 Fail");
 	}
 

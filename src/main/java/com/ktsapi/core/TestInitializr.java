@@ -28,7 +28,8 @@ public class TestInitializr {
 	public static final String TEST_PLAN_NAME = "__test.plan.name"; 
 	public static final String TOTOAL_TESTS_IN_TEST_PLAN_XML = "__total.tests.in.test.plan.xml"; 
 	public static final String TEST_CLASS_NAME = "__test.class.name";	
-	public static final String TEST_NAME = "__test.name";	
+	public static final String TEST_NAME = "__test.name";
+	public static final String TEST_ID = "__test.id";	
 	public static final String TEST_UUID = "_test.uuid";
 	public static final String TEST_EXECUTED_BY = "_test.executed.by";
 	public static final String WEB_DRIVER = "_web.driver";
@@ -54,6 +55,7 @@ public class TestInitializr {
 	public static final String KANDY_CLIENT_TEST_PLAN_AUTOMATED_RUN_ID =  "__kandy.client.test.plan.automated.run.id";
 	
 	public static final String IS_DRY_RUN = "__is.dry.run"; 
+	public static final String IS_ONE_TO_ONE_MAPPING = "__is.one.to.one.mapping";
 	
 	protected static final ThreadLocal<Map<String, Object>> TEST_CACHE = new ThreadLocal<>();
 	
@@ -70,6 +72,9 @@ public class TestInitializr {
     }
     public static void setTestName(String testName) {
     	set(TEST_NAME, testName);
+    }
+    public static void setTestId(String testID) {
+    	set(TEST_ID, testID);
     }
     public static void setTestPlanName(String testPlanName) {
     	set(TEST_PLAN_NAME, testPlanName);
@@ -124,6 +129,9 @@ public class TestInitializr {
     }
     public static String getTestName() {
     	return get(TEST_NAME);
+    }
+    public static String getTesID() {
+    	return get(TEST_ID);
     }
     public static String getTestPlanName() {
     	return get(TEST_PLAN_NAME);
@@ -273,7 +281,9 @@ public class TestInitializr {
     	return null; // TODO : handle meaningful exception
     }
 
-    
+    public static void resetActionsList(){
+    	set(TEST_ACTION_LIST,null);
+    }
     
     public static List<Object> getTestActionsList(){
     	if(isTestCacheInUse()){

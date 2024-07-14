@@ -17,6 +17,7 @@ public class TestSuiteParameters {
 	public static final String TEST_PLAN_RUN_ID = "testPlanRunId";
 	public static final String IS_DRY_RUN = "isDryRun";
 	public static final String UNDEFINED = "UNDEFINED";
+	public static final String 	IS_ONE_T0_ONE_MAPPING = "isOneToOneMapping";
 
 	
 }

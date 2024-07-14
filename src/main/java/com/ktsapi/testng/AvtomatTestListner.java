@@ -1,38 +1,22 @@
 package com.ktsapi.testng;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import static com.ktsapi.CommonActions.saveScreenshot;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.testng.IClass;
 import org.testng.IConfigurationListener2;
 import org.testng.IReporter;
 import org.testng.ISuite;
-import org.testng.ISuiteResult;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.SkipException;
-import org.testng.annotations.BeforeTest;
 import org.testng.xml.XmlSuite;
 
 import com.google.gson.Gson;
@@ -48,14 +32,15 @@ import com.ktsapi.enums.TestResultStatus;
 import com.ktsapi.kclient.KandyClientApiCaller;
 import com.ktsapi.testng.reports.CustomReportGenerator;
 import com.ktsapi.utils.AvtomatUtils;
-import static com.ktsapi.CommonActions.saveScreenshot;
 
 public class AvtomatTestListner implements ITestListener, IConfigurationListener2, IReporter {
 
 	private Runner runner = null;
 	LocalDateTime testExecutionStartTime;
+	Map<String, String> xmlTestLevelParameterMap;
+	private long testCount = 0;
 
-	boolean postTestResult(TestResultStatus testResultStatus,ITestResult result) {
+	boolean postTestResult(TestResultStatus testResultStatus) {
 		
 		String ationLog = printAndGetActionLogger();
 		
@@ -71,7 +56,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		testResultRequest.setExecutionCompletedTimestamp(
 				AvtomatUtils.localDateTimeStringFormat(AvtomatUtils.getCurretnTimeStamp()));
 		testResultRequest.setExecutionMode(TestInitializr.getTestConfiguration().getExecutionMode().toString());
-		testResultRequest.setExecutionNode("bladduwahetty");// TODO: for now hardcoded need to handle this
+		testResultRequest.setExecutionNode("TestNode1");// TODO: for now hardcoded. need to handle this
 		testResultRequest.setExecutionStartTimestamp(AvtomatUtils.localDateTimeStringFormat(testExecutionStartTime)); // Need to pass start time
 
 		testResultRequest.setTestName(TestInitializr.getTestName());
@@ -82,18 +67,15 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 		testResultRequest.setTestPlanId(TestInitializr.getKandyClientTestPlanId());
 		testResultRequest.setTestPlanAutomatedRunId(TestInitializr.getKandyClientTestPlanAutomatedRunId());
-		// getting testid from TEP is there better way to handle this
-		String[] nampeSplit = result.getTestContext().getName().split("\\."); //TestInitializr.getTestClassName().split("\\.");
-		String testClassName = nampeSplit[nampeSplit.length - 1];
-		String testID = null;
-		if (testClassName.contains("_") && testClassName.contains("TC")) {
-			testID = "TC-" + (testClassName.split("\\_")[0].split("TC"))[1];
+		
+		if(TestInitializr.getTesID().isEmpty()) {
+			ConfigLogger.logError("@TestSuite{ [KandyClient] => Cannot POST test result. Valid TestID is not provided under testName attribute in @Test");
+			return false; // cannot post result if testID is empty
 		}
-		testResultRequest.setTestCaseId(testID);
-		// String testID = testClassName
+		
+		testResultRequest.setTestCaseId(TestInitializr.getTesID());
 
-		// TODO : if we are execute form selenium grid we may need to pass relevant node
-		// ip
+		// TODO : if we execute from selenium grid we may need to pass relevant node, IP
 		String executionNode = AvtomatUtils.getWindowsLoggedInUser();
 		testResultRequest.setExecutionNode(executionNode);
 
@@ -110,11 +92,11 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	public void onTestFailure(ITestResult result) {
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has failed");
 		saveFailureScreenshot();
-		tearDownContext(result, TestResultStatus.Failed);
+		teatDownTest(TestResultStatus.Failed);
 	}
 	
 	private void saveFailureScreenshot() {
-		saveScreenshot("FailPoint");
+		saveScreenshot("FailedPoint");
 	}
 
 	@Override
@@ -122,13 +104,14 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has skipped");
 		// TODO: if there is a validation ERROR in test tag in suite (means before test start) no need to tearDown or do we need to log 
 		// result with validation ERROR
-		tearDownContext(result, TestResultStatus.Skipped);
+		teatDownTest(TestResultStatus.Skipped);
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " is success");
-		tearDownContext(result, TestResultStatus.Passed);
+		teatDownTest(TestResultStatus.Passed);
+		
 	}
 
 	private String getTestMethodFromITResult(ITestResult result) {
@@ -142,11 +125,10 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		/*
 		 * Not @beforeTest in the script hence @Test has to init the TestCache
 		 */
+		testExecutionStartTime = AvtomatUtils.getCurretnTimeStamp();
 		String testClassName = result.getMethod().getTestClass().getName();
 		logMethodStart("@Test", result.getMethod().getMethodName() + "()", testClassName);
-		if (!isTestClassContaisAnnotation(result.getInstance().getClass(), BeforeTest.class)) {
-			setupTestContext(result);
-		}
+		setupTestContext(result);
 	}
 
 	boolean isTestClassContaisAnnotation(Class<? extends Object> clazz, final Class<? extends Annotation> annotation) {
@@ -164,14 +146,9 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	 * when we have multiple classes in a test tag in xml hence try beforeInvocation
 	 * or beforeConfiguration -
 	 */
-
-	Map<String, String> xmlTestLevelParameterMap;
-
 	@Override
 	public void onStart(ITestContext testContext) {
-
 		setXmlTestLevelParametersToMap(testContext);
-		testExecutionStartTime = AvtomatUtils.getCurretnTimeStamp();
 		logMethodStart("@TestClass", "", testContext.getCurrentXmlTest().getName());
 	}
 
@@ -189,6 +166,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		xmlTestLevelParameterMap.put(TestSuiteParameters.PAGE_LOAD_TIMEOUT,
 				testContext.getCurrentXmlTest().getParameter(TestSuiteParameters.PAGE_LOAD_TIMEOUT));
 		xmlTestLevelParameterMap.put(TestSuiteParameters.BROWSER, testSuiteValidator.validateAndGetBrowserParameterValue());
+		xmlTestLevelParameterMap.put(TestSuiteParameters.IS_ONE_T0_ONE_MAPPING, testContext.getCurrentXmlTest().getParameter(TestSuiteParameters.IS_ONE_T0_ONE_MAPPING)); // TODO : NEED Validation, true, false or null
 
 	}
 
@@ -200,22 +178,24 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		}
 	}
 
-	private void tearDownContext(ITestResult result, TestResultStatus testResultStatus) {
+	private void teatDownTest(TestResultStatus testResultStatus) {
 		if (runner != null) {
 			if(!TestInitializr.getDryRunStatus()) {
-				postTestResult(testResultStatus,result);
+				postTestResult(testResultStatus);
 			}else {
 				printAndGetActionLogger();
 			}
+		}
+		TestInitializr.resetActionsList();
+	}
+	
+	private void tearDownContext() {
+		if (runner != null) {
 			runner.end();
 		}
 	}
 
 	private void setupTestContext(ITestResult result) {
-
-		if (TestInitializr.isTestCacheInUse()) {
-			return;
-		}
 		result.setAttribute(TestSuiteParameters.XML_TEST_LEVEL_MAP, xmlTestLevelParameterMap);
 		TestContext testContext = new TestngTestContext(result);
 		if (!testContext.hasTestConfigurationAnnotation()) {
@@ -225,24 +205,34 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		// Setting data to TestCache
 		runner = new TestRunner(testContext);
 		runner.start(); // Open/Init TestCache map in TestInitializr
+		setupInitialLog();
 
-		String log = "\n#################### Test Startup Configuration #####################\n" + "Test Suite : "
-				+ TestInitializr.getTestPlanName() + "["
-				+ TestInitializr.getTestSuiteFilePath().getFileName().toString() + "]" + "\n" + "Test Name : "
-				+ TestInitializr.getTestName() + "\n" + "Test Class : " + TestInitializr.getTestClassName() + "\n"
-				+ "baseUrl : " + TestInitializr.getTestConfiguration().getBaseUrl() + "\n" + "testDriver : "
-				+ TestInitializr.getTestConfiguration().getTestDriver() + "\n" + "browser : "
-				+ TestInitializr.getTestConfiguration().getBrowser() + "\n" + "Running OS : "
-				+ AvtomatUtils.getOS() + "\n"
-				+ "implicitlyWaitTime : " + TestInitializr.getImplicitlyWaitTime() + "\n" + "pageLoadTimeout : "
-				+ TestInitializr.getPageLoadTimeout() + "\n" + "scriptTimeout : " + TestInitializr.getScriptTimeout()
-				+ "\n" + "######################################################################";
-		ConfigLogger.logInfo(log);
+	}
+	private boolean isInitialLogSetup = false;
+	
+	private void setupInitialLog() {
+		if(!isInitialLogSetup) {
+			String log = "\n#################### Test Startup Configuration #####################\n" + "Test Suite : "
+					+ TestInitializr.getTestPlanName() + "["
+					+ TestInitializr.getTestSuiteFilePath().getFileName().toString() + "]" + "\n" + "Test Name : "
+					+ TestInitializr.getTestName() + "\n" + "Test Class : " + TestInitializr.getTestClassName() + "\n"
+					+ "baseUrl : " + TestInitializr.getTestConfiguration().getBaseUrl() + "\n" + "testDriver : "
+					+ TestInitializr.getTestConfiguration().getTestDriver() + "\n" + "browser : "
+					+ TestInitializr.getTestConfiguration().getBrowser() + "\n" + "Running OS : "
+					+ AvtomatUtils.getOS() + "\n"
+					+ "implicitlyWaitTime : " + TestInitializr.getImplicitlyWaitTime() + "\n" + "pageLoadTimeout : "
+					+ TestInitializr.getPageLoadTimeout() + "\n" + "scriptTimeout : " + TestInitializr.getScriptTimeout()
+					+ "\n" + "######################################################################";
+			ConfigLogger.logInfo(log);
+			isInitialLogSetup = true;
+		}
+
 	}
 
 	@Override
 	public void onFinish(ITestContext context) {
 		ConfigLogger.logInfo("@TestClass{" + context.getCurrentXmlTest().getName() + "} execution has finished. \n");
+		tearDownContext();
 	}
 
 	/*
@@ -264,8 +254,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	@Override
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-		tearDownContext(result, TestResultStatus.Failed); // TODO : This test status need to check
-
+		teatDownTest(TestResultStatus.Failed);// TODO : This test status need to check
 	}
 
 	@Override
@@ -313,7 +302,6 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 				+ result.getMethod().getMethodName() + "()}";
 		return testMethodLogStr;
 	}
-	private long testCount = 0;
 
 	public void setTestCount(long testCount) {
 		this.testCount = testCount;

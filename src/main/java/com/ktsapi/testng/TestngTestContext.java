@@ -7,6 +7,7 @@ import java.util.Map;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestResult;
+import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ktsapi.actions.core.ConfigLogger;
@@ -30,6 +31,7 @@ public class TestngTestContext implements TestContext{
 	
 	public TestngTestContext(final ITestResult result) {
 		this.result = result;
+		setupInlineTestConfigs();
 	}
 
 	/*
@@ -43,6 +45,8 @@ public class TestngTestContext implements TestContext{
 	String browserversion = null;
 	Platform platform = Platform.ANY;
 	String chromeOptions[];
+	String testName = "";
+	String testID = "";
 	
 	// Avotomat attributes
 	TestDriver testDriver;
@@ -73,7 +77,40 @@ public class TestngTestContext implements TestContext{
 		
 		return desiredCapabilities;
 	}
+
 	
+	// These configs are setup for each @Test
+	void setupInlineTestConfigs() {
+		setTestIDAndName();
+	}
+	
+	private void setTestIDAndName() {
+		
+		final String testNameDelimeter = ":";
+		
+		if(isOneToOneMap()) {
+			Test testAnnotation = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class);
+			if(testAnnotation!=null) {
+				String[] testNameArray = testAnnotation.testName().split(testNameDelimeter);
+				if(testNameArray.length==2) {
+					testID = testNameArray[0];
+					testName = testNameArray[1];
+				} else {
+					testName =testAnnotation.testName();
+				}
+			}
+		} else {
+			// getting testid from TEP is there better way to handle this
+			String[] nampeSplit = result.getTestContext().getName().split("\\.");
+			String testClassName = nampeSplit[nampeSplit.length - 1];
+			if (testClassName.contains(testNameDelimeter) && testClassName.contains("TC")) {
+				testID = "TC-" + (testClassName.split(testNameDelimeter)[0].split("TC"))[1];
+				testName = testClassName.split(testNameDelimeter)[1];
+			}
+		}
+	}
+	
+	// these configs are one time setup per test class
 	private void getTestCofigurationFromScript() {
 				
 		Testplan testPlan = getTestPlanObj();
@@ -109,7 +146,6 @@ public class TestngTestContext implements TestContext{
 		mobileApp = testConfig.mobileApp();
 		mobileDeviceName= testConfig.mobileDeviceName();
 		mobileCapabilitiesFileName = testConfig.mobileCapabilitiesFileName();
-		
 				
 		testConfigurationContext = new TestConfigurationContext();
 		testConfigurationContext.setBaseUrl(baseUrl);		
@@ -127,6 +163,9 @@ public class TestngTestContext implements TestContext{
 		testConfigurationContext.setMobileApp(mobileApp);
 		testConfigurationContext.setMobileDeviceName(mobileDeviceName);
 		testConfigurationContext.setMobileCapabilitiesFileName(mobileCapabilitiesFileName);
+		
+		testConfigurationContext.setTestName(testName);
+		testConfigurationContext.setTestID(testID);
 
 		String testInstanceName = result.getInstanceName();
 		testConfigurationContext.setTestClassName(testInstanceName.substring(testInstanceName.lastIndexOf('.') + 1));
@@ -243,7 +282,12 @@ public class TestngTestContext implements TestContext{
 	// test name in suit 
 	@Override
 	public String getTestName() {	
-		return result.getTestContext().getName();
+		return this.testName;
+	}
+	
+	@Override
+	public String getTestID() {
+		return this.testID;
 	}
 
 	@Override
@@ -302,6 +346,21 @@ public class TestngTestContext implements TestContext{
 	@Override
 	public TestNGConfig getTestNGConfig() {
 		return (TestNGConfig)result.getTestContext().getSuite().getAttribute(TestInitializr.TESTNG_CONFIG_OBJ);
+	}
+
+	@Override
+	public boolean isOneToOneMap() {
+		
+		boolean headerParm = (Boolean)result.getTestContext().getSuite().getAttribute(TestInitializr.IS_ONE_TO_ONE_MAPPING);
+		if(headerParm) return headerParm; // give priority to header level parameter
+		
+		@SuppressWarnings("unchecked")
+		String testLevelParm = ((Map<String, String>) result.getAttribute(TestSuiteParameters.XML_TEST_LEVEL_MAP)).get(TestSuiteParameters.IS_ONE_T0_ONE_MAPPING);
+
+		if(testLevelParm!=null) return Boolean.parseBoolean(testLevelParm);  
+		
+		return false;
+
 	}
 
 }

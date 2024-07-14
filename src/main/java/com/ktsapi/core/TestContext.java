@@ -33,6 +33,7 @@ public interface TestContext {
 	String getKandyClientTestPlanId();
 	String getKandyClientTestPlanAutomatedRunId();
 	String getTestName();
+	String getTestID();
 	
 	Testplan getTestPlanObj();
 	KTestConfig getTestConfigObj();
@@ -40,6 +41,7 @@ public interface TestContext {
 	TestNGConfig getTestNGConfig();
 
 	boolean isDryrun();
+	boolean isOneToOneMap();
 
 	
 	Map<String,String> getTestLevelParametersMap();

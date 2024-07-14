@@ -13,6 +13,8 @@ public class TestRunner extends TestSession implements Runner{
 		if(!isTestCacheInUse()) {
 			TestSession.open(testContext);
 			setTestContextToTestCache();			
+		}else {
+			updateTestCache();
 		}
 	}
 	
@@ -31,6 +33,7 @@ public class TestRunner extends TestSession implements Runner{
 		setTestSuiteFilePath(testContext.getTestSuiteFilePath());
 		setTestClassName(testContext.getTestClassName());
 		setTestName(testContext.getTestName());
+		setTestId(testContext.getTestID());
 		setTestPlanName(testContext.getTestPlanName());
 		setTestPlanUUID(testContext.getTestPlanUUID());
 		setKandyClientTestPlanId(testContext.getKandyClientTestPlanId());
@@ -41,6 +44,11 @@ public class TestRunner extends TestSession implements Runner{
 		setSysConfigObj(testContext.getSysConfigObj());
 		setDryRunStatus(testContext.isDryrun());
 		setTestNGConfigObj(testContext.getTestNGConfig());
+	}
+	
+	private void updateTestCache() {
+		setTestName(testContext.getTestName());
+		setTestId(testContext.getTestID());
 	}
 
 	@Override

@@ -27,6 +27,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	private String kandyTestPlanID;
 	private String kandyTestPlanAutmatedRunID;
 	private boolean isDryRun;
+	private boolean isOneToOneMapping;
 	private Long workspaceId = 1L;
     private long startTime;
 
@@ -51,9 +52,10 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 		suite.setAttribute(TestInitializr.TESTNG_CONFIG_OBJ, testNGConfig);  
 		
 		isDryRun = getIsDryRunForTestInstance(ktestConfig, suite);
+		isOneToOneMapping = getMappingType(suite);
 
-		 testMethods  = suite.getAllMethods();
-	     this.testCount = testMethods.size();
+		testMethods  = suite.getAllMethods();
+	    this.testCount = testMethods.size();
 	     
 	     // init TestPlan object
 	     String testPlanUUID = AvtomatUtils.getUUID();
@@ -97,6 +99,7 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 	     suite.setAttribute(TestInitializr.TOTOAL_TESTS_IN_TEST_PLAN_XML, this.testCount);
 	     suite.setAttribute(TestInitializr.TEST_PLAN_OBJ, testPlan);
 	     suite.setAttribute(TestInitializr.IS_DRY_RUN, isDryRun);
+	     suite.setAttribute(TestInitializr.IS_ONE_TO_ONE_MAPPING, isOneToOneMapping);
 	     
 	     if(!isDryRun && !testPlan.getTestPlanName().equals("Default suite")) {
 		     handleKandyClientAPI(suite,getTestPlanRequestForKandyclient(ktestConfig));
@@ -214,6 +217,10 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 			return tepParameterValue ;
 		}
 	} 
+	
+	private Boolean getMappingType(ISuite suite) {
+		return Boolean.parseBoolean(suite.getXmlSuite().getParameter(TestSuiteParameters.IS_ONE_T0_ONE_MAPPING)); // DOC BL : if not define in TEP return default value true
+	}
 
 	@Override
 	public void onFinish(ISuite suite) {
