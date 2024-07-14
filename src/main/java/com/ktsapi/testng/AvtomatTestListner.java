@@ -92,7 +92,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 	public void onTestFailure(ITestResult result) {
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has failed");
 		saveFailureScreenshot();
-		teatDownTest(result, TestResultStatus.Failed);
+		teatDownTest(TestResultStatus.Failed);
 	}
 	
 	private void saveFailureScreenshot() {
@@ -104,13 +104,13 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " has skipped");
 		// TODO: if there is a validation ERROR in test tag in suite (means before test start) no need to tearDown or do we need to log 
 		// result with validation ERROR
-		teatDownTest(result, TestResultStatus.Skipped);
+		teatDownTest(TestResultStatus.Skipped);
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
 		ConfigLogger.logInfo(getTestMethodFromITResult(result) + " is success");
-		teatDownTest(result, TestResultStatus.Passed);
+		teatDownTest(TestResultStatus.Passed);
 		
 	}
 
@@ -178,7 +178,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 		}
 	}
 
-	private void teatDownTest(ITestResult result, TestResultStatus testResultStatus) {
+	private void teatDownTest(TestResultStatus testResultStatus) {
 		if (runner != null) {
 			if(!TestInitializr.getDryRunStatus()) {
 				postTestResult(testResultStatus);
