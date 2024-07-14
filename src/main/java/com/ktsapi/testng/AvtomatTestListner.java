@@ -254,7 +254,7 @@ public class AvtomatTestListner implements ITestListener, IConfigurationListener
 
 	@Override
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-		teatDownTest(result, TestResultStatus.Failed);// TODO : This test status need to check
+		teatDownTest(TestResultStatus.Failed);// TODO : This test status need to check
 	}
 
 	@Override
