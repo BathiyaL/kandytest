@@ -83,6 +83,7 @@ public class CustomReportGenerator {
 			Set<ITestResult> passedTests = testContext.getPassedTests().getAllResults();
 			Set<ITestResult> skippedTests = testContext.getSkippedTests().getAllResults();		
 			String suiteName = suite.getName();
+			//e.getValue().getTestContext().getmeth
 
 			return Stream.of(failedTests, passedTests, skippedTests)
 					.flatMap(results -> generateReportRows(e.getKey(), suiteName, results).stream());
@@ -97,19 +98,21 @@ public class CustomReportGenerator {
 		return testResult -> {
 			
 			String fullyQualifiedName = testResult.getTestClass().getName();
+//			String testClassName = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".")+1);
+//			String testGroup = testName;
 			String testClassName = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".")+1);
-			String testGroup = testName;
+			//String testGroup = testName;
 			
 			switch (testResult.getStatus()) {
 			case ITestResult.FAILURE:
-				return String.format(ROW_TEMPLATE, testGroup, testClassName, "bg-danger", "FAILED", "NA");
+				return String.format(ROW_TEMPLATE, testClassName, testResult.getMethod().getMethodName(), "bg-danger", "FAILED", "NA");
 
 			case ITestResult.SUCCESS:
-				return String.format(ROW_TEMPLATE, testGroup, testClassName, "bg-success", "PASSED",
+				return String.format(ROW_TEMPLATE, testClassName, testResult.getMethod().getMethodName(), "bg-success", "PASSED",
 						String.valueOf(testResult.getEndMillis() - testResult.getStartMillis()));
 
 			case ITestResult.SKIP:
-				return String.format(ROW_TEMPLATE,testGroup, testClassName, "bg-warning", "SKIPPED","NA");
+				return String.format(ROW_TEMPLATE, testClassName, testResult.getMethod().getMethodName(), "bg-warning", "SKIPPED","NA");
 
 			default:
 				return "";
