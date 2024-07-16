@@ -12,16 +12,15 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
-
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.core.Const;
 import com.ktsapi.testng.AvtomatTestListner;
+import com.ktsapi.testng.TestNgUtil;
 import com.ktsapi.utils.AvtomatUtils;
 
 public class CustomReportGenerator {
@@ -83,7 +82,6 @@ public class CustomReportGenerator {
 			Set<ITestResult> passedTests = testContext.getPassedTests().getAllResults();
 			Set<ITestResult> skippedTests = testContext.getSkippedTests().getAllResults();		
 			String suiteName = suite.getName();
-			//e.getValue().getTestContext().getmeth
 
 			return Stream.of(failedTests, passedTests, skippedTests)
 					.flatMap(results -> generateReportRows(e.getKey(), suiteName, results).stream());
@@ -91,28 +89,25 @@ public class CustomReportGenerator {
 	}
 
 	private List<String> generateReportRows(String testName, String suiteName, Set<ITestResult> allTestResults) {
-		return allTestResults.stream().map(testResultToResultRow(testName, suiteName)).toList();
+		return allTestResults.stream().map(testResultToResultRow(suiteName)).toList();
 	}
 
-	private Function<ITestResult, String> testResultToResultRow(String testName, String suiteName) {
+	private Function<ITestResult, String> testResultToResultRow(String suiteName) {
 		return testResult -> {
-			
 			String fullyQualifiedName = testResult.getTestClass().getName();
-//			String testClassName = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".")+1);
-//			String testGroup = testName;
 			String testClassName = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".")+1);
-			//String testGroup = testName;
-			
+			String testName = TestNgUtil.getTestID(testResult) + " : " + TestNgUtil.getTestName(testResult);
+
 			switch (testResult.getStatus()) {
 			case ITestResult.FAILURE:
-				return String.format(ROW_TEMPLATE, testClassName, testResult.getMethod().getMethodName(), "bg-danger", "FAILED", "NA");
+				return String.format(ROW_TEMPLATE, testClassName, testName, "bg-danger", "FAILED", "NA");
 
 			case ITestResult.SUCCESS:
-				return String.format(ROW_TEMPLATE, testClassName, testResult.getMethod().getMethodName(), "bg-success", "PASSED",
+				return String.format(ROW_TEMPLATE, testClassName, testName, "bg-success", "PASSED",
 						String.valueOf(testResult.getEndMillis() - testResult.getStartMillis()));
 
 			case ITestResult.SKIP:
-				return String.format(ROW_TEMPLATE, testClassName, testResult.getMethod().getMethodName(), "bg-warning", "SKIPPED","NA");
+				return String.format(ROW_TEMPLATE, testClassName, testName, "bg-warning", "SKIPPED","NA");
 
 			default:
 				return "";
