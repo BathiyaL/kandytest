@@ -42,11 +42,11 @@ public class TestNgUtil {
 		}
 	}
 
-	public String getTestName(ITestResult result) {
+	public String getTestName() {
 		return testName;
 	}
 	
-	public String getTestID(ITestResult result) {
+	public String getTestID() {
 		return testID;
 	}
 	

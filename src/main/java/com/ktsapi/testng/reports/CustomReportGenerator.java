@@ -97,7 +97,7 @@ public class CustomReportGenerator {
 			String fullyQualifiedName = testResult.getTestClass().getName();
 			String testClassName = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".")+1);
 			TestNgUtil testngUtil = new TestNgUtil(testResult);
-			String testName = testngUtil.getTestID(testResult) + " : " + testngUtil.getTestName(testResult);
+			String testName = testngUtil.getTestID() + " : " + testngUtil.getTestName();
 
 			switch (testResult.getStatus()) {
 			case ITestResult.FAILURE:
