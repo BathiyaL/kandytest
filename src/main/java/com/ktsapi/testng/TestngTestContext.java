@@ -7,8 +7,6 @@ import java.util.Map;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestResult;
-import org.testng.annotations.Test;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.annotation.TestConfiguration;
@@ -85,29 +83,9 @@ public class TestngTestContext implements TestContext{
 	}
 	
 	private void setTestIDAndName() {
-		
-		final String testNameDelimeter = ":";
-		
-		if(isOneToOneMap()) {
-			Test testAnnotation = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class);
-			if(testAnnotation!=null) {
-				String[] testNameArray = testAnnotation.testName().split(testNameDelimeter);
-				if(testNameArray.length==2) {
-					testID = testNameArray[0];
-					testName = testNameArray[1];
-				} else {
-					testName =testAnnotation.testName();
-				}
-			}
-		} else {
-			// getting testid from TEP is there better way to handle this
-			String[] nampeSplit = result.getTestContext().getName().split("\\.");
-			String testClassName = nampeSplit[nampeSplit.length - 1];
-			if (testClassName.contains(testNameDelimeter) && testClassName.contains("TC")) {
-				testID = "TC-" + (testClassName.split(testNameDelimeter)[0].split("TC"))[1];
-				testName = testClassName.split(testNameDelimeter)[1];
-			}
-		}
+		TestNgUtil testNgUtil = new TestNgUtil(result);
+		testID = testNgUtil.getTestID();
+		testName = testNgUtil.getTestName();
 	}
 	
 	// these configs are one time setup per test class

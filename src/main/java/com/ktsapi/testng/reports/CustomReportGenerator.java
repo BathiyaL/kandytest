@@ -12,16 +12,15 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.testng.ISuite;
 import org.testng.ISuiteResult;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
-
 import com.ktsapi.actions.core.ConfigLogger;
 import com.ktsapi.core.Const;
 import com.ktsapi.testng.AvtomatTestListner;
+import com.ktsapi.testng.TestNgUtil;
 import com.ktsapi.utils.AvtomatUtils;
 
 public class CustomReportGenerator {
@@ -72,44 +71,43 @@ public class CustomReportGenerator {
 	}
 
 	private Function<ISuite, Stream<? extends String>> suiteToResults() {
-		return suite -> suite.getResults().entrySet().stream().flatMap(resultsToRows(suite));
+		return suite -> suite.getResults().entrySet().stream().flatMap(resultsToRows());
 	}
 
-	private Function<Map.Entry<String, ISuiteResult>, Stream<? extends String>> resultsToRows(ISuite suite) {
+	private Function<Map.Entry<String, ISuiteResult>, Stream<? extends String>> resultsToRows() {
 		return e -> {
 			ITestContext testContext = e.getValue().getTestContext();
 
 			Set<ITestResult> failedTests = testContext.getFailedTests().getAllResults();
 			Set<ITestResult> passedTests = testContext.getPassedTests().getAllResults();
 			Set<ITestResult> skippedTests = testContext.getSkippedTests().getAllResults();		
-			String suiteName = suite.getName();
 
 			return Stream.of(failedTests, passedTests, skippedTests)
-					.flatMap(results -> generateReportRows(e.getKey(), suiteName, results).stream());
+					.flatMap(results -> generateReportRows(results).stream());
 		};
 	}
 
-	private List<String> generateReportRows(String testName, String suiteName, Set<ITestResult> allTestResults) {
-		return allTestResults.stream().map(testResultToResultRow(testName, suiteName)).toList();
+	private List<String> generateReportRows(Set<ITestResult> allTestResults) {
+		return allTestResults.stream().map(testResultToResultRow()).toList();
 	}
 
-	private Function<ITestResult, String> testResultToResultRow(String testName, String suiteName) {
+	private Function<ITestResult, String> testResultToResultRow() {
 		return testResult -> {
-			
 			String fullyQualifiedName = testResult.getTestClass().getName();
 			String testClassName = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".")+1);
-			String testGroup = testName;
-			
+			TestNgUtil testngUtil = new TestNgUtil(testResult);
+			String testName = testngUtil.getTestID() + " : " + testngUtil.getTestName();
+
 			switch (testResult.getStatus()) {
 			case ITestResult.FAILURE:
-				return String.format(ROW_TEMPLATE, testGroup, testClassName, "bg-danger", "FAILED", "NA");
+				return String.format(ROW_TEMPLATE, testClassName, testName, "bg-danger", "FAILED", "NA");
 
 			case ITestResult.SUCCESS:
-				return String.format(ROW_TEMPLATE, testGroup, testClassName, "bg-success", "PASSED",
+				return String.format(ROW_TEMPLATE, testClassName, testName, "bg-success", "PASSED",
 						String.valueOf(testResult.getEndMillis() - testResult.getStartMillis()));
 
 			case ITestResult.SKIP:
-				return String.format(ROW_TEMPLATE,testGroup, testClassName, "bg-warning", "SKIPPED","NA");
+				return String.format(ROW_TEMPLATE, testClassName, testName, "bg-warning", "SKIPPED","NA");
 
 			default:
 				return "";
