@@ -81,14 +81,13 @@ public class CustomReportGenerator {
 			Set<ITestResult> failedTests = testContext.getFailedTests().getAllResults();
 			Set<ITestResult> passedTests = testContext.getPassedTests().getAllResults();
 			Set<ITestResult> skippedTests = testContext.getSkippedTests().getAllResults();		
-			String suiteName = suite.getName();
 
 			return Stream.of(failedTests, passedTests, skippedTests)
-					.flatMap(results -> generateReportRows(suiteName, results).stream());
+					.flatMap(results -> generateReportRows(results).stream());
 		};
 	}
 
-	private List<String> generateReportRows(String suiteName, Set<ITestResult> allTestResults) {
+	private List<String> generateReportRows(Set<ITestResult> allTestResults) {
 		return allTestResults.stream().map(testResultToResultRow()).toList();
 	}
 
