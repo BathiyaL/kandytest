@@ -71,10 +71,10 @@ public class CustomReportGenerator {
 	}
 
 	private Function<ISuite, Stream<? extends String>> suiteToResults() {
-		return suite -> suite.getResults().entrySet().stream().flatMap(resultsToRows(suite));
+		return suite -> suite.getResults().entrySet().stream().flatMap(resultsToRows());
 	}
 
-	private Function<Map.Entry<String, ISuiteResult>, Stream<? extends String>> resultsToRows(ISuite suite) {
+	private Function<Map.Entry<String, ISuiteResult>, Stream<? extends String>> resultsToRows() {
 		return e -> {
 			ITestContext testContext = e.getValue().getTestContext();
 
