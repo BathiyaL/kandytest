@@ -170,12 +170,8 @@ public class AvtomatSuiteListner implements ISuiteListener  {
 					suite.setAttribute(TestInitializr.KANDY_CLIENT_TEST_PLAN_ID, "UNDEFINED");
 				}
 
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				ConfigLogger.logError("Error occurred while trying to handle Kandy Client API."); 
 			}
 		}else {
 			ConfigLogger.logError("Validation Error : DryRun=True but testPlanTemplateId or testPlanRunId parameters are not found in test suite xml"); 
