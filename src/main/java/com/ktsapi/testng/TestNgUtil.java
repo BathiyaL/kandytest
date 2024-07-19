@@ -8,8 +8,8 @@ import com.ktsapi.contexts.TestSuiteParameters;
 import com.ktsapi.core.TestInitializr;
 
 public class TestNgUtil {
-	public static final String testNameDelimeter = ":";
-	public static final String testIDPrefix = "TC-";
+	public static final String TEST_NAME_DELIMETER = ":";
+	public static final String TEST_ID_PREFIX = "TC-";
 	private ITestResult result;
 	private String testID;
 	private String testName;
@@ -23,7 +23,7 @@ public class TestNgUtil {
 		if(isOneToOneMap()) {
 			Test testAnnotation = result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(Test.class);
 			if(testAnnotation!=null) {
-				String[] testNameArray = testAnnotation.testName().split(testNameDelimeter);
+				String[] testNameArray = testAnnotation.testName().split(TEST_NAME_DELIMETER);
 				if(testNameArray.length==2) {
 					testID = testNameArray[0];
 					testName = testNameArray[1];
@@ -35,9 +35,9 @@ public class TestNgUtil {
 			// getting testid from TEP is there better way to handle this
 			String[] nampeSplit = result.getTestContext().getName().split("\\.");
 			String testClassName = nampeSplit[nampeSplit.length - 1];
-			if (testClassName.contains(testNameDelimeter) && testClassName.contains("TC")) {
-				testID = "TC-" + (testClassName.split(testNameDelimeter)[0].split("TC"))[1];
-				testName = testClassName.split(testNameDelimeter)[1];
+			if (testClassName.contains(TEST_NAME_DELIMETER) && testClassName.contains("TC")) {
+				testID = TEST_ID_PREFIX + (testClassName.split(TEST_NAME_DELIMETER)[0].split("TC"))[1];
+				testName = testClassName.split(TEST_NAME_DELIMETER)[1];
 			}
 		}
 	}

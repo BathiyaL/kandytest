@@ -84,15 +84,15 @@ public class CustomReportGenerator {
 			String suiteName = suite.getName();
 
 			return Stream.of(failedTests, passedTests, skippedTests)
-					.flatMap(results -> generateReportRows(e.getKey(), suiteName, results).stream());
+					.flatMap(results -> generateReportRows(suiteName, results).stream());
 		};
 	}
 
-	private List<String> generateReportRows(String testName, String suiteName, Set<ITestResult> allTestResults) {
-		return allTestResults.stream().map(testResultToResultRow(suiteName)).toList();
+	private List<String> generateReportRows(String suiteName, Set<ITestResult> allTestResults) {
+		return allTestResults.stream().map(testResultToResultRow()).toList();
 	}
 
-	private Function<ITestResult, String> testResultToResultRow(String suiteName) {
+	private Function<ITestResult, String> testResultToResultRow() {
 		return testResult -> {
 			String fullyQualifiedName = testResult.getTestClass().getName();
 			String testClassName = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".")+1);
