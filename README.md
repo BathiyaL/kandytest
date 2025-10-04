@@ -43,7 +43,7 @@
 
 ## Features
 
-- Annotation-based test configuration for selecting test drivers (web, mobile)  
+- Annotation‑based test configuration for selecting test drivers (web, mobile)  
 - Browser-based Web UI testing (e.g. Chrome)  
 - Mobile (Android) testing support (using emulator or real devices)  
 - Page object model for reusable UI interactions  
@@ -112,34 +112,138 @@ Example:
 public class MyWebTest {
    // test methods
 }
+```
 
+### Running Tests
 
-Reporting & Test Results
+Run test classes via your build tool or IDE. For example:
 
-After test execution, detailed test reports (logs, screenshots, status) will be generated
+```bash
+mvn test -Dtest=MyWebTest
+```
 
-For failures, capture screenshots or logs to help debugging
+or using your preferred test runner configuration.
 
-Consolidate test results for both web and mobile runs
+---
+
+## Project Structure
+
+```
+kandytest/
+│
+├─ src/
+│   ├─ main/ (if any helper or framework classes)
+│   └─ test/
+│       ├─ web/          # Web UI test classes
+│       └─ mobile/       # Mobile test classes
+│
+├─ pom.xml or build file
+├─ README.md
+└─ .gitignore
+```
+
+- The **web/** folder holds test classes using Web driver  
+- The **mobile/** folder holds mobile test classes  
+- Shared utilities (page objects, driver factories, common helpers) may exist in a shared package  
+
+---
+
+## Writing Tests
+
+### Web UI Tests
+
+- Annotate a test class or method with `@TestConfiguration` for web driver  
+- Use page object classes to represent pages and UI elements  
+- Within test methods, call page object methods to interact with UI  
+- Assertions should validate expected states  
+
+**Example:**
+
+```java
+@TestConfiguration(
+  testDriver = TestDriver.WEB,
+  browser = Browsers.CHROME,
+  implicitlyWaitTime = 15,
+  baseUrl = "http://example.com"
+)
+public class MyWebUITest {
+  @BeforeTest
+  public void setup() {
+    // open browser, navigate, etc.
+  }
+
+  @Test
+  public void verifyHomePageTitle() {
+    HomePage home = getWebPage(HomePage.class);
+    String title = home.getTitle();
+    assertThat(title).isEqualTo("Expected Title");
+  }
+}
+```
+
+### Mobile Tests
+
+- Annotate test class or method with `@TestConfiguration` for mobile driver  
+- Provide `mobileApp` (APK) and `mobileDeviceName`  
+- Use mobile page object classes to interact with UI elements  
+
+**Example:**
+
+```java
+@TestConfiguration(
+  testDriver = TestDriver.MOBILE,
+  mobileApp = "Demo.apk",
+  mobileDeviceName = "Pixel_3_API_30"
+)
+public class MyAndroidTest {
+  @BeforeTest
+  public void setup() {
+    // launch app, prepare context
+  }
+
+  @Test
+  public void testLogin() {
+    AndroidLoginPage login = getAndroidPage(AndroidLoginPage.class);
+    login.enterCredentials("user", "pass");
+    login.tapLogin();
+    assertTrue(login.isHomeScreenDisplayed());
+  }
+}
+```
+
+---
+
+## Reporting & Test Results
+
+- After test execution, detailed test reports (logs, screenshots, status) will be generated  
+- For failures, capture screenshots or logs to help debugging  
+- Consolidate test results for both web and mobile runs  
 
 You may want to integrate a report generator (e.g. Allure, ExtentReports) or CI pipeline to fetch test artifacts and display trends.
 <img width="1505" alt="Screenshot 2024-03-07 at 00 32 29" src="https://github.com/BathiyaL/kandytest/assets/15939220/92321760-b1f9-48e9-9a95-0a14dffb41a9">
 
-Contributing
+---
+
+## Contributing
 
 Contributions are always welcome! Here’s how you can help:
 
-Fork the repository
-
-Create a new feature branch (git checkout -b feat/new-test-driver)
-
-Make your changes
-
-Ensure all existing tests pass
-
-Add new tests if applicable
-
-Open a Pull Request and describe your changes
+1. Fork the repository  
+2. Create a new feature branch (`git checkout -b feat/new-test-driver`)  
+3. Make your changes  
+4. Ensure all existing tests pass  
+5. Add new tests if applicable  
+6. Open a Pull Request and describe your changes  
 
 Please follow existing code style and include tests and documentation.
 
+---
+
+## License
+
+This project is licensed under the **MIT License** (or your preferred license).  
+See the [LICENSE](LICENSE) file for details.
+
+---
+
+Thank you for using **KandyTest**!
