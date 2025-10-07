@@ -219,7 +219,7 @@ public class MyAndroidTest {
 - For failures, capture screenshots or logs to help debugging  
 - Consolidate test results for both web and mobile runs  
 
-You may want to integrate a report generator (e.g. Allure, ExtentReports) or CI pipeline to fetch test artifacts and display trends.
+Default local report
 <img width="1505" alt="Screenshot 2024-03-07 at 00 32 29" src="https://github.com/BathiyaL/kandytest/assets/15939220/92321760-b1f9-48e9-9a95-0a14dffb41a9">
 
 ---
